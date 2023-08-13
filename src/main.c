@@ -48,6 +48,7 @@ int main(int argc, const char *argv[])
 		SDL_GetWindowSize(window, &w, &h);
 		game_tick(&game_data, delta_time, (f32v2){ w, h });
 		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
 	}
 

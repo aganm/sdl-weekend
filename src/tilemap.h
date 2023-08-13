@@ -62,9 +62,14 @@ typedef struct tilemap_layer_t {
 	const char *offset_to_char;
 } tilemap_layer_t;
 
+typedef struct tilemap_collision_buffer_t {
+	float *offset_to_walking_speed;
+} tilemap_collision_buffer_t;
+
 typedef struct tilemap_t {
 	int width;
 	int height;
 	int num_layers;
+	tilemap_collision_buffer_t collision_buffer;
 	const tilemap_layer_t *layers;
 } tilemap_t;

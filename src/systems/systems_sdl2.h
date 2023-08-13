@@ -24,7 +24,13 @@ void draw_tilemap(
 	const tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding,
 	const tileset_t *tileset,
-	i32v2 tile_size,
+	const i32v2 tile_size,
 	SDL_Renderer *renderer,
 	SDL_Texture *tilesheet_texture,
+	const f32v2 camera);
+
+void draw_tilemap_collision_buffer(
+	const tilemap_t *tilemap,
+	const i32v2 tile_size,
+	SDL_Renderer *renderer,
 	const f32v2 camera);
