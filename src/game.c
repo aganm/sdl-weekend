@@ -7,6 +7,7 @@
 #include "game_timer.h"
 #include "soa.h"
 #include "systems/systems_animation.h"
+#include "systems/systems_camera.h"
 #include "systems/systems_movement.h"
 #include "systems/systems_physics.h"
 #include "systems/systems_sdl2.h"
@@ -129,7 +130,7 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 	}
 }
 
-void game_tick(game_data_t *data, f64seconds tick_dt)
+void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 {
 	soa_dynamic *player = &data->dynamic;
 	soa_dynamic *monster = &data->dynamic;
@@ -149,8 +150,11 @@ void game_tick(game_data_t *data, f64seconds tick_dt)
 	}
 
 	/* render */
+	const f32v2 center = get_one_position2(&player->position, player_slot);
+	const f32v2 camera = camera_center_offset(viewport, center);
+
 	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
-		data->tile_size, data->renderer, data->tileset1_texture);
+		data->tile_size, data->renderer, data->tileset1_texture, camera);
 	draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
-		data->renderer, data->tileset1_texture);
+		data->renderer, data->tileset1_texture, camera);
 }

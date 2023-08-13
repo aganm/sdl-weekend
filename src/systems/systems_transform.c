@@ -2,6 +2,17 @@
 #include "components/components_transform.h"
 #include "systems_transform.h"
 
+f32v2 get_one_position2(
+	const soa_position2 *e_position,
+	const soa_slot_t entity_slot)
+{
+	const usize e = entity_slot.idx;
+	return (f32v2) {
+		.x = e_position->x[e],
+		.y = e_position->y[e]
+	};
+}
+
 void change_one_position2(
 	soa_position2 *e_position,
 	const soa_slot_t entity_slot,

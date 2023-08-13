@@ -17,7 +17,8 @@ void draw_sprite(
 	const soa_clip *e_clip,
 	const usize entity_count,
 	SDL_Renderer *renderer,
-	SDL_Texture *texture);
+	SDL_Texture *texture,
+	const f32v2 camera);
 
 void draw_tilemap(
 	const tilemap_t *tilemap,
@@ -25,4 +26,5 @@ void draw_tilemap(
 	const tileset_t *tileset,
 	i32v2 tile_size,
 	SDL_Renderer *renderer,
-	SDL_Texture *tilesheet_texture);
+	SDL_Texture *tilesheet_texture,
+	const f32v2 camera);

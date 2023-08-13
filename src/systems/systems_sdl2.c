@@ -11,11 +11,13 @@ void draw_sprite(
 	const soa_clip *e_clip,
 	const usize entity_count,
 	SDL_Renderer *renderer,
-	SDL_Texture *texture)
+	SDL_Texture *texture,
+	const f32v2 camera)
 {
 	for (usize e = 0; e < entity_count; ++e) {
 		const SDL_Rect srcrect = { e_clip->x[e], e_clip->y[e], e_clip->w[e], e_clip->h[e] };
-		const SDL_Rect dstrect = { e_position->x[e], e_position->y[e], e_size->w[e], e_size->h[e] };
+		const SDL_Rect origrect = { e_position->x[e], e_position->y[e], e_size->w[e], e_size->h[e] };
+		const SDL_Rect dstrect = { origrect.x - camera.x, origrect.y - camera.y, origrect.w, origrect.h };
 		SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
 	}
 }
@@ -26,7 +28,8 @@ void draw_tilemap(
 	const tileset_t *tileset,
 	const i32v2 tile_size,
 	SDL_Renderer *renderer,
-	SDL_Texture *tilesheet_texture)
+	SDL_Texture *tilesheet_texture,
+	const f32v2 camera)
 {
 	const int mapwidth = tilemap->width;
 	const int mapheight = tilemap->height;
@@ -44,7 +47,8 @@ void draw_tilemap(
 				const tile_t tile = tileset->enum_to_tile[tile_enum];
 
 				const SDL_Rect srcrect = { tile.x, tile.y, tile.w, tile.h };
-				const SDL_Rect dstrect = { x * tilewidth, y * tileheight, tilewidth, tileheight };
+				const SDL_Rect origrect = { x * tilewidth, y * tileheight, tilewidth, tileheight };
+				const SDL_Rect dstrect = { origrect.x - camera.x, origrect.y - camera.y, origrect.w, origrect.h };
 				SDL_RenderCopy(renderer, tilesheet_texture, &srcrect, &dstrect);
 			}
 		}

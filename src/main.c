@@ -44,7 +44,9 @@ int main(int argc, const char *argv[])
 			game_handle_sdl_event(&game_data, &event);
 		}
 
-		game_tick(&game_data, delta_time);
+		int w, h;
+		SDL_GetWindowSize(window, &w, &h);
+		game_tick(&game_data, delta_time, (f32v2){ w, h });
 		SDL_RenderPresent(renderer);
 		SDL_RenderClear(renderer);
 	}
