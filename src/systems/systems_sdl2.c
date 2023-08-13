@@ -30,8 +30,8 @@ void draw_tilemap(
 {
 	const int mapwidth = tilemap->width;
 	const int mapheight = tilemap->height;
-	const int tilewidth = tile_size.x;
-	const int tileheight = tile_size.y;
+	const int tilewidth = tile_size.w;
+	const int tileheight = tile_size.h;
 
 	for (int l = 0; l < tilemap->num_layers; ++l) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
