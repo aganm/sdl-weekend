@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset.h"
+#include "tilemap.h"
 
 static const tilemap_encoding_t tilemap_encoding1 = {
 	.char_to_enum = (tile_enum_t[]){

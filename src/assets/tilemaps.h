@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset.h"
+#include "tilemap.h"
 
 static const tilemap_t level1_map = {
 	.width = 32,

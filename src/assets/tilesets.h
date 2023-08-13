@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset.h"
+#include "tilemap.h"
 
 static const tileset_t tileset1 = {
 	.enum_to_tile = (tile_t[]) {

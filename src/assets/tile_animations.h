@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset.h"
+#include "tilemap.h"
 
 static const tile_animation_t player_animation = {
 	.begin_tile_frame = TILEMAP_TILE_PLAYER_00,
