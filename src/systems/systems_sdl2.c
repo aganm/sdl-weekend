@@ -43,7 +43,7 @@ void draw_tilemap(
 			for (int x = 0; x < mapwidth; ++x) {
 				const char tile_char = layer->offset_to_char[y * mapwidth + x];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
-				if (tile_enum < ASSET_TILE_BEGIN || tile_enum > ASSET_TILE_END) continue;
+				if (tile_enum < TILEMAP_TILE_BEGIN || tile_enum > TILEMAP_TILE_END) continue;
 				const tile_t tile = tileset->enum_to_tile[tile_enum];
 
 				const SDL_Rect srcrect = { tile.x, tile.y, tile.w, tile.h };

@@ -36,7 +36,7 @@ static void load_map_objects(
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
 
 				switch (tile_enum) {
-				case ASSET_START_PLAYER: {
+				case TILEMAP_START_PLAYER: {
 					data->player_slot = soa_dynamic_new1(&data->dynamic,
 					    &(const soa_dynamic_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
@@ -50,7 +50,7 @@ static void load_map_objects(
 					    });
 					break;
 				}
-				case ASSET_OBJECT_MONSTER: {
+				case TILEMAP_OBJECT_MONSTER: {
 					soa_dynamic_new1(&data->dynamic,
 					    &(const soa_dynamic_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
