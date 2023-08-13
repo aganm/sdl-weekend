@@ -22,3 +22,14 @@ void change_one_position2(
 	e_position->x[e] = new_position.x;
 	e_position->y[e] = new_position.y;
 }
+
+void backup_position2(
+	const soa_position2 *e_position,
+	soa_position2 *e_old_position,
+	const usize entity_count)
+{
+	for (usize e = 0; e < entity_count; ++e) {
+		e_old_position->x[e] = e_position->x[e];
+		e_old_position->y[e] = e_position->y[e];
+	}
+}

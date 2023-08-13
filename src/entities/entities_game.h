@@ -12,6 +12,7 @@
 typedef struct soa_dynamic {
 	soa_entity_t _ent;
 	soa_position2 position;
+	soa_position2 old_position;
 	soa_size2 size;
 	soa_velocity2 velocity;
 	soa_speed speed;

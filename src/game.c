@@ -132,6 +132,7 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 
 void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 {
+	soa_dynamic *dynamic = &data->dynamic;
 	soa_dynamic *player = &data->dynamic;
 	soa_dynamic *monster = &data->dynamic;
 	const soa_slot_t player_slot = data->player_slot;
@@ -140,13 +141,14 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	game_timer_t *gameplay_timer = &data->gameplay_timer;
 	if (game_timer_tick(gameplay_timer, tick_dt, 1.0 / 60.0)) {
 		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
-		reset_velocity(&player->velocity, player->_ent.count);
-		follow_one_target(&monster->position, &monster->movement, &monster->speed, monster->_ent.count,
-				&player->position, player_slot);
-		apply_movement(&player->movement, &player->speed, &player->velocity, player->_ent.count);
-		apply_forwards_velocity(&player->position, &player->velocity, player->_ent.count, dt);
-		progress_animation_if_moving(&player->animation, &player->velocity, player->_ent.count, dt);
-		fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
+		backup_position2(&dynamic->position, &dynamic->old_position, dynamic->_ent.count);
+		reset_velocity(&dynamic->velocity, dynamic->_ent.count);
+		follow_one_target_of_same_kind(&monster->position, &monster->movement, &monster->speed, monster->_ent.count,
+						&player->position, player_slot);
+		apply_movement(&dynamic->movement, &dynamic->speed, &dynamic->velocity, dynamic->_ent.count);
+		apply_forwards_velocity(&dynamic->position, &dynamic->velocity, dynamic->_ent.count, dt);
+		progress_animation_if_moving(&dynamic->animation, &dynamic->velocity, dynamic->_ent.count, dt);
+		fetch_tileset_animation(&dynamic->animation, &dynamic->clip, dynamic->_ent.count, &tileset1);
 	}
 
 	/* render */
@@ -155,6 +157,6 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 
 	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
 		data->tile_size, data->renderer, data->tileset1_texture, camera);
-	draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
+	draw_sprite(&dynamic->position, &dynamic->size, &dynamic->clip, dynamic->_ent.count,
 		data->renderer, data->tileset1_texture, camera);
 }

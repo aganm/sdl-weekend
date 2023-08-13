@@ -23,7 +23,7 @@ void apply_movement(
 	}
 }
 
-void follow_one_target(
+void follow_one_target_of_same_kind(
 	const soa_position2 *f_position,
 	soa_movement2 *f_movement,
 	const soa_speed *f_speed,
