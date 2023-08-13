@@ -1,0 +1,9 @@
+#pragma once
+
+#include "soa.h"
+#include <primitive_types.h>
+
+typedef struct soa_position2 {
+	f32 x[SOA_LIMIT];
+	f32 y[SOA_LIMIT];
+} soa_position2;

@@ -1,0 +1,6 @@
+*.swo
+*.swp
+build/
+compile_commands.json
+.cache
+bin/*

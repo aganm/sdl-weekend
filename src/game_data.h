@@ -1,0 +1,17 @@
+#pragma once
+
+#include "game_timer.h"
+#include "entities/entities_game.h"
+#include <primitive_types.h>
+
+typedef struct SDL_Renderer SDL_Renderer;
+typedef struct SDL_Texture SDL_Texture;
+
+typedef struct game_data_t {
+	i32v2 tile_size;
+	SDL_Renderer *renderer;
+	SDL_Texture *tileset1_texture;
+	game_timer_t gameplay_timer;
+	soa_dynamic dynamic;
+	soa_slot_t player_slot;
+} game_data_t;
