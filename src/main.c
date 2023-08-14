@@ -24,17 +24,17 @@ int main(int argc, const char *argv[])
 	SDL_SetWindowPosition(window, display.x, display.y);
 	SDL_SetWindowSize(window, display.w, display.h);
 
-	Uint64 last_ticks = SDL_GetPerformanceCounter();
+	Uint64 old_ticks = SDL_GetPerformanceCounter();
 
 	game_data_t game_data;
 	game_init(&game_data, renderer);
 
 	bool running = true;
 	while (running) {
-		const Uint64 current_ticks = SDL_GetPerformanceCounter();
-		const Uint64 diff_ticks = current_ticks - last_ticks;
+		const Uint64 new_ticks = SDL_GetPerformanceCounter();
+		const Uint64 diff_ticks = new_ticks - old_ticks;
 		const f64seconds delta_time = { (f64)diff_ticks / (f64)SDL_GetPerformanceFrequency() };
-		last_ticks = current_ticks;
+		old_ticks = new_ticks;
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
