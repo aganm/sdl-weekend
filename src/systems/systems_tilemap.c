@@ -21,7 +21,8 @@ void calculate_tilemap_collision_buffer(
 
 	for (int y = 0; y < mapheight; ++y) {
 		for (int x = 0; x < mapwidth; ++x) {
-			tilemap->collision_buffer.offset_to_walking_speed[y * mapwidth + x] = 1.f;
+			const int offset = y * mapwidth + x;
+			tilemap->collision_buffer.offset_to_walking_speed[offset] = 1.f;
 		}
 	}
 
@@ -31,7 +32,7 @@ void calculate_tilemap_collision_buffer(
 		for (int y = 0; y < mapheight; ++y) {
 			for (int x = 0; x < mapwidth; ++x) {
 				const int offset = y * mapwidth + x;
-				const unsigned char tile_char = layer->offset_to_char[offset];
+				const u8 tile_char = layer->offset_to_char[offset];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
 				if (tile_enum < TILEMAP_TILE_BEGIN || tile_enum > TILEMAP_TILE_END) continue;
 

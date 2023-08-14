@@ -26,18 +26,19 @@ static void load_map_objects(
 	const tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding)
 {
-	const i32 width = tilemap->width;
-	const i32 height = tilemap->height;
+	const i32 mapwidth = tilemap->width;
+	const i32 mapheight = tilemap->height;
 	const i32v2 tile_size = data->tile_size;
 	const f32v2 entity_size = { tile_size.w, tile_size.h };
 
 	for (int l = 0; l < tilemap->num_layers; ++l) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
 
-		for (int y = 0; y < height; ++y) {
-			for (int x = 0; x < width; ++x) {
+		for (int y = 0; y < mapheight; ++y) {
+			for (int x = 0; x < mapwidth; ++x) {
 				const i32v2 tile_position = { x, y };
-				const unsigned char tile_char = layer->offset_to_char[y * width + x];
+				const int offset = y * mapwidth + x;
+				const u8 tile_char = layer->offset_to_char[offset];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
 
 				switch (tile_enum) {
