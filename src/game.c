@@ -204,7 +204,7 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 
 	/* update gameplay at 60hz */
 	game_timer_t *gameplay_timer = &data->gameplay_timer;
-	if (game_timer_tick(gameplay_timer, tick_dt, 1.0 / 60.0)) {
+	while (game_timer_tick(gameplay_timer, tick_dt, 1.0 / 60.0)) {
 		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
 
 		// backup_position2(&player->position, &player->old_position, player->_ent.count);
