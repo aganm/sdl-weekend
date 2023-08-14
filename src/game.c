@@ -253,7 +253,7 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 		soa_slot_t despawn_monster_slots[monster->_ent.count];
 		usize despawn_monster_slot_count;
 		get_dead_despawn_slots(&monster->health, monster->_ent.count,
-					despawn_monster_slots, & despawn_monster_slot_count);
+				    despawn_monster_slots, &despawn_monster_slot_count);
 		soa_character_free(monster, despawn_monster_slots, despawn_monster_slot_count);
 	}
 
