@@ -208,8 +208,6 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	while (game_timer_do_frame(gameplay_timer, 1.0 / 60.0)) {
 		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
 
-		// backup_position2(&player->position, &player->old_position, player->_ent.count);
-
 		reset_velocity(&player->velocity, player->_ent.count);
 		reset_velocity(&monster->velocity, monster->_ent.count);
 		reset_velocity(&bullet->velocity, bullet->_ent.count);
