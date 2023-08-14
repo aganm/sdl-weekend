@@ -1,7 +1,13 @@
 #!/bin/bash
 
+if [[ "$OSTYPE" == "msys" ]]; then
+	gen="MSYS Makefiles"
+else
+	gen="Unix Makefiles"
+fi
+
 mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE="Debug" ..
+cmake .. -G"$gen" -DCMAKE_BUILD_TYPE="Release"
 make
 
 cd .. && cd bin
