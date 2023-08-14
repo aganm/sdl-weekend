@@ -42,8 +42,7 @@ static void load_map_objects(
 
 				switch (tile_enum) {
 				case TILEMAP_START_PLAYER: {
-					data->player_slot = soa_character_new1(&data->player,
-					    &(const soa_character_desc_t) {
+					data->player_slot = soa_character_new1(&data->player, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
 						.speed = 500.f,
@@ -56,8 +55,7 @@ static void load_map_objects(
 					break;
 				}
 				case TILEMAP_OBJECT_MONSTER: {
-					soa_character_new1(&data->monster,
-					    &(const soa_character_desc_t) {
+					soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
 						.speed = 250.f,
@@ -121,8 +119,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			origin.x + i * 5.f,
 			origin.y + i * 5.f,
 		};
-		soa_bullet_new1(&data->bullet,
-		    &(const soa_bullet_desc_t) {
+		soa_bullet_new1(&data->bullet, &(const soa_bullet_desc_t) {
 			.position = bullet_position,
 			.destination = world_mouse_position,
 			.size = { data->tile_size.x, data->tile_size.y },
@@ -146,8 +143,7 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 			area.x + ((f32)rand() / (f32)RAND_MAX) * area.w,
 			area.y + ((f32)rand() / (f32)RAND_MAX) * area.h,
 		};
-		soa_character_new1(&data->monster,
-		    &(const soa_character_desc_t) {
+		soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 			.position = monster_position,
 			.size = { data->tile_size.x, data->tile_size.y },
 			.speed = 250.f,
