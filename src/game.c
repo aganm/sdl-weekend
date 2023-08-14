@@ -137,8 +137,6 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 
 static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 {
-	srand(time(NULL));
-
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 monster_position = {
 			area.x + ((f32)rand() / (f32)RAND_MAX) * area.w,
