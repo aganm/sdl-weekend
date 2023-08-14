@@ -16,9 +16,9 @@ void detect_bullet_collisions_with_something(
 	const usize something_count,
 	const soa_position2 *b_position,
 	const usize bullet_count,
-	soa_slot_t collided_somethings[something_count],
-	soa_slot_t collided_bullets[bullet_count],
-	usize *collided_count);
+	soa_slot_t out_collided_somethings[something_count],
+	soa_slot_t out_collided_bullets[bullet_count],
+	usize *out_collided_count);
 
 void bullet_damages_something(
 	soa_health *s_health,

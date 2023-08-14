@@ -13,12 +13,18 @@ void detect_bullet_collisions_with_something(
 	const usize something_count,
 	const soa_position2 *b_pos,
 	const usize bullet_count,
-	soa_slot_t collided_somethings[something_count],
-	soa_slot_t collided_bullets[bullet_count],
+	soa_slot_t out_collided_somethings[something_count],
+	soa_slot_t out_collided_bullets[bullet_count],
 	usize *out_collided_count)
 {
-	usize collided_count = 0;
+	usize total_collided_count = 0;
 
+#pragma omp parallel
+{
+	soa_slot_t worker_collided_somethings[something_count];
+	soa_slot_t worker_collided_bullets[something_count];
+	usize worker_collided_count = 0;
+#pragma omp for
 	for (usize b = 0; b < bullet_count; ++b) {
 		for (usize s = 0; s < something_count; ++s) {
 			const f32v2 p = { b_pos->x[b], b_pos->y[b] };
@@ -28,15 +34,23 @@ void detect_bullet_collisions_with_something(
 				(p.y > r.y) && (p.y < r.y + r.h);
 
 			if (overlaps) {
-				collided_somethings[collided_count] = (soa_slot_t){ s };
-				collided_bullets[collided_count] = (soa_slot_t){ b };
-				collided_count += 1;
+				worker_collided_somethings[worker_collided_count] = (soa_slot_t){ s };
+				worker_collided_bullets[worker_collided_count] = (soa_slot_t){ b };
+				worker_collided_count += 1;
 				break;
 			}
 		}
 	}
-
-	*out_collided_count = collided_count;
+#pragma omp critical
+	{
+		for (usize i = 0; i < worker_collided_count; ++i) {
+			out_collided_somethings[total_collided_count + i] = worker_collided_somethings[i];
+			out_collided_bullets[total_collided_count + i] = worker_collided_bullets[i];
+		}
+		total_collided_count += worker_collided_count;
+	}
+}
+	*out_collided_count = total_collided_count;
 }
 
 void bullet_damages_something(
