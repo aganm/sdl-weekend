@@ -11,9 +11,13 @@ void game_timer_fini(game_timer_t *timer)
 	(void)timer;
 }
 
-bool game_timer_tick(game_timer_t *timer, f64seconds dt, f64 interval)
+void game_timer_tick(game_timer_t *timer, f64seconds dt)
 {
 	timer->counter.seconds += dt.seconds;
+}
+
+bool game_timer_frame(game_timer_t *timer, f64 interval)
+{
 	if (timer->counter.seconds >= interval) {
 		timer->counter.seconds -= interval;
 		timer->dt.seconds = interval;
