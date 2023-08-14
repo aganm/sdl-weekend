@@ -18,6 +18,8 @@
 #include "systems/systems_transform.h"
 #include <SDL2/SDL.h>
 #include <primitive_types.h>
+#include <stdlib.h>
+#include <time.h>
 
 static void load_map_objects(
 	game_data_t *data,
@@ -135,6 +137,30 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 	}
 }
 
+static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
+{
+	srand(time(NULL));
+
+	for (usize i = 0; i < count; ++i) {
+		const f32v2 monster_position = {
+			area.x + ((f32)rand() / (f32)RAND_MAX) * area.w,
+			area.y + ((f32)rand() / (f32)RAND_MAX) * area.h,
+		};
+		const soa_slot_t b = soa_character_new1(&data->monster,
+		    &(const soa_character_desc_t) {
+			.position = monster_position,
+			.size = { data->tile_size.x, data->tile_size.y },
+			.speed = 250.f,
+			.health = 100.f,
+			.animation = {
+			    .begin_frame = monster_animation.begin_tile_frame,
+			    .end_frame = monster_animation.end_tile_frame,
+			    .frame_time = monster_animation.frame_seconds,
+			},
+		    });
+	}
+}
+
 void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 {
 	soa_character *player = &data->player;
@@ -142,6 +168,9 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 
 	switch (event->type) {
 	case SDL_KEYDOWN:
+		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
+			spawn_monsters(data, (f32r4){ -1024.f, -1024.f, 2048.f, 2048.f }, 1000);
+
 		if (event->key.keysym.scancode == SDL_SCANCODE_A)
 			player->movement.x[p] = -1.f;
 		if (event->key.keysym.scancode == SDL_SCANCODE_D)
