@@ -27,12 +27,10 @@ void detect_bullet_collisions_with_something(
 #pragma omp for
 	for (usize b = 0; b < bullet_count; ++b) {
 		for (usize s = 0; s < something_count; ++s) {
-			const f32v2 p = { b_pos->x[b], b_pos->y[b] };
-			const f32r4 r = { s_pos->x[s], s_pos->y[s], s_size->w[s], s_size->h[s] };
-			const bool overlaps =
-				(p.x > r.x) && (p.x < r.x + r.w) &&
-				(p.y > r.y) && (p.y < r.y + r.h);
-
+			const f32v2 pos = { b_pos->x[b], b_pos->y[b] };
+			const f32r4 rect = { s_pos->x[s], s_pos->y[s], s_size->w[s], s_size->h[s] };
+			const bool overlaps = (pos.x > rect.x) && (pos.x < rect.x + rect.w) &&
+						(pos.y > rect.y) && (pos.y < rect.y + rect.h);
 			if (overlaps) {
 				worker_collided_somethings[worker_collided_count] = (soa_slot_t){ s };
 				worker_collided_bullets[worker_collided_count] = (soa_slot_t){ b };
