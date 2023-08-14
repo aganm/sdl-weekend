@@ -47,11 +47,11 @@ static void load_map_objects(
 						.size = entity_size,
 						.speed = 400.f,
 						.animation = {
-						    .begin_frame = player_animation.begin_tile_frame,
-						    .end_frame = player_animation.end_tile_frame,
-						    .frame_time = player_animation.frame_seconds,
+							.begin_frame = player_animation.begin_tile_frame,
+							.end_frame = player_animation.end_tile_frame,
+							.frame_time = player_animation.frame_seconds,
 						},
-					    });
+					});
 					break;
 				}
 				case TILEMAP_OBJECT_MONSTER: {
@@ -61,11 +61,11 @@ static void load_map_objects(
 						.speed = 200.f,
 						.health = 100.f,
 						.animation = {
-						    .begin_frame = monster_animation.begin_tile_frame,
-						    .end_frame = monster_animation.end_tile_frame,
-						    .frame_time = monster_animation.frame_seconds,
+							.begin_frame = monster_animation.begin_tile_frame,
+							.end_frame = monster_animation.end_tile_frame,
+							.frame_time = monster_animation.frame_seconds,
 						},
-					    });
+					});
 					break;
 				}
 				default:
@@ -126,11 +126,11 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			.speed = 600.f,
 			.damage = 50.f,
 			.animation = {
-			    .begin_frame = bullet_animation.begin_tile_frame,
-			    .end_frame = bullet_animation.end_tile_frame,
-			    .frame_time = bullet_animation.frame_seconds,
+				.begin_frame = bullet_animation.begin_tile_frame,
+				.end_frame = bullet_animation.end_tile_frame,
+				.frame_time = bullet_animation.frame_seconds,
 			},
-		    });
+		});
 	}
 }
 
@@ -149,11 +149,11 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 			.speed = 200.f,
 			.health = 100.f,
 			.animation = {
-			    .begin_frame = monster_animation.begin_tile_frame,
-			    .end_frame = monster_animation.end_tile_frame,
-			    .frame_time = monster_animation.frame_seconds,
+				.begin_frame = monster_animation.begin_tile_frame,
+				.end_frame = monster_animation.end_tile_frame,
+				.frame_time = monster_animation.frame_seconds,
 			},
-		    });
+		});
 	}
 }
 
