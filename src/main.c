@@ -4,7 +4,7 @@
 #include <primitive_types.h>
 #include <stdbool.h>
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
 
 	(void)argc;
