@@ -18,7 +18,7 @@ void get_destination_reached_despawn_slots(
 		const f32 dx = e_destination->x[e] - e_position->x[e];
 		const f32 dy = e_destination->y[e] - e_position->y[e];
 		const f32 distance = sqrt(dx * dx + dy * dy);
-		const bool is_close = distance < reach_distance && distance > 0.f;
+		const bool is_close = distance < reach_distance;
 		output[count] = (soa_slot_t){ e };
 		count += is_close;
 	}
