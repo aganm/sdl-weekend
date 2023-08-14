@@ -14,7 +14,7 @@ bool game_timer_tick(game_timer_t *timer, f64seconds dt, f64 interval)
 {
 	timer->counter.seconds += dt.seconds;
 	if (timer->counter.seconds >= interval) {
-		timer->counter.seconds = 0.0;
+		timer->counter.seconds -= interval;
 		timer->dt.seconds = interval;
 		return true;
 	}
