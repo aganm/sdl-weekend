@@ -44,7 +44,11 @@ void soa_free_slot(
 			entity->count -= 1;
 			continue;
 		}
-		entity->free_slots[entity->num_free_slots++] = slot;
+		/* NOTE: this is to fix overflowing freed slots, as it can
+		 * happen with duplicate freed slots. */
+		if (entity->num_free_slots < SOA_LIMIT) {
+			entity->free_slots[entity->num_free_slots++] = slot;
+		}
 	}
 }
 
