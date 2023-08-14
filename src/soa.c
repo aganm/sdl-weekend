@@ -24,13 +24,16 @@ usize soa_simd_count(
 soa_slot_t soa_new_slot1(
 	soa_entity_t *entity)
 {
+	soa_slot_t slot;
 	if (entity->num_free_slots > 0) {
-		return entity->free_slots[--entity->num_free_slots];
+		slot = entity->free_slots[--entity->num_free_slots];
+	} else if (entity->count >= SOA_LIMIT) {
+		slot = (soa_slot_t){ 0 };
+	} else {
+		slot = (soa_slot_t){ entity->count++ };
 	}
-	if (entity->count >= SOA_LIMIT) {
-		return (soa_slot_t){ 0 };
-	}
-	return (soa_slot_t){ entity->count++ };
+	entity->is_occupied[slot.idx] = true;
+	return slot;
 }
 
 void soa_free_slot(
@@ -44,10 +47,9 @@ void soa_free_slot(
 			entity->count -= 1;
 			continue;
 		}
-		/* NOTE: this is to fix overflowing freed slots, as it can
-		 * happen with duplicate freed slots. */
-		if (entity->num_free_slots < SOA_LIMIT) {
+		if (entity->is_occupied[slot.idx]) {
 			entity->free_slots[entity->num_free_slots++] = slot;
+			entity->is_occupied[slot.idx] = false;
 		}
 	}
 }

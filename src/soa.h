@@ -15,9 +15,14 @@ typedef struct soa_entity_t {
 	usize count;
 	usize num_free_slots;
 	soa_slot_t free_slots[SOA_LIMIT];
+	u8bool is_occupied[SOA_LIMIT];
 } soa_entity_t;
 
-#define SOA_ENTITY_INIT { ._ent = { .count = SOA_CLEAR_COUNT } }
+#define SOA_ENTITY_INIT \
+	{ ._ent = { \
+		.count = SOA_CLEAR_COUNT, \
+		.is_occupied = { [SOA_CLEAR_COUNT - 1] = false }, \
+	} } \
 
 usize soa_round_up(usize number, usize multiple);
 usize soa_simd_count(usize vector_size, usize scalar_size, usize count);
