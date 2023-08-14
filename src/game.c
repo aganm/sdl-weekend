@@ -158,9 +158,6 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 
 void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 {
-	soa_character *player = &data->player;
-	const usize p = data->player_slot.idx;
-
 	static bool move_left = false;
 	static bool move_right = false;
 	static bool move_up = false;
@@ -197,6 +194,9 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 			fire_bullet(data, (f32v2){ event->button.x, event->button.y }, 10);
 		break;
 	}
+
+	soa_character *player = &data->player;
+	const usize p = data->player_slot.idx;
 
 	if (move_left) {
 		player->movement.x[p] = -1.f;
