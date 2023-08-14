@@ -162,29 +162,34 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 	soa_character *player = &data->player;
 	const usize p = data->player_slot.idx;
 
+	static bool move_left = false;
+	static bool move_right = false;
+	static bool move_up = false;
+	static bool move_down = false;
+
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			spawn_monsters(data, (f32r4){ 0.f, 0.f, 1024.f, 1024.f }, 10);
 
 		if (event->key.keysym.scancode == SDL_SCANCODE_A)
-			player->movement.x[p] = -1.f;
+			move_left = true;
 		if (event->key.keysym.scancode == SDL_SCANCODE_D)
-			player->movement.x[p] = 1.f;
+			move_right = true;
 		if (event->key.keysym.scancode == SDL_SCANCODE_W)
-			player->movement.y[p] = -1.f;
+			move_up = true;
 		if (event->key.keysym.scancode == SDL_SCANCODE_S)
-			player->movement.y[p] = 1.f;
+			move_down = true;
 		break;
 	case SDL_KEYUP:
 		if (event->key.keysym.scancode == SDL_SCANCODE_A)
-			player->movement.x[p] = 0.f;
+			move_left = false;
 		if (event->key.keysym.scancode == SDL_SCANCODE_D)
-			player->movement.x[p] = 0.f;
+			move_right = false;
 		if (event->key.keysym.scancode == SDL_SCANCODE_W)
-			player->movement.y[p] = 0.f;
+			move_up = false;
 		if (event->key.keysym.scancode == SDL_SCANCODE_S)
-			player->movement.y[p] = 0.f;
+			move_down = false;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT)
@@ -193,6 +198,22 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 			fire_bullet(data, (f32v2){ event->button.x, event->button.y }, 10);
 		break;
 	}
+
+	if (move_left) {
+		player->movement.x[p] = -1.f;
+	} else if (move_right) {
+		player->movement.x[p] = 1.f;
+	} else {
+		player->movement.x[p] = 0.f;
+	}
+	if (move_up) {
+		player->movement.y[p] = -1.f;
+	} else if (move_down) {
+		player->movement.y[p] = 1.f;
+	} else {
+		player->movement.y[p] = 0.f;
+	}
+
 }
 
 void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
