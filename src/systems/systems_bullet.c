@@ -24,8 +24,8 @@ void detect_bullet_collisions_with_something(
 			const f32v2 p = { b_pos->x[b], b_pos->y[b] };
 			const f32r4 r = { s_pos->x[s], s_pos->y[s], s_size->w[s], s_size->h[s] };
 			const bool overlaps =
-				(p.x >= r.x) && (p.x <= r.x + r.w) &&
-				(p.y >= r.y) && (p.y <= r.y + r.h);
+				(p.x > r.x) && (p.x < r.x + r.w) &&
+				(p.y > r.y) && (p.y < r.y + r.h);
 
 			if (overlaps) {
 				collided_somethings[collided_count] = (soa_slot_t){ s };
