@@ -45,7 +45,7 @@ static void load_map_objects(
 					data->player_slot = soa_character_new1(&data->player, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
-						.speed = 300.f,
+						.speed = 400.f,
 						.animation = {
 						    .begin_frame = player_animation.begin_tile_frame,
 						    .end_frame = player_animation.end_tile_frame,
@@ -58,7 +58,7 @@ static void load_map_objects(
 					soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
-						.speed = 150.f,
+						.speed = 200.f,
 						.health = 100.f,
 						.animation = {
 						    .begin_frame = monster_animation.begin_tile_frame,
@@ -146,7 +146,7 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 		soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 			.position = monster_position,
 			.size = { data->tile_size.x, data->tile_size.y },
-			.speed = 150.f,
+			.speed = 200.f,
 			.health = 100.f,
 			.animation = {
 			    .begin_frame = monster_animation.begin_tile_frame,
