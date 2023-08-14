@@ -237,11 +237,13 @@ typedef struct f128sincos { f128 sin, cos; } f128sincos; /*!< 128-bit floating p
 typedef union f32v2 {
 	struct { f32 x, y; };
 	struct { f32 w, h; };
+	struct { f32 min, max; };
 } f32v2;
 
 typedef union i32v2 {
-	struct { f32 x, y; };
-	struct { f32 w, h; };
+	struct { i32 x, y; };
+	struct { i32 w, h; };
+	struct { i32 min, max; };
 } i32v2;
 
 typedef struct f32r4 {
