@@ -22,5 +22,5 @@ typedef struct soa_entity_t {
 usize soa_round_up(usize number, usize multiple);
 usize soa_simd_count(usize vector_size, usize scalar_size, usize count);
 soa_slot_t soa_new_slot1(soa_entity_t *entity);
-void soa_free_slot1(soa_entity_t *entity, soa_slot_t slot);
+void soa_free_slot(soa_entity_t *entity, const soa_slot_t *slots, usize slot_count);
 void soa_clear(soa_entity_t *entity);

@@ -13,5 +13,7 @@ typedef struct game_data_t {
 	SDL_Texture *tileset1_texture;
 	game_timer_t gameplay_timer;
 	soa_dynamic dynamic;
+	soa_bullet bullet;
 	soa_slot_t player_slot;
+	f32v2 camera;
 } game_data_t;

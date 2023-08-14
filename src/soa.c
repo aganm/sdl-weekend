@@ -33,16 +33,20 @@ soa_slot_t soa_new_slot1(
 	return (soa_slot_t){ entity->count++ };
 }
 
-void soa_free_slot1(
+void soa_free_slot(
 	soa_entity_t *entity,
-	soa_slot_t slot)
+	const soa_slot_t *slots,
+	usize slot_count)
 {
-	if ((entity->count - 1) == slot.idx) {
-		entity->count -= 1;
-		return;
+	for (usize i = 0; i < slot_count; ++i) {
+		const soa_slot_t slot = slots[i];
+		if ((entity->count - 1) == slot.idx) {
+			entity->count -= 1;
+			return;
+		}
+		entity->free_slots[entity->num_free_slots] = slot;
+		entity->num_free_slots += 1;
 	}
-	entity->free_slots[entity->num_free_slots] = slot;
-	entity->num_free_slots += 1;
 }
 
 void soa_clear(

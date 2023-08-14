@@ -1,3 +1,4 @@
+#include "math_helpers.h"
 #include "tilemap.h"
 #include "components/components_graphics.h"
 #include "components/components_transform.h"
@@ -34,6 +35,40 @@ void draw_sprite(
 			origrect.h,
 		};
 		SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
+	}
+}
+
+void draw_sprite_rotated(
+	const soa_position2 *e_position,
+	const soa_rotation1 *e_rotation,
+	const soa_size2 *e_size,
+	const soa_clip *e_clip,
+	const usize entity_count,
+	SDL_Renderer *renderer,
+	SDL_Texture *texture,
+	const f32v2 camera)
+{
+	for (usize e = 0; e < entity_count; ++e) {
+		const SDL_Rect srcrect = {
+			e_clip->x[e],
+			e_clip->y[e],
+			e_clip->w[e],
+			e_clip->h[e],
+		};
+		const SDL_Rect origrect = {
+			e_position->x[e] - e_size->w[e] / 2.f,
+			e_position->y[e] - e_size->h[e],
+			e_size->w[e],
+			e_size->h[e],
+		};
+		const SDL_Rect dstrect = {
+			origrect.x - camera.x,
+			origrect.y - camera.y,
+			origrect.w,
+			origrect.h,
+		};
+		const f32 angle = rad_to_deg(e_rotation->x[e]);
+		SDL_RenderCopyEx(renderer, texture, &srcrect, &dstrect, angle, NULL, SDL_FLIP_NONE);
 	}
 }
 

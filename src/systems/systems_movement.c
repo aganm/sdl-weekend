@@ -5,7 +5,7 @@
 #include "systems_movement.h"
 #include <math.h>
 
-void apply_movement(
+void movement_to_velocity(
 	const soa_movement2 *e_movement,
 	const soa_speed *e_speed,
 	soa_velocity2 *e_velocity,
@@ -24,8 +24,8 @@ void apply_movement(
 }
 
 void follow_one_target_of_same_kind(
-	const soa_position2 *f_position,
 	soa_movement2 *f_movement,
+	const soa_position2 *f_position,
 	const soa_speed *f_speed,
 	const usize follower_count,
 	const soa_position2 *t_position,
@@ -41,5 +41,18 @@ void follow_one_target_of_same_kind(
 		const f32 speed = f_speed->val[f];
 		f_movement->x[f] = follower_x > target_x ? -speed : follower_x < target_x ? speed : f_movement->x[f];
 		f_movement->y[f] = follower_y > target_y ? -speed : follower_y < target_y ? speed : f_movement->y[f];
+	}
+}
+
+void forward_movement_from_rotation(
+	soa_movement2 *e_movement,
+	const soa_rotation1 *e_rotation,
+	const soa_speed *e_speed,
+	const usize entity_count)
+{
+	for (usize e = 0; e < entity_count; ++e) {
+		const f32 rad = e_rotation->x[e];
+		e_movement->x[e] = -cos(rad);
+		e_movement->y[e] = -sin(rad);
 	}
 }

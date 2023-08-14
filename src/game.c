@@ -9,6 +9,7 @@
 #include "soa.h"
 #include "systems/systems_animation.h"
 #include "systems/systems_camera.h"
+#include "systems/systems_despawn.h"
 #include "systems/systems_movement.h"
 #include "systems/systems_physics.h"
 #include "systems/systems_sdl2.h"
@@ -88,6 +89,7 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 	data->tileset1_texture = texture;
 	data->gameplay_timer = game_timer_init();
 	data->dynamic = (soa_dynamic)SOA_ENTITY_INIT;
+	data->bullet = (soa_bullet)SOA_ENTITY_INIT;
 	data->player_slot = (soa_slot_t) { 0 };
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);
@@ -102,6 +104,31 @@ void game_fini(game_data_t *data)
 {
 	SDL_DestroyTexture(data->tileset1_texture);
 	game_timer_fini(&data->gameplay_timer);
+}
+
+static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
+{
+	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
+	const f32v2 origin = get_one_position2(&data->dynamic.position, data->player_slot);
+
+	for (usize i = 0; i < count; ++i) {
+		const f32v2 bullet_position = {
+			origin.x + i * 5.f,
+			origin.y + i * 5.f,
+		};
+		const soa_slot_t b = soa_bullet_new1(&data->bullet,
+		    &(const soa_bullet_desc_t) {
+			.position = bullet_position,
+			.destination = world_mouse_position,
+			.size = { data->tile_size.x, data->tile_size.y },
+			.speed = 1000.f,
+			.animation = {
+			    .begin_frame = bullet_animation.begin_tile_frame,
+			    .end_frame = bullet_animation.end_tile_frame,
+			    .frame_time = bullet_animation.frame_seconds,
+			},
+		    });
+	}
 }
 
 void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
@@ -130,6 +157,10 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 		if (event->key.keysym.scancode == SDL_SCANCODE_S)
 			player->movement.y[p] = 0.f;
 		break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event->button.button == SDL_BUTTON_LEFT)
+			fire_bullet(data, (f32v2){ event->button.x, event->button.y }, 1);
+		break;
 	}
 }
 
@@ -138,31 +169,50 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	soa_dynamic *dynamic = &data->dynamic;
 	soa_dynamic *player = &data->dynamic;
 	soa_dynamic *monster = &data->dynamic;
+	soa_bullet *bullet = &data->bullet;
 	const soa_slot_t player_slot = data->player_slot;
 
 	/* update gameplay at 60hz */
 	game_timer_t *gameplay_timer = &data->gameplay_timer;
 	if (game_timer_tick(gameplay_timer, tick_dt, 1.0 / 60.0)) {
 		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
+
 		// backup_position2(&dynamic->position, &dynamic->old_position, dynamic->_ent.count);
+
 		reset_velocity(&dynamic->velocity, dynamic->_ent.count);
-		follow_one_target_of_same_kind(&monster->position, &monster->movement, &monster->speed, monster->_ent.count,
+		reset_velocity(&bullet->velocity, bullet->_ent.count);
+		follow_one_target_of_same_kind(&monster->movement, &monster->position, &monster->speed, monster->_ent.count,
 						&player->position, player_slot);
-		apply_movement(&dynamic->movement, &dynamic->speed, &dynamic->velocity, dynamic->_ent.count);
+		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, &bullet->speed, bullet->_ent.count);
+		movement_to_velocity(&dynamic->movement, &dynamic->speed, &dynamic->velocity, dynamic->_ent.count);
+		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
 		multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot,
 						&level1_map, data->tile_size, dt);
+
 		apply_forwards_velocity(&dynamic->position, &dynamic->velocity, dynamic->_ent.count, dt);
+		apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
+
 		progress_animation_if_moving(&dynamic->animation, &dynamic->velocity, dynamic->_ent.count, dt);
 		fetch_tileset_animation(&dynamic->animation, &dynamic->clip, dynamic->_ent.count, &tileset1);
+		fetch_tileset_animation(&bullet->animation, &bullet->clip, bullet->_ent.count, &tileset1);
+
+		soa_slot_t depawn_bullet_slots[bullet->_ent.count];
+		usize depawn_bullet_slot_count;
+		get_destination_reached_despawn_slots(&bullet->position, &bullet->destination, bullet->_ent.count,
+						10.f, depawn_bullet_slots, &depawn_bullet_slot_count);
+		soa_bullet_free(bullet, depawn_bullet_slots, depawn_bullet_slot_count);
 	}
 
 	/* render */
 	const f32v2 center = get_one_position2(&player->position, player_slot);
 	const f32v2 camera = camera_center_offset(viewport, center);
+	data->camera = camera;
 
 	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
 		data->tile_size, data->renderer, data->tileset1_texture, camera);
 	draw_sprite(&dynamic->position, &dynamic->size, &dynamic->clip, dynamic->_ent.count,
+		data->renderer, data->tileset1_texture, camera);
+	draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		data->renderer, data->tileset1_texture, camera);
 	// draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
 }

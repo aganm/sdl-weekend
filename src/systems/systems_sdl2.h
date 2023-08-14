@@ -3,6 +3,7 @@
 #include <primitive_types.h>
 
 typedef struct soa_position2 soa_position2;
+typedef struct soa_rotation1 soa_rotation1;
 typedef struct soa_size2 soa_size2;
 typedef struct soa_clip soa_clip;
 typedef struct tilemap_t tilemap_t;
@@ -13,6 +14,16 @@ typedef struct SDL_Texture SDL_Texture;
 
 void draw_sprite(
 	const soa_position2 *e_position,
+	const soa_size2 *e_size,
+	const soa_clip *e_clip,
+	const usize entity_count,
+	SDL_Renderer *renderer,
+	SDL_Texture *texture,
+	const f32v2 camera);
+
+void draw_sprite_rotated(
+	const soa_position2 *e_position,
+	const soa_rotation1 *e_rotation,
 	const soa_size2 *e_size,
 	const soa_clip *e_clip,
 	const usize entity_count,
