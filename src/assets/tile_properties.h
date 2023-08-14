@@ -3,7 +3,7 @@
 #include "tilemap.h"
 
 static const tile_properties_t tile_properties1 = {
-	.enum_to_walking_speed = (float[]) {
+	.enum_to_walking_speed = (f32[]) {
 		[TILEMAP_TILE_WALL] = 0.f,
 		[TILEMAP_TILE_SOIL] = 1.f,
 		[TILEMAP_TILE_GRASS] = 1.f,

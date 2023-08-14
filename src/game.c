@@ -26,18 +26,18 @@ static void load_map_objects(
 	const tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding)
 {
-	const i32 mapwidth = tilemap->width;
-	const i32 mapheight = tilemap->height;
+	const u32 mapwidth = tilemap->width;
+	const u32 mapheight = tilemap->height;
 	const i32v2 tile_size = data->tile_size;
 	const f32v2 entity_size = { tile_size.w, tile_size.h };
 
-	for (int l = 0; l < tilemap->num_layers; ++l) {
+	for (usize l = 0; l < tilemap->num_layers; ++l) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
 
-		for (int y = 0; y < mapheight; ++y) {
-			for (int x = 0; x < mapwidth; ++x) {
+		for (usize y = 0; y < mapheight; ++y) {
+			for (usize x = 0; x < mapwidth; ++x) {
 				const i32v2 tile_position = { x, y };
-				const int offset = y * mapwidth + x;
+				const usize offset = y * mapwidth + x;
 				const u8 tile_char = layer->offset_to_char[offset];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
 
@@ -50,7 +50,7 @@ static void load_map_objects(
 						.animation = {
 							.begin_frame = player_animation.begin_tile_frame,
 							.end_frame = player_animation.end_tile_frame,
-							.frame_time = player_animation.frame_seconds,
+							.frame_time = player_animation.frame_time,
 						},
 					});
 					break;
@@ -64,7 +64,7 @@ static void load_map_objects(
 						.animation = {
 							.begin_frame = monster_animation.begin_tile_frame,
 							.end_frame = monster_animation.end_tile_frame,
-							.frame_time = monster_animation.frame_seconds,
+							.frame_time = monster_animation.frame_time,
 						},
 					});
 					break;
@@ -129,7 +129,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			.animation = {
 				.begin_frame = bullet_animation.begin_tile_frame,
 				.end_frame = bullet_animation.end_tile_frame,
-				.frame_time = bullet_animation.frame_seconds,
+				.frame_time = bullet_animation.frame_time,
 			},
 		});
 	}
@@ -152,7 +152,7 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 			.animation = {
 				.begin_frame = monster_animation.begin_tile_frame,
 				.end_frame = monster_animation.end_tile_frame,
-				.frame_time = monster_animation.frame_seconds,
+				.frame_time = monster_animation.frame_time,
 			},
 		});
 	}

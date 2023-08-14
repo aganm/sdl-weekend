@@ -7,7 +7,7 @@ static tilemap_t level1_map = {
 	.height = 32,
 	.num_layers = 2,
 	.collision_buffer = (tilemap_collision_buffer_t) {
-	    .offset_to_walking_speed = (float[32 * 32]) {},
+	    .offset_to_walking_speed = (f32[32 * 32]) {},
 	},
 	.layers = (tilemap_layer_t[]) {
 	    { "................................"

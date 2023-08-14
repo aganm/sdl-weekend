@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stdint.h>
+#include <primitive_types.h>
 
 typedef struct tile_t {
-	int x, y, w, h;
+	u16 x, y, w, h;
 } tile_t;
 
 typedef enum tile_enum_t {
@@ -34,7 +34,7 @@ typedef enum tile_enum_t {
 typedef struct tile_animation_t {
 	tile_enum_t begin_tile_frame;
 	tile_enum_t end_tile_frame;
-	float frame_seconds;
+	f32seconds frame_time;
 } tile_animation_t;
 
 typedef struct tilemap_encoding_t {
@@ -42,19 +42,17 @@ typedef struct tilemap_encoding_t {
 } tilemap_encoding_t;
 
 typedef struct tile_color_key_t {
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
+	u8 r, g, b;
 } tile_color_key_t;
 
 typedef struct tileset_t {
-	const char *image_path;
+	cstr image_path;
 	tile_color_key_t color_key;
 	const tile_t *enum_to_tile;
 } tileset_t;
 
 typedef struct tile_properties_t {
-	const float *enum_to_walking_speed;
+	const f32 *enum_to_walking_speed;
 } tile_properties_t;
 
 typedef struct tilemap_layer_t {
@@ -62,13 +60,13 @@ typedef struct tilemap_layer_t {
 } tilemap_layer_t;
 
 typedef struct tilemap_collision_buffer_t {
-	float *offset_to_walking_speed;
+	f32 *offset_to_walking_speed;
 } tilemap_collision_buffer_t;
 
 typedef struct tilemap_t {
-	int width;
-	int height;
-	int num_layers;
+	u32 width;
+	u32 height;
+	u32 num_layers;
 	tilemap_collision_buffer_t collision_buffer;
 	const tilemap_layer_t *layers;
 } tilemap_t;
