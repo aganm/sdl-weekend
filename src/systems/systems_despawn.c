@@ -33,7 +33,7 @@ void get_dead_despawn_slots(
 {
 	usize count = 0;
 	for (usize e = 0; e < entity_count; ++e) {
-		const bool is_dead = e_health->val[e] < 0.f;
+		const bool is_dead = e_health->val[e] <= 0.f;
 		output[count] = (soa_slot_t){ e };
 		count += is_dead;
 	}
