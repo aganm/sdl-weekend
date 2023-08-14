@@ -12,7 +12,8 @@ typedef struct game_data_t {
 	SDL_Renderer *renderer;
 	SDL_Texture *tileset1_texture;
 	game_timer_t gameplay_timer;
-	soa_dynamic dynamic;
+	soa_character player;
+	soa_character monster;
 	soa_bullet bullet;
 	soa_slot_t player_slot;
 	f32v2 camera;

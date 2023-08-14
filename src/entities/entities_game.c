@@ -1,21 +1,22 @@
 #include "entities_game.h"
 #include "math_helpers.h"
 
-soa_slot_t soa_dynamic_new1(
-	soa_dynamic *dynamic,
-	const soa_dynamic_desc_t *desc)
+soa_slot_t soa_character_new1(
+	soa_character *character,
+	const soa_character_desc_t *desc)
 {
-	const soa_slot_t slot = soa_new_slot1(&dynamic->_ent);
-	const usize d = slot.idx;
-	dynamic->position.x[d] = desc->position.x;
-	dynamic->position.y[d] = desc->position.y;
-	dynamic->size.w[d] = desc->size.w;
-	dynamic->size.h[d] = desc->size.h;
-	dynamic->speed.val[d] = desc->speed;
-	dynamic->animation.begin_frame[d] = desc->animation.begin_frame;
-	dynamic->animation.end_frame[d] = desc->animation.end_frame;
-	dynamic->animation.current_frame[d] = desc->animation.begin_frame;
-	dynamic->animation.frame_time[d].seconds = desc->animation.frame_time.seconds;
+	const soa_slot_t slot = soa_new_slot1(&character->_ent);
+	const usize c = slot.idx;
+	character->position.x[c] = desc->position.x;
+	character->position.y[c] = desc->position.y;
+	character->size.w[c] = desc->size.w;
+	character->size.h[c] = desc->size.h;
+	character->speed.val[c] = desc->speed;
+	character->health.val[c] = desc->health;
+	character->animation.begin_frame[c] = desc->animation.begin_frame;
+	character->animation.end_frame[c] = desc->animation.end_frame;
+	character->animation.current_frame[c] = desc->animation.begin_frame;
+	character->animation.frame_time[c].seconds = desc->animation.frame_time.seconds;
 	return slot;
 }
 
@@ -41,17 +42,18 @@ soa_slot_t soa_bullet_new1(
 	return slot;
 }
 
-void soa_dynamic_free(
-	soa_dynamic *dynamic,
+void soa_character_free(
+	soa_character *character,
 	const soa_slot_t *slots,
 	const usize slot_count)
 {
 	for (usize i = 0; i < slot_count; ++i) {
-		const usize d = slots[i].idx;
-		dynamic->size.w[d] = 0.f;
-		dynamic->size.h[d] = 0.f;
+		const usize c = slots[i].idx;
+		character->damage.val[c] = 0.f;
+		character->size.w[c] = 0.f;
+		character->size.h[c] = 0.f;
 	}
-	return soa_free_slot(&dynamic->_ent, slots, slot_count);
+	return soa_free_slot(&character->_ent, slots, slot_count);
 }
 
 void soa_bullet_free(

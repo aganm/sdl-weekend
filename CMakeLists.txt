@@ -16,6 +16,7 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_physics.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_tilemap.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_despawn.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_bullet.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_transform.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_sdl2.c)
 target_include_directories(sdl2-shooter

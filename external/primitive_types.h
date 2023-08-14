@@ -244,6 +244,14 @@ typedef union i32v2 {
 	struct { f32 w, h; };
 } i32v2;
 
+typedef struct f32r4 {
+	f32 x, y, w, h;
+} f32r4;
+
+typedef struct i32r4 {
+	i32 x, y, w, h;
+} i32r4;
+
 #ifdef __cplusplus
 }
 #endif

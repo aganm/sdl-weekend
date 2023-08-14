@@ -8,6 +8,7 @@
 #include "game_timer.h"
 #include "soa.h"
 #include "systems/systems_animation.h"
+#include "systems/systems_bullet.h"
 #include "systems/systems_camera.h"
 #include "systems/systems_despawn.h"
 #include "systems/systems_movement.h"
@@ -39,8 +40,8 @@ static void load_map_objects(
 
 				switch (tile_enum) {
 				case TILEMAP_START_PLAYER: {
-					data->player_slot = soa_dynamic_new1(&data->dynamic,
-					    &(const soa_dynamic_desc_t) {
+					data->player_slot = soa_character_new1(&data->player,
+					    &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
 						.speed = 500.f,
@@ -53,11 +54,12 @@ static void load_map_objects(
 					break;
 				}
 				case TILEMAP_OBJECT_MONSTER: {
-					soa_dynamic_new1(&data->dynamic,
-					    &(const soa_dynamic_desc_t) {
+					soa_character_new1(&data->monster,
+					    &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
 						.speed = 250.f,
+						.health = 100.f,
 						.animation = {
 						    .begin_frame = monster_animation.begin_tile_frame,
 						    .end_frame = monster_animation.end_tile_frame,
@@ -88,14 +90,15 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 	data->renderer = renderer;
 	data->tileset1_texture = texture;
 	data->gameplay_timer = game_timer_init();
-	data->dynamic = (soa_dynamic)SOA_ENTITY_INIT;
+	data->player = (soa_character)SOA_ENTITY_INIT;
+	data->monster = (soa_character)SOA_ENTITY_INIT;
 	data->bullet = (soa_bullet)SOA_ENTITY_INIT;
 	data->player_slot = (soa_slot_t) { 0 };
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);
 
-	soa_dynamic *dynamic = &data->dynamic;
-	fetch_tileset_animation(&dynamic->animation, &dynamic->clip, dynamic->_ent.count, &tileset1);
+	soa_character *player = &data->player;
+	fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
 
 	calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
 }
@@ -109,7 +112,7 @@ void game_fini(game_data_t *data)
 static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 {
 	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
-	const f32v2 origin = get_one_position2(&data->dynamic.position, data->player_slot);
+	const f32v2 origin = get_one_position2(&data->player.position, data->player_slot);
 
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 bullet_position = {
@@ -122,6 +125,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			.destination = world_mouse_position,
 			.size = { data->tile_size.x, data->tile_size.y },
 			.speed = 1000.f,
+			.damage = 50.f,
 			.animation = {
 			    .begin_frame = bullet_animation.begin_tile_frame,
 			    .end_frame = bullet_animation.end_tile_frame,
@@ -133,7 +137,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 
 void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 {
-	soa_dynamic *player = &data->dynamic;
+	soa_character *player = &data->player;
 	const usize p = data->player_slot.idx;
 
 	switch (event->type) {
@@ -166,9 +170,8 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 
 void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 {
-	soa_dynamic *dynamic = &data->dynamic;
-	soa_dynamic *player = &data->dynamic;
-	soa_dynamic *monster = &data->dynamic;
+	soa_character *player = &data->player;
+	soa_character *monster = &data->monster;
 	soa_bullet *bullet = &data->bullet;
 	const soa_slot_t player_slot = data->player_slot;
 
@@ -177,30 +180,52 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	if (game_timer_tick(gameplay_timer, tick_dt, 1.0 / 60.0)) {
 		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
 
-		// backup_position2(&dynamic->position, &dynamic->old_position, dynamic->_ent.count);
+		// backup_position2(&player->position, &player->old_position, player->_ent.count);
 
-		reset_velocity(&dynamic->velocity, dynamic->_ent.count);
+		reset_velocity(&player->velocity, player->_ent.count);
+		reset_velocity(&monster->velocity, monster->_ent.count);
 		reset_velocity(&bullet->velocity, bullet->_ent.count);
-		follow_one_target_of_same_kind(&monster->movement, &monster->position, &monster->speed, monster->_ent.count,
-						&player->position, player_slot);
+		follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count,
+				&player->position, player_slot);
 		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, &bullet->speed, bullet->_ent.count);
-		movement_to_velocity(&dynamic->movement, &dynamic->speed, &dynamic->velocity, dynamic->_ent.count);
+		movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
+		movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
 		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
 		multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot,
 						&level1_map, data->tile_size, dt);
 
-		apply_forwards_velocity(&dynamic->position, &dynamic->velocity, dynamic->_ent.count, dt);
+		apply_forwards_velocity(&player->position, &player->velocity, player->_ent.count, dt);
+		apply_forwards_velocity(&monster->position, &monster->velocity, monster->_ent.count, dt);
 		apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
 
-		progress_animation_if_moving(&dynamic->animation, &dynamic->velocity, dynamic->_ent.count, dt);
-		fetch_tileset_animation(&dynamic->animation, &dynamic->clip, dynamic->_ent.count, &tileset1);
+		progress_animation_if_moving(&player->animation, &player->velocity, player->_ent.count, dt);
+		progress_animation_if_moving(&monster->animation, &monster->velocity, monster->_ent.count, dt);
+		fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
+		fetch_tileset_animation(&monster->animation, &monster->clip, monster->_ent.count, &tileset1);
 		fetch_tileset_animation(&bullet->animation, &bullet->clip, bullet->_ent.count, &tileset1);
 
-		soa_slot_t depawn_bullet_slots[bullet->_ent.count];
-		usize depawn_bullet_slot_count;
+		soa_slot_t despawn_bullet_slots[bullet->_ent.count];
+		usize despawn_bullet_slot_count;
 		get_destination_reached_despawn_slots(&bullet->position, &bullet->destination, bullet->_ent.count,
-						10.f, depawn_bullet_slots, &depawn_bullet_slot_count);
-		soa_bullet_free(bullet, depawn_bullet_slots, depawn_bullet_slot_count);
+						10.f, despawn_bullet_slots, &despawn_bullet_slot_count);
+		soa_bullet_free(bullet, despawn_bullet_slots, despawn_bullet_slot_count);
+
+		const usize collided_max = monster->_ent.count * bullet->_ent.count;
+		soa_slot_t collided_monsters[collided_max];
+		soa_slot_t collided_bullets[collided_max];
+		usize collided_count;
+		detect_bullet_collisions_with_something(&monster->position, &monster->size, monster->_ent.count,
+							&bullet->position, bullet->_ent.count,
+							collided_monsters, collided_bullets, &collided_count);
+		bullet_damages_something(&monster->health, &bullet->damage,
+					collided_monsters, collided_bullets, collided_count);
+		soa_bullet_free(bullet, collided_bullets, collided_count);
+
+		soa_slot_t despawn_monster_slots[monster->_ent.count];
+		usize despawn_monster_slot_count;
+		get_dead_despawn_slots(&monster->health, monster->_ent.count,
+					despawn_monster_slots, & despawn_monster_slot_count);
+		soa_character_free(monster, despawn_monster_slots, despawn_monster_slot_count);
 	}
 
 	/* render */
@@ -210,7 +235,9 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 
 	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
 		data->tile_size, data->renderer, data->tileset1_texture, camera);
-	draw_sprite(&dynamic->position, &dynamic->size, &dynamic->clip, dynamic->_ent.count,
+	draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
+		data->renderer, data->tileset1_texture, camera);
+	draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
 		data->renderer, data->tileset1_texture, camera);
 	draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		data->renderer, data->tileset1_texture, camera);
