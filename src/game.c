@@ -165,7 +165,7 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
-			spawn_monsters(data, (f32r4){ -1024.f, -1024.f, 2048.f, 2048.f }, 1000);
+			spawn_monsters(data, (f32r4){ 0.f, 0.f, 1024.f, 1024.f }, 10);
 
 		if (event->key.keysym.scancode == SDL_SCANCODE_A)
 			player->movement.x[p] = -1.f;
@@ -189,6 +189,8 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT)
 			fire_bullet(data, (f32v2){ event->button.x, event->button.y }, 1);
+		if (event->button.button == SDL_BUTTON_RIGHT)
+			fire_bullet(data, (f32v2){ event->button.x, event->button.y }, 10);
 		break;
 	}
 }
@@ -235,7 +237,7 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 						10.f, despawn_bullet_slots, &despawn_bullet_slot_count);
 		soa_bullet_free(bullet, despawn_bullet_slots, despawn_bullet_slot_count);
 
-		const usize collided_max = monster->_ent.count * bullet->_ent.count;
+		const usize collided_max = bullet->_ent.count;
 		soa_slot_t collided_monsters[collided_max];
 		soa_slot_t collided_bullets[collided_max];
 		usize collided_count;

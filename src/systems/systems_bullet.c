@@ -27,9 +27,12 @@ void detect_bullet_collisions_with_something(
 				(p.x >= r.x) && (p.x <= r.x + r.w) &&
 				(p.y >= r.y) && (p.y <= r.y + r.h);
 
-			collided_somethings[collided_count] = (soa_slot_t){ s };
-			collided_bullets[collided_count] = (soa_slot_t){ b };
-			collided_count += overlaps;
+			if (overlaps) {
+				collided_somethings[collided_count] = (soa_slot_t){ s };
+				collided_bullets[collided_count] = (soa_slot_t){ b };
+				collided_count += 1;
+				break;
+			}
 		}
 	}
 
