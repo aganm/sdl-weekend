@@ -37,7 +37,7 @@ static void load_map_objects(
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				const i32v2 tile_position = { x, y };
-				const char tile_char = layer->offset_to_char[y * width + x];
+				const unsigned char tile_char = layer->offset_to_char[y * width + x];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
 
 				switch (tile_enum) {
@@ -121,7 +121,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			origin.x + i * 5.f,
 			origin.y + i * 5.f,
 		};
-		const soa_slot_t b = soa_bullet_new1(&data->bullet,
+		soa_bullet_new1(&data->bullet,
 		    &(const soa_bullet_desc_t) {
 			.position = bullet_position,
 			.destination = world_mouse_position,
@@ -146,7 +146,7 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 			area.x + ((f32)rand() / (f32)RAND_MAX) * area.w,
 			area.y + ((f32)rand() / (f32)RAND_MAX) * area.h,
 		};
-		const soa_slot_t b = soa_character_new1(&data->monster,
+		soa_character_new1(&data->monster,
 		    &(const soa_character_desc_t) {
 			.position = monster_position,
 			.size = { data->tile_size.x, data->tile_size.y },
@@ -216,7 +216,7 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 		reset_velocity(&bullet->velocity, bullet->_ent.count);
 		follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count,
 				&player->position, player_slot);
-		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, &bullet->speed, bullet->_ent.count);
+		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, bullet->_ent.count);
 		movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
 		movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
 		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);

@@ -6,6 +6,10 @@
 
 int main(int argc, const char *argv[])
 {
+
+	(void)argc;
+	(void)argc;
+
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_Window *window = SDL_CreateWindow(argv[0], -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);

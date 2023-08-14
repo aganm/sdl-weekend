@@ -47,7 +47,6 @@ void follow_one_target(
 void forward_movement_from_rotation(
 	soa_movement2 *e_movement,
 	const soa_rotation1 *e_rotation,
-	const soa_speed *e_speed,
 	const usize entity_count)
 {
 	for (usize e = 0; e < entity_count; ++e) {
