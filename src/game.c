@@ -45,7 +45,7 @@ static void load_map_objects(
 					data->player_slot = soa_character_new1(&data->player, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
-						.speed = 500.f,
+						.speed = 300.f,
 						.animation = {
 						    .begin_frame = player_animation.begin_tile_frame,
 						    .end_frame = player_animation.end_tile_frame,
@@ -58,7 +58,7 @@ static void load_map_objects(
 					soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 						.position = tile_position_to_position(tile_position, tile_size),
 						.size = entity_size,
-						.speed = 250.f,
+						.speed = 150.f,
 						.health = 100.f,
 						.animation = {
 						    .begin_frame = monster_animation.begin_tile_frame,
@@ -123,7 +123,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 			.position = bullet_position,
 			.destination = world_mouse_position,
 			.size = { data->tile_size.x, data->tile_size.y },
-			.speed = 1000.f,
+			.speed = 600.f,
 			.damage = 50.f,
 			.animation = {
 			    .begin_frame = bullet_animation.begin_tile_frame,
@@ -146,7 +146,7 @@ static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
 		soa_character_new1(&data->monster, &(const soa_character_desc_t) {
 			.position = monster_position,
 			.size = { data->tile_size.x, data->tile_size.y },
-			.speed = 250.f,
+			.speed = 150.f,
 			.health = 100.f,
 			.animation = {
 			    .begin_frame = monster_animation.begin_tile_frame,
