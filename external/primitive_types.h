@@ -129,7 +129,7 @@ typedef const char *cstr;
  * type, this could go wrong in many ways because the int type is very ambiguous.
  * Its only spec is that it has to be greater or equal than short, and less or
  * equal than long. A proper generic for loop indexing type should be able to
- * handle any index possibly imaginable on the current system: usize is it.
+ * handle any index possibly imaginable on the current system: usize it is.
  * Only use isize if you need your index to go in the negative, otherwise
  * always use usize. */
 
