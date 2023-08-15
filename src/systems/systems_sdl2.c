@@ -97,9 +97,24 @@ void draw_tilemap(
 				if (tile_enum < TILEMAP_TILE_BEGIN || tile_enum > TILEMAP_TILE_END) continue;
 				const tile_t tile = tileset->enum_to_tile[tile_enum];
 
-				const SDL_Rect srcrect = { tile.x, tile.y, tile.w, tile.h };
-				const SDL_Rect origrect = { x * tilewidth, y * tileheight, tilewidth, tileheight };
-				const SDL_Rect dstrect = { origrect.x - (i32)camera.x, origrect.y - (i32)camera.y, origrect.w, origrect.h };
+				const SDL_Rect srcrect = {
+					tile.x,
+					tile.y,
+					tile.w,
+					tile.h,
+				};
+				const SDL_Rect origrect = {
+					x * tilewidth,
+					y * tileheight,
+					tilewidth,
+					tileheight,
+				};
+				const SDL_Rect dstrect = {
+					origrect.x - (i32)camera.x,
+					origrect.y - (i32)camera.y,
+					origrect.w,
+					origrect.h,
+				};
 				SDL_RenderCopy(renderer, tilesheet_texture, &srcrect, &dstrect);
 			}
 		}
@@ -120,9 +135,14 @@ void draw_tilemap_collision_buffer(
 	for (usize y = 0; y < mapheight; ++y) {
 		for (usize x = 0; x < mapwidth; ++x) {
 			const usize offset = y * mapwidth + x;
-			const SDL_Rect rect = { x * tile_size.w - (i32)camera.x, y * tile_size.h - (i32)camera.y, tile_size.w, tile_size.h };
 			const f32 tile_speed = tilemap->collision_buffer.offset_to_walking_speed[offset];
-			SDL_SetRenderDrawColor(renderer, 255, 0, 0, (f32)100.f * (1.f - tile_speed));
+			const SDL_Rect rect = {
+				x * tile_size.w - (i32)camera.x,
+				y * tile_size.h - (i32)camera.y,
+				tile_size.w,
+				tile_size.h,
+			};
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 100.f * (1.f - tile_speed));
 			SDL_RenderFillRect(renderer, &rect);
 		}
 	}
