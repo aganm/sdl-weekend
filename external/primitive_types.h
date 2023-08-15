@@ -218,10 +218,18 @@ typedef struct f128hours   { f128    hours;   } f128hours;   /*!< 128-bit floati
  * with all the different types could lead to a massive amount of combinations.
  * Just define the most commonly used ones, add new ones if needed. */
 
-typedef struct f16meters  { f16live meters; } f16meters;  /*!< 16-bit floating point meters */
-typedef struct f32meters  { f32     meters; } f32meters;  /*!< 32-bit floating point meters */
-typedef struct f64meters  { f64     meters; } f64meters;  /*!< 64-bit floating point meters */
-typedef struct f128meters { f128    meters; } f128meters; /*!< 128-bit floating point meters */
+typedef struct f16millimeters  { f16live millimeters; } f16millimeters;  /*!< 16-bit floating point millimeters */
+typedef struct f32millimeters  { f32     millimeters; } f32millimeters;  /*!< 32-bit floating point millimeters */
+typedef struct f64millimeters  { f64     millimeters; } f64millimeters;  /*!< 64-bit floating point millimeters */
+typedef struct f128millimeters { f128    millimeters; } f128millimeters; /*!< 128-bit floating point millimeters */
+typedef struct f16meters       { f16live meters;      } f16meters;       /*!< 16-bit floating point meters */
+typedef struct f32meters       { f32     meters;      } f32meters;       /*!< 32-bit floating point meters */
+typedef struct f64meters       { f64     meters;      } f64meters;       /*!< 64-bit floating point meters */
+typedef struct f128meters      { f128    meters;      } f128meters;      /*!< 128-bit floating point meters */
+typedef struct f16kilometers   { f16live kilometers;  } f16kilometers;   /*!< 16-bit floating point kilometers */
+typedef struct f32kilometers   { f32     kilometers;  } f32kilometers;   /*!< 32-bit floating point kilometers */
+typedef struct f64kilometers   { f64     kilometers;  } f64kilometers;   /*!< 64-bit floating point kilometers */
+typedef struct f128kilometers  { f128    kilometers;  } f128kilometers;  /*!< 128-bit floating point kilometers */
 
 /* Miscellaneous math types. Instead of redefining common math types in every
  * single math library, reuse these. Do not shy away from adding more if
