@@ -92,9 +92,9 @@ Primitive type table (in the order that they are found in this file)
  *
  */
 
-#include <stdbool.h> /* for bool */
-#include <stddef.h>  /* for size_t, intptr_t */
-#include <stdint.h>  /* for int32_t and family */
+#include <stdbool.h> /* bool */
+#include <stddef.h>  /* size_t, intptr_t */
+#include <stdint.h>  /* int32_t and family */
 
 #ifdef __cplusplus
 extern "C" {
