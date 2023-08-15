@@ -57,5 +57,9 @@ void soa_free_slot(
 void soa_clear(
 	soa_entity_t *entity)
 {
-	entity->count = SOA_CLEAR_COUNT;
+	struct {
+		soa_entity_t _ent;
+	} tmp = SOA_ENTITY_INIT;
+
+	*entity = tmp._ent;
 }
