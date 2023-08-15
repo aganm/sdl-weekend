@@ -66,23 +66,24 @@ Primitive type table (in the order that they are found in this file)
 | u16slot      | struct {uint16_t}            | unsigned 16-bit slot                      |
 | u32slot      | struct {uint32_t}            | usigned 32-bit slot                       |
 | u64slot      | struct {uint64_t}            | usigned 64-bit slot                       |
-| f16seconds   | struct {_Float16}            | 16-bit floating point seconds             |
+| f16seconds   | struct {_Float16|float}      | 16-bit floating point seconds             |
 | f32seconds   | struct {float}               | 32-bit floating point seconds             |
 | f64seconds   | struct {double}              | 64-bit floating point seconds             |
 | f128seconds  | struct {_Float128}           | 128-bit floating point seconds            |
-| f16minutes   | struct {_Float16}            | 16-bit floating point minutes             |
+| f16minutes   | struct {_Float16|float}      | 16-bit floating point minutes             |
 | f32minutes   | struct {float}               | 32-bit floating point minutes             |
 | f64minutes   | struct {double}              | 64-bit floating point minutes             |
 | f128minutes  | struct {_Float128}           | 128-bit floating point minutes            |
-| f16hours     | struct {_Float16}            | 16-bit floating point hours               |
+| f16hours     | struct {_Float16|float}      | 16-bit floating point hours               |
 | f32hours     | struct {float}               | 32-bit floating point hours               |
 | f64hours     | struct {double}              | 64-bit floating point hours               |
 | f128hours    | struct {_Float128}           | 128-bit floating point hours              |
-| f16meters    | struct {_Float16}            | 16-bit floating point meters              |
+| f16meters    | struct {_Float16|float}      | 16-bit floating point meters              |
 | f32meters    | struct {float}               | 32-bit floating point meters              |
 | f64meters    | struct {double}              | 64-bit floating point meters              |
 | f128meters   | struct {_Float128}           | 128-bit floating point meters             |
-| f16sincos    | struct {_Float16,_Float16}   | 16-bit floating point sincos              |
+| f16sincos    | struct {_Float16|float,      | 16-bit floating point sincos              |
+|              |         _Float16|float}      |                                           |
 | f32sincos    | struct {float,float}         | 32-bit floating point sincos              |
 | f64sincos    | struct {double,double}       | 64-bit floating point sincos              |
 | f128sincos   | struct {_Float128,_Float128} | 128-bit floating point sincos             |
@@ -199,28 +200,28 @@ typedef struct u64slot { u64 idx; } u64slot; /*!< unsigned 64-bit slotted index 
  * different types could lead to a massive amount of combinations. Just define
  * the most commonly used ones, add new ones if needed. */
 
-typedef struct f16seconds  { f16store seconds; } f16seconds;  /*!< 16-bit floating point seconds */
-typedef struct f32seconds  { f32      seconds; } f32seconds;  /*!< 32-bit floating point seconds */
-typedef struct f64seconds  { f64      seconds; } f64seconds;  /*!< 64-bit floating point seconds */
-typedef struct f128seconds { f128     seconds; } f128seconds; /*!< 128-bit floating point seconds */
-typedef struct f16minutes  { f16store minutes; } f16minutes;  /*!< 16-bit floating point minutes */
-typedef struct f32minutes  { f32      minutes; } f32minutes;  /*!< 32-bit floating point minutes */
-typedef struct f64minutes  { f64      minutes; } f64minutes;  /*!< 64-bit floating point minutes */
-typedef struct f128minutes { f128     minutes; } f128minutes; /*!< 128-bit floating point minutes */
-typedef struct f16hours    { f16store hours;   } f16hours;    /*!< 16-bit floating point hours */
-typedef struct f32hours    { f32      hours;   } f32hours;    /*!< 32-bit floating point hours */
-typedef struct f64hours    { f64      hours;   } f64hours;    /*!< 64-bit floating point hours */
-typedef struct f128hours   { f128     hours;   } f128hours;   /*!< 128-bit floating point hours */
+typedef struct f16seconds  { f16live seconds; } f16seconds;  /*!< 16-bit floating point seconds */
+typedef struct f32seconds  { f32     seconds; } f32seconds;  /*!< 32-bit floating point seconds */
+typedef struct f64seconds  { f64     seconds; } f64seconds;  /*!< 64-bit floating point seconds */
+typedef struct f128seconds { f128    seconds; } f128seconds; /*!< 128-bit floating point seconds */
+typedef struct f16minutes  { f16live minutes; } f16minutes;  /*!< 16-bit floating point minutes */
+typedef struct f32minutes  { f32     minutes; } f32minutes;  /*!< 32-bit floating point minutes */
+typedef struct f64minutes  { f64     minutes; } f64minutes;  /*!< 64-bit floating point minutes */
+typedef struct f128minutes { f128    minutes; } f128minutes; /*!< 128-bit floating point minutes */
+typedef struct f16hours    { f16live hours;   } f16hours;    /*!< 16-bit floating point hours */
+typedef struct f32hours    { f32     hours;   } f32hours;    /*!< 32-bit floating point hours */
+typedef struct f64hours    { f64     hours;   } f64hours;    /*!< 64-bit floating point hours */
+typedef struct f128hours   { f128    hours;   } f128hours;   /*!< 128-bit floating point hours */
 
 /* Distance types. Instead of redefining distance types everywhere where
  * needed, reuse these. Keep in mind that the number of distance units combined
  * with all the different types could lead to a massive amount of combinations.
  * Just define the most commonly used ones, add new ones if needed. */
 
-typedef struct f16meters  { f16store meters; } f16meters;  /*!< 16-bit floating point meters */
-typedef struct f32meters  { f32      meters; } f32meters;  /*!< 32-bit floating point meters */
-typedef struct f64meters  { f64      meters; } f64meters;  /*!< 64-bit floating point meters */
-typedef struct f128meters { f128     meters; } f128meters; /*!< 128-bit floating point meters */
+typedef struct f16meters  { f16live meters; } f16meters;  /*!< 16-bit floating point meters */
+typedef struct f32meters  { f32     meters; } f32meters;  /*!< 32-bit floating point meters */
+typedef struct f64meters  { f64     meters; } f64meters;  /*!< 64-bit floating point meters */
+typedef struct f128meters { f128    meters; } f128meters; /*!< 128-bit floating point meters */
 
 /* Miscellaneous math types. Instead of redefining common math types in every
  * single math library, reuse these. Do not shy away from adding more if
@@ -229,10 +230,10 @@ typedef struct f128meters { f128     meters; } f128meters; /*!< 128-bit floating
  * when its support is so poor and probably will remain so for a very long
  * time. */
 
-typedef struct f16sincos  { f16store sin, cos; } f16sincos;  /*!< 16-bit floating point sincos */
-typedef struct f32sincos  { f32      sin, cos; } f32sincos;  /*!< 32-bit floating point sincos */
-typedef struct f64sincos  { f64      sin, cos; } f64sincos;  /*!< 64-bit floating point sincos */
-typedef struct f128sincos { f128     sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
+typedef struct f16sincos  { f16live sin, cos; } f16sincos;  /*!< 16-bit floating point sincos */
+typedef struct f32sincos  { f32     sin, cos; } f32sincos;  /*!< 32-bit floating point sincos */
+typedef struct f64sincos  { f64     sin, cos; } f64sincos;  /*!< 64-bit floating point sincos */
+typedef struct f128sincos { f128    sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
 
 /* Bundle types. */
 
