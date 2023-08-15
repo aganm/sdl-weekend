@@ -132,7 +132,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 	}
 }
 
-static void spawn_monsters(game_data_t* data, f32r4 area, usize count)
+static void spawn_monsters(game_data_t* data, f32rect area, usize count)
 {
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 monster_position = {
@@ -163,7 +163,7 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
-			spawn_monsters(data, (f32r4){ 0.f, 0.f, 1024.f, 1024.f }, 10);
+			spawn_monsters(data, (f32rect){ 0.f, 0.f, 1024.f, 1024.f }, 10);
 
 		if (event->key.keysym.scancode == SDL_SCANCODE_A)
 			move_left = true;

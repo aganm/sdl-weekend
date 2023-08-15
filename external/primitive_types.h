@@ -249,13 +249,13 @@ typedef union i32v2 {
 	struct { i32 min, max; };
 } i32v2;
 
-typedef struct f32r4 {
+typedef struct f32rect {
 	f32 x, y, w, h;
-} f32r4;
+} f32rect;
 
-typedef struct i32r4 {
+typedef struct i32rect {
 	i32 x, y, w, h;
-} i32r4;
+} i32rect;
 
 #ifdef __cplusplus
 }
