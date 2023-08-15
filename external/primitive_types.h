@@ -181,11 +181,13 @@ typedef u64 u64bool; /*!< unsigned 64-bit boolean */
 
 /* Index slot types. Instead of redefining slot types everywhere where needed,
  * reuse these. Put in a struct for extra type safety because this should never
- * be mixed up with the other primitives. The 8-bit and 16-bit ones are
- * unsigned to allow for a maximum number of indices in a low amount of space.
- * The 32-bit and 64-bit ones are signed because the SIMD gather instructions
- * only work with signed indices. For these sizes, it's better to use signed by
- * default for SIMD compatibility. */
+ * be mixed up with the other primitives. Keep in mind that SIMD gathers work
+ * with signed indices, therefore, a u32slot index value must remain within
+ * INT32_MAX and a u64slot index value must remain within INT64_MAX to work
+ * correctly with a SIMD gather, because larger values than that will overflow
+ * in the negatives. You should probably have a way in your code to limit the
+ * number of used indices to these maximum values if those indices are to be
+ * used in gathers. */
 
 typedef struct u8slot  { u8 idx;  } u8slot;  /*!< unsigned 8-bit slotted index */
 typedef struct u16slot { u16 idx; } u16slot; /*!< unsigned 16-bit slotted index */
