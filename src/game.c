@@ -98,9 +98,6 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);
 
-	soa_character *player = &data->player;
-	fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
-
 	calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
 }
 
