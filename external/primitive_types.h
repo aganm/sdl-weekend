@@ -147,16 +147,16 @@ typedef intptr_t isize; /*!< signed pointer sized integer */
 
 typedef uint16_t  f16store; /*!< 16-bit floating point (10-bit mantissa) IEEE-754-2008 binary16 stored type */
 typedef float     f16live;  /*!< 16-bit floating point (10-bit mantissa) IEEE-754-2008 binary16 live stype */
-typedef float     f32; /*!< 32-bit floating point (23-bit mantissa) IEEE-754-2008 binary32 */
-typedef double    f64; /*!< 64-bit floating point (52-bit mantissa) IEEE-754-2008 binary64 */
-typedef int32_t   i32; /*!< signed 32-bit integer */
-typedef uint32_t  u32; /*!< unsigned 32-bit integer */
-typedef int64_t   i64; /*!< signed 64-bit integer */
-typedef uint64_t  u64; /*!< unsigned 64-bit integer */
-typedef int16_t   i16; /*!< signed 16-bit integer */
-typedef uint16_t  u16; /*!< unsigned 16-bit integer */
-typedef int8_t    i8;  /*!< signed 8-bit integer */
-typedef uint8_t   u8;  /*!< unsigned 8-bit integer */
+typedef float     f32;      /*!< 32-bit floating point (23-bit mantissa) IEEE-754-2008 binary32 */
+typedef double    f64;      /*!< 64-bit floating point (52-bit mantissa) IEEE-754-2008 binary64 */
+typedef int32_t   i32;      /*!< signed 32-bit integer */
+typedef uint32_t  u32;      /*!< unsigned 32-bit integer */
+typedef int64_t   i64;      /*!< signed 64-bit integer */ // for lua-cdecl
+typedef uint64_t  u64;      /*!< unsigned 64-bit integer */ // for lua-cdecl
+typedef int16_t   i16;      /*!< signed 16-bit integer */
+typedef uint16_t  u16;      /*!< unsigned 16-bit integer */
+typedef int8_t    i8;       /*!< signed 8-bit integer */
+typedef uint8_t   u8;       /*!< unsigned 8-bit integer */
 
 /* Primitive types that have no SIMD support. Probably shouldn't use these, but
  * if you do need them, they are here. */
@@ -189,7 +189,7 @@ typedef u64 u64bool; /*!< unsigned 64-bit boolean */
  * number of used indices to these maximum values if those indices are to be
  * used in gathers. */
 
-typedef struct u8slot  { u8 idx;  } u8slot;  /*!< unsigned 8-bit slotted index */
+typedef struct u8slot  { u8  idx; } u8slot;  /*!< unsigned 8-bit slotted index */
 typedef struct u16slot { u16 idx; } u16slot; /*!< unsigned 16-bit slotted index */
 typedef struct u32slot { u32 idx; } u32slot; /*!< unsigned 32-bit slotted index */
 typedef struct u64slot { u64 idx; } u64slot; /*!< unsigned 64-bit slotted index */
@@ -199,28 +199,28 @@ typedef struct u64slot { u64 idx; } u64slot; /*!< unsigned 64-bit slotted index 
  * different types could lead to a massive amount of combinations. Just define
  * the most commonly used ones, add new ones if needed. */
 
-typedef struct f16seconds  { f16store seconds;  } f16seconds;  /*!< 16-bit floating point seconds */
-typedef struct f32seconds  { f32 seconds;  } f32seconds;  /*!< 32-bit floating point seconds */
-typedef struct f64seconds  { f64 seconds;  } f64seconds;  /*!< 64-bit floating point seconds */
-typedef struct f128seconds { f128 seconds; } f128seconds; /*!< 128-bit floating point seconds */
-typedef struct f16minutes  { f16store minutes;  } f16minutes;  /*!< 16-bit floating point minutes */
-typedef struct f32minutes  { f32 minutes;  } f32minutes;  /*!< 32-bit floating point minutes */
-typedef struct f64minutes  { f64 minutes;  } f64minutes;  /*!< 64-bit floating point minutes */
-typedef struct f128minutes { f128 minutes; } f128minutes; /*!< 128-bit floating point minutes */
-typedef struct f16hours    { f16store hours;    } f16hours;    /*!< 16-bit floating point hours */
-typedef struct f32hours    { f32 hours;    } f32hours;    /*!< 32-bit floating point hours */
-typedef struct f64hours    { f64 hours;    } f64hours;    /*!< 64-bit floating point hours */
-typedef struct f128hours   { f128 hours;   } f128hours;   /*!< 128-bit floating point hours */
+typedef struct f16seconds  { f16store seconds; } f16seconds;  /*!< 16-bit floating point seconds */
+typedef struct f32seconds  { f32      seconds; } f32seconds;  /*!< 32-bit floating point seconds */
+typedef struct f64seconds  { f64      seconds; } f64seconds;  /*!< 64-bit floating point seconds */
+typedef struct f128seconds { f128     seconds; } f128seconds; /*!< 128-bit floating point seconds */
+typedef struct f16minutes  { f16store minutes; } f16minutes;  /*!< 16-bit floating point minutes */
+typedef struct f32minutes  { f32      minutes; } f32minutes;  /*!< 32-bit floating point minutes */
+typedef struct f64minutes  { f64      minutes; } f64minutes;  /*!< 64-bit floating point minutes */
+typedef struct f128minutes { f128     minutes; } f128minutes; /*!< 128-bit floating point minutes */
+typedef struct f16hours    { f16store hours;   } f16hours;    /*!< 16-bit floating point hours */
+typedef struct f32hours    { f32      hours;   } f32hours;    /*!< 32-bit floating point hours */
+typedef struct f64hours    { f64      hours;   } f64hours;    /*!< 64-bit floating point hours */
+typedef struct f128hours   { f128     hours;   } f128hours;   /*!< 128-bit floating point hours */
 
 /* Distance types. Instead of redefining distance types everywhere where
  * needed, reuse these. Keep in mind that the number of distance units combined
  * with all the different types could lead to a massive amount of combinations.
  * Just define the most commonly used ones, add new ones if needed. */
 
-typedef struct f16meters  { f16store meters;  } f16meters;  /*!< 16-bit floating point meters */
-typedef struct f32meters  { f32 meters;  } f32meters;  /*!< 32-bit floating point meters */
-typedef struct f64meters  { f64 meters;  } f64meters;  /*!< 64-bit floating point meters */
-typedef struct f128meters { f128 meters; } f128meters; /*!< 128-bit floating point meters */
+typedef struct f16meters  { f16store meters; } f16meters;  /*!< 16-bit floating point meters */
+typedef struct f32meters  { f32      meters; } f32meters;  /*!< 32-bit floating point meters */
+typedef struct f64meters  { f64      meters; } f64meters;  /*!< 64-bit floating point meters */
+typedef struct f128meters { f128     meters; } f128meters; /*!< 128-bit floating point meters */
 
 /* Miscellaneous math types. Instead of redefining common math types in every
  * single math library, reuse these. Do not shy away from adding more if
@@ -229,10 +229,10 @@ typedef struct f128meters { f128 meters; } f128meters; /*!< 128-bit floating poi
  * when its support is so poor and probably will remain so for a very long
  * time. */
 
-typedef struct f16sincos  { f16store sin, cos;  } f16sincos;  /*!< 16-bit floating point sincos */
-typedef struct f32sincos  { f32 sin, cos;  } f32sincos;  /*!< 32-bit floating point sincos */
-typedef struct f64sincos  { f64 sin, cos;  } f64sincos;  /*!< 64-bit floating point sincos */
-typedef struct f128sincos { f128 sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
+typedef struct f16sincos  { f16store sin, cos; } f16sincos;  /*!< 16-bit floating point sincos */
+typedef struct f32sincos  { f32      sin, cos; } f32sincos;  /*!< 32-bit floating point sincos */
+typedef struct f64sincos  { f64      sin, cos; } f64sincos;  /*!< 64-bit floating point sincos */
+typedef struct f128sincos { f128     sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
 
 /* Bundle types. */
 
@@ -260,4 +260,4 @@ typedef struct i32r4 {
 }
 #endif
 
-#endif // PRIMITIVE_TYPES_H
+#endif // TYPES_PRIMITIVE_H
