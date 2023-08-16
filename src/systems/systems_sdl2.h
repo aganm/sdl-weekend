@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <bundle_types.h>
 
 typedef struct soa_position2 soa_position2;
 typedef struct soa_rotation1 soa_rotation1;
