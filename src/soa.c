@@ -1,5 +1,6 @@
 #include "soa.h"
 #include <stdlib.h>
+#include <assert.h>
 
 usize soa_round_up(
 	usize number,
@@ -62,4 +63,40 @@ void soa_clear(
 	} tmp = SOA_ENTITY_INIT;
 
 	*entity = tmp._ent;
+}
+
+soa_timer_t soa_timer_init(
+	void)
+{
+	return (soa_timer_t){ 0 };
+}
+
+void soa_timer_fini(
+	soa_timer_t *timer)
+{
+	(void)timer;
+}
+
+void soa_timer_tick(
+	soa_timer_t *timer, f64seconds dt)
+{
+	timer->counter.seconds += dt.seconds;
+}
+
+bool soa_timer_do_frame(
+	soa_timer_t *timer,
+	f64 interval)
+{
+	if (timer->counter.seconds >= interval) {
+		timer->counter.seconds -= interval;
+		timer->dt.seconds = interval;
+		return true;
+	}
+	return false;
+}
+
+f64 soa_timer_delta_seconds(
+	const soa_timer_t *timer)
+{
+	return timer->dt.seconds;
 }

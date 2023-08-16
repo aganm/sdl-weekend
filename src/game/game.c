@@ -5,7 +5,6 @@
 #include "assets/tilemaps.h"
 #include "assets/tilesets.h"
 #include "game_data.h"
-#include "game_timer.h"
 #include "soa.h"
 #include "systems/systems_animation.h"
 #include "systems/systems_bullet.h"
@@ -90,7 +89,7 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 	data->tile_size = (i32v2) { 32, 32 };
 	data->renderer = renderer;
 	data->tileset1_texture = texture;
-	data->gameplay_timer = game_timer_init();
+	data->gameplay_timer = soa_timer_init();
 	data->player = (soa_character)SOA_ENTITY_INIT;
 	data->monster = (soa_character)SOA_ENTITY_INIT;
 	data->bullet = (soa_bullet)SOA_ENTITY_INIT;
@@ -104,7 +103,7 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 void game_fini(game_data_t *data)
 {
 	SDL_DestroyTexture(data->tileset1_texture);
-	game_timer_fini(&data->gameplay_timer);
+	soa_timer_fini(&data->gameplay_timer);
 }
 
 static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
@@ -220,10 +219,10 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	const soa_slot_t player_slot = data->player_slot;
 
 	/* update gameplay at 60hz */
-	game_timer_t *gameplay_timer = &data->gameplay_timer;
-	game_timer_tick(gameplay_timer, tick_dt);
-	while (game_timer_do_frame(gameplay_timer, 1.0 / 60.0)) {
-		const f32seconds dt = { game_timer_delta_seconds(gameplay_timer) };
+	soa_timer_t *gameplay_timer = &data->gameplay_timer;
+	soa_timer_tick(gameplay_timer, tick_dt);
+	while (soa_timer_do_frame(gameplay_timer, 1.0 / 60.0)) {
+		const f32seconds dt = { soa_timer_delta_seconds(gameplay_timer) };
 
 		reset_velocity(&player->velocity, player->_ent.count);
 		reset_velocity(&monster->velocity, monster->_ent.count);
