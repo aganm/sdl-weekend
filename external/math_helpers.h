@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MATH_HELPERS_H
+#define MATH_HELPERS_H
 
 /**
  * @file
@@ -26,3 +27,5 @@ static inline f32 rad_to_deg(f32 rad)
 {
 	return rad / (M_PI * 2.f) * 360.f;
 }
+
+#endif // MATH_HELPERS_H
