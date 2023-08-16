@@ -1,7 +1,7 @@
 #pragma once
 
-#include "soa.h"
 #include <primitive_types.h>
+#include <soa.h>
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position2 soa_position2;

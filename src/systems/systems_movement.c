@@ -1,9 +1,9 @@
-#include "soa.h"
-#include "components/components_transform.h"
-#include "components/components_movement.h"
-#include "components/components_physics.h"
-#include "systems_movement.h"
 #include <math.h>
+#include <soa.h>
+#include <components/components_transform.h>
+#include <components/components_movement.h>
+#include <components/components_physics.h>
+#include <systems/systems_movement.h>
 
 void movement_to_velocity(
 	const soa_movement2 *e_movement,

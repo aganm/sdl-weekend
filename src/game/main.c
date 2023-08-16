@@ -2,7 +2,6 @@
 #include "game_data.h"
 #include <SDL2/SDL.h>
 #include <primitive_types.h>
-#include <stdbool.h>
 
 int main(int argc, char *argv[])
 {

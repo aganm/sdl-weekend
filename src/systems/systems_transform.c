@@ -1,6 +1,6 @@
-#include "soa.h"
-#include "components/components_transform.h"
-#include "systems_transform.h"
+#include <components/components_transform.h>
+#include <systems/systems_transform.h>
+#include <soa.h>
 
 f32v2 get_one_position2(
 	const soa_position2 *e_position,

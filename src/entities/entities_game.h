@@ -1,16 +1,17 @@
 #pragma once
 
-#include "soa.h"
-#include "components/components_animation.h"
-#include "components/components_health.h"
-#include "components/components_damage.h"
-#include "components/components_graphics.h"
-#include "components/components_movement.h"
-#include "components/components_physics.h"
-#include "components/components_shape.h"
-#include "components/components_transform.h"
-#include <primitive_types.h>
 #include <bundle_types.h>
+#include <primitive_types.h>
+#include <soa.h>
+
+#include <components/components_animation.h>
+#include <components/components_damage.h>
+#include <components/components_graphics.h>
+#include <components/components_health.h>
+#include <components/components_movement.h>
+#include <components/components_physics.h>
+#include <components/components_shape.h>
+#include <components/components_transform.h>
 
 typedef struct soa_character {
 	soa_entity_t _ent;

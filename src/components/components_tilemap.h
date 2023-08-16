@@ -1,7 +1,7 @@
 #pragma once
 
-#include "soa.h"
 #include <primitive_types.h>
+#include <soa.h>
 
 typedef struct soa_tile_position2 {
 	i32 x[SOA_LIMIT];

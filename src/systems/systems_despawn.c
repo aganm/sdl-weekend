@@ -1,9 +1,9 @@
-#include "soa.h"
-#include "components/components_transform.h"
-#include "components/components_movement.h"
-#include "components/components_health.h"
-#include "systems_despawn.h"
 #include <math.h>
+#include <soa.h>
+#include <components/components_transform.h>
+#include <components/components_movement.h>
+#include <components/components_health.h>
+#include <systems/systems_despawn.h>
 
 void get_destination_reached_despawn_slots(
 	const soa_position2 *e_position,

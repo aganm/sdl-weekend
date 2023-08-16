@@ -59,7 +59,7 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_transform.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_sdl2.c)
 target_include_directories(sdl2-shooter
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
 	PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(sdl2-shooter
@@ -69,7 +69,7 @@ target_link_libraries(sdl2-shooter
 add_executable(sdl2-shooter-test
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main.c)
 target_include_directories(sdl2-shooter-test
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_test(NAME sdl2-shooter-test
 	COMMAND sdl2-shooter-test)

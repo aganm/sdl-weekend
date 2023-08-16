@@ -1,9 +1,9 @@
 #pragma once
 
-#include "soa.h"
-#include "entities/entities_game.h"
-#include <primitive_types.h>
 #include <bundle_types.h>
+#include <entities/entities_game.h>
+#include <primitive_types.h>
+#include <soa.h>
 
 typedef struct SDL_Renderer SDL_Renderer;
 typedef struct SDL_Texture SDL_Texture;
