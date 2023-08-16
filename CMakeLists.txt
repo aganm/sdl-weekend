@@ -59,7 +59,7 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_transform.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_sdl2.c)
 target_include_directories(sdl2-shooter
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
 	PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(sdl2-shooter
