@@ -6,6 +6,7 @@
 #include "components/components_damage.h"
 #include "systems_despawn.h"
 #include <primitive_types.h>
+#include <bundle_types.h>
 
 void detect_bullet_collisions_with_something(
 	const soa_position2 *s_pos,
