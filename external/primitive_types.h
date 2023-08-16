@@ -136,7 +136,7 @@ typedef const char *cstr;
 
 /* Pointer size types. Other than being the pointer size types, these types are
  * the golden goose of loop indexing. If you would use a C 'int' as an index
- * type, this could go wrong in many ways because the int type is very ambiguous.
+ * type, this could go wrong in many ways because the int type is ambiguous.
  * Its only spec is that it has to be greater or equal than short, and less or
  * equal than long. A proper generic for loop indexing type should be able to
  * handle any index possibly imaginable on the current system: usize it is.
@@ -150,7 +150,10 @@ typedef intptr_t isize; /*!< signed pointer sized integer */
  * notice that these are not ordered in ascending order of the type size.
  * Instead, they are ordered in ascending order of SIMD hardware support on
  * x86-64. From very good support (32-bit floating point) to very poor (8-bit
- * integers).
+ * integers). 16-bit floating point does not generally have good hardware
+ * support, but it will be mapped to a type that does: 32-bit floating point if
+ * 16-bit is not available, and 16-bit if it is available so that its
+ * performance is always best on the given hardware.
  *
  * Using long long / unsigned long long for i64/u64 because lua-cdecl generates
  * a single 'long' with int64_t/uint64_t, which would be wrong on windows.. */
@@ -180,9 +183,8 @@ typedef unsigned __int128 u128; /*!< signed 128-bit integer, nonstandard extensi
 /* Boolean types with fixed sizes. These are just integer primitives with
  * 'bool' appended to them. They have no real technical differences from the
  * primitive types. Use to communicate the intent of holding a boolean value.
- * These are not sorted by SIMD hardware support, but by size. You probably
- * want to favor smaller boolean types to save on memory even if the hardware
- * has better support for bigger types. */
+ * You probably want to favor smaller boolean types to save on memory even if
+ * the hardware has better support for bigger types. */
 
 typedef u8  u8bool;  /*!< unsigned 8-bit boolean */
 typedef u16 u16bool; /*!< unsigned 16-bit boolean */
@@ -244,8 +246,7 @@ typedef struct f128kilometers  { f128    kilometers;  } f128kilometers;  /*!< 12
  * single math library, reuse these. Do not shy away from adding more if
  * needed. These are handy because C does not easily let a function return an
  * anonymous struct in versions prior to C23. And I'd rather not depend on C23
- * when its support is so poor and probably will remain so for a very long
- * time. */
+ * when its support is so poor and probably will remain so for a long time. */
 
 typedef struct f16sincos  { f16live sin, cos; } f16sincos;  /*!< 16-bit floating point sincos */
 typedef struct f32sincos  { f32     sin, cos; } f32sincos;  /*!< 32-bit floating point sincos */
