@@ -1,5 +1,10 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Math library.
+ */
+
 #include "primitive_types.h"
 #include "bundle_types.h"
 
