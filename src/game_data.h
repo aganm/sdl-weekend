@@ -3,6 +3,7 @@
 #include "game_timer.h"
 #include "entities/entities_game.h"
 #include <primitive_types.h>
+#include <bundle_types.h>
 
 typedef struct SDL_Renderer SDL_Renderer;
 typedef struct SDL_Texture SDL_Texture;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <primitive_types.h>
+#include <bundle_types.h>
 
 typedef struct game_data_t game_data_t;
 typedef struct SDL_Renderer SDL_Renderer;

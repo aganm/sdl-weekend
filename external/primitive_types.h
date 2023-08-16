@@ -252,28 +252,6 @@ typedef struct f32sincos  { f32     sin, cos; } f32sincos;  /*!< 32-bit floating
 typedef struct f64sincos  { f64     sin, cos; } f64sincos;  /*!< 64-bit floating point sincos */
 typedef struct f128sincos { f128    sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
 
-/* Bundle types. */
-
-typedef union f32v2 {
-	struct { f32 x, y; };
-	struct { f32 w, h; };
-	struct { f32 min, max; };
-} f32v2;
-
-typedef union i32v2 {
-	struct { i32 x, y; };
-	struct { i32 w, h; };
-	struct { i32 min, max; };
-} i32v2;
-
-typedef struct f32rect {
-	f32 x, y, w, h;
-} f32rect;
-
-typedef struct i32rect {
-	i32 x, y, w, h;
-} i32rect;
-
 #ifdef __cplusplus
 }
 #endif

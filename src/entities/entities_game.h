@@ -10,6 +10,7 @@
 #include "components/components_shape.h"
 #include "components/components_transform.h"
 #include <primitive_types.h>
+#include <bundle_types.h>
 
 typedef struct soa_character {
 	soa_entity_t _ent;
