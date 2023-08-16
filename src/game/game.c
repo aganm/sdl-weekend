@@ -1,6 +1,7 @@
 #include "game.h"
 #include "game_data.h"
 #include <SDL2/SDL.h>
+#include <math_helpers.h>
 #include <primitive_types.h>
 #include <soa.h>
 #include <stdlib.h>
