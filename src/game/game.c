@@ -14,7 +14,6 @@
 
 #include <systems/systems_animation.h>
 #include <systems/systems_bullet.h>
-#include <systems/systems_camera.h>
 #include <systems/systems_despawn.h>
 #include <systems/systems_movement.h>
 #include <systems/systems_physics.h>

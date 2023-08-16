@@ -50,7 +50,6 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/src/game/game.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/entities/entities_game.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_animation.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_camera.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_movement.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_physics.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/systems_tilemap.c
