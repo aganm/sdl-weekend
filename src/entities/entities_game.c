@@ -53,7 +53,7 @@ void soa_character_free(
 		character->size.w[c] = 0.f;
 		character->size.h[c] = 0.f;
 	}
-	return soa_free_slot(&character->_ent, slots, slot_count);
+	soa_free_slot(&character->_ent, slots, slot_count);
 }
 
 void soa_bullet_free(
@@ -67,5 +67,5 @@ void soa_bullet_free(
 		bullet->size.w[b] = 0.f;
 		bullet->size.h[b] = 0.f;
 	}
-	return soa_free_slot(&bullet->_ent, slots, slot_count);
+	soa_free_slot(&bullet->_ent, slots, slot_count);
 }
