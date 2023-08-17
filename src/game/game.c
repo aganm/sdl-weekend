@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <assets/tile_animations.h>
-#include <assets/tile_properties.h>
-#include <assets/tilemap_encodings.h>
-#include <assets/tilemaps.h>
-#include <assets/tilesets.h>
+#include "assets/tile_animations.h"
+#include "assets/tile_properties.h"
+#include "assets/tilemap_encodings.h"
+#include "assets/tilemaps.h"
+#include "assets/tilesets.h"
 
 #include <systems_animation.h>
 #include <systems_bullet.h>
