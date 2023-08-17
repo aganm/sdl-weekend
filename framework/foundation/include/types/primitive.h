@@ -30,7 +30,7 @@
 
 Primitive type table (in the order that they are found in this file)
 +-----------------+------------------------------+------------------------------------------------+
-|      Type       |         C Equivalent         |                    Description                 |
+|      Type       |         C Equivalent         |                  Description                   |
 +-----------------+------------------------------+------------------------------------------------+
 | int             | int                          | signed unspecified size integer                |
 | bool            | bool                         | true or false                                  |
