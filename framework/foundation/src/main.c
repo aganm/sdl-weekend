@@ -3,7 +3,7 @@
 #include <primitive_types.h>
 #include <sdl2_app.h>
 
-SDL_SceneDesc export_sdl_scene_desc(void);
+SDL_SceneDesc export_sdl_scene(void);
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	SDL_SetWindowPosition(app.window, display.x, display.y);
 	SDL_SetWindowSize(app.window, display.w, display.h);
 
-	SDL_SceneDesc scene = export_sdl_scene_desc();
+	SDL_SceneDesc scene = export_sdl_scene();
 	SDL_SceneData *scene_data = SDL_malloc(scene.data_size);
 	scene.init(&app, scene_data);
 
