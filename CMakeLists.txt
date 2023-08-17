@@ -45,24 +45,24 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS
 find_package(SDL2 REQUIRED)
 
 add_executable(sdl2-shooter
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/src/soa.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/entities/src/entities_game.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_animation.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_movement.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_physics.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_tilemap.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_despawn.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_bullet.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_transform.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_sdl2.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/src/entities_game.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_animation.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_movement.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_physics.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_tilemap.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_despawn.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_bullet.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_transform.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_sdl2.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/game/game.c)
 target_include_directories(sdl2-shooter
 	PRIVATE ${SDL2_INCLUDE_DIRS}
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/components/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/entities/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/systems/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/components/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(sdl2-shooter
 	${SDL2_LIBRARIES}
@@ -71,10 +71,10 @@ target_link_libraries(sdl2-shooter
 add_executable(sdl2-shooter-test
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main.c)
 target_include_directories(sdl2-shooter-test
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/components/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/entities/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/systems/include)
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/components/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/include
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/include)
 add_test(NAME sdl2-shooter-test
 	COMMAND sdl2-shooter-test)
 
