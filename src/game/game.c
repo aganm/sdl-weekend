@@ -22,6 +22,11 @@
 #include <systems_tilemap.h>
 #include <systems_transform.h>
 
+usize game_data_size(void)
+{
+	return sizeof(game_data_t);
+}
+
 static void load_map_objects(
 	game_data_t *data,
 	const tilemap_t *tilemap,

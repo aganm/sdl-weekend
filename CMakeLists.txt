@@ -55,7 +55,7 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_bullet.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_transform.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/systems/src/systems_sdl2.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/game/main.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/src/game/game.c)
 target_include_directories(sdl2-shooter
 	PRIVATE ${SDL2_INCLUDE_DIRS}
