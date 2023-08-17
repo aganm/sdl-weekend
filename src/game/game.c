@@ -90,7 +90,9 @@ static void load_map_objects(
 	}
 }
 
-static void game_init(SDL_App *app, SDL_SceneData *data)
+static void game_init(
+	SDL_App *app,
+	SDL_SceneData *data)
 {
 	SDL_Surface* surface = SDL_LoadBMP(tileset1.image_path);
 	const tile_color_key_t color_key_A = tileset1.color_key;
@@ -113,14 +115,19 @@ static void game_init(SDL_App *app, SDL_SceneData *data)
 	calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
 }
 
-static void game_fini(SDL_App *app, SDL_SceneData *data)
+static void game_fini(
+	SDL_App *app,
+	SDL_SceneData *data)
 {
 	(void)app;
 	SDL_DestroyTexture(data->tileset1_texture);
 	soa_timer_fini(&data->gameplay_timer);
 }
 
-static void fire_bullet(SDL_SceneData* data, f32v2 mouse, usize count)
+static void fire_bullet(
+	SDL_SceneData* data,
+	f32v2 mouse,
+	usize count)
 {
 	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
 	const f32v2 origin = get_one_position2(&data->player.position, data->player_slot);
@@ -145,7 +152,10 @@ static void fire_bullet(SDL_SceneData* data, f32v2 mouse, usize count)
 	}
 }
 
-static void spawn_monsters(SDL_SceneData* data, f32rect area, usize count)
+static void spawn_monsters(
+	SDL_SceneData* data,
+	f32rect area,
+	usize count)
 {
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 monster_position = {
@@ -166,7 +176,10 @@ static void spawn_monsters(SDL_SceneData* data, f32rect area, usize count)
 	}
 }
 
-static void game_handle_sdl_event(SDL_App *app, SDL_SceneData *data, const SDL_Event *event)
+static void game_handle_sdl_event(
+	SDL_App *app,
+	SDL_SceneData *data,
+	const SDL_Event *event)
 {
 	(void)app;
 
@@ -227,7 +240,11 @@ static void game_handle_sdl_event(SDL_App *app, SDL_SceneData *data, const SDL_E
 
 }
 
-static void game_tick(SDL_App *app, SDL_SceneData *data, f64seconds tick_dt, f32v2 viewport)
+static void game_tick(
+	SDL_App *app,
+	SDL_SceneData *data,
+	f64seconds tick_dt,
+	f32v2 viewport)
 {
 	soa_character *player = &data->player;
 	soa_character *monster = &data->monster;
@@ -302,7 +319,8 @@ static void game_tick(SDL_App *app, SDL_SceneData *data, f64seconds tick_dt, f32
 	// draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
 }
 
-SDL_SceneDesc get_sdl_scene_desc(void)
+SDL_SceneDesc get_sdl_scene_desc(
+	void)
 {
 	return (SDL_SceneDesc) {
 		.data_size = sizeof(SDL_SceneData),
