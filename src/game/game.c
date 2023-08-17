@@ -1,8 +1,8 @@
-#include "game.h"
-#include "game_data.h"
 #include <SDL2/SDL.h>
+#include <bundle_types.h>
 #include <math_helpers.h>
 #include <primitive_types.h>
+#include <sdl2_app.h>
 #include <soa.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,6 +13,7 @@
 #include "assets/tilemaps.h"
 #include "assets/tilesets.h"
 
+#include <entities_game.h>
 #include <systems_animation.h>
 #include <systems_bullet.h>
 #include <systems_despawn.h>
@@ -22,13 +23,19 @@
 #include <systems_tilemap.h>
 #include <systems_transform.h>
 
-usize game_data_size(void)
-{
-	return sizeof(game_data_t);
-}
+typedef struct SDL_SceneData {
+	SDL_Texture *tileset1_texture;
+	i32v2 tile_size;
+	soa_timer_t gameplay_timer;
+	soa_character player;
+	soa_character monster;
+	soa_bullet bullet;
+	soa_slot_t player_slot;
+	f32v2 camera;
+} SDL_SceneData;
 
 static void load_map_objects(
-	game_data_t *data,
+	SDL_SceneData *data,
 	const tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding)
 {
@@ -83,19 +90,18 @@ static void load_map_objects(
 	}
 }
 
-void game_init(game_data_t *data, SDL_Renderer *renderer)
+static void game_init(SDL_App *app, SDL_SceneData *data)
 {
 	SDL_Surface* surface = SDL_LoadBMP(tileset1.image_path);
 	const tile_color_key_t color_key_A = tileset1.color_key;
 	const Uint32 color_key_B = SDL_MapRGB(surface->format, color_key_A.r, color_key_A.g, color_key_A.b);
 	SDL_SetColorKey(surface, SDL_TRUE, color_key_B);
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(app->renderer, surface);
 	SDL_FreeSurface(surface);
 
-	*data = (game_data_t) { 0 };
-	data->tile_size = (i32v2) { 32, 32 };
-	data->renderer = renderer;
+	*data = (SDL_SceneData) { 0 };
 	data->tileset1_texture = texture;
+	data->tile_size = (i32v2) { 32, 32 };
 	data->gameplay_timer = soa_timer_init();
 	data->player = (soa_character)SOA_ENTITY_INIT;
 	data->monster = (soa_character)SOA_ENTITY_INIT;
@@ -107,13 +113,14 @@ void game_init(game_data_t *data, SDL_Renderer *renderer)
 	calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
 }
 
-void game_fini(game_data_t *data)
+static void game_fini(SDL_App *app, SDL_SceneData *data)
 {
+	(void)app;
 	SDL_DestroyTexture(data->tileset1_texture);
 	soa_timer_fini(&data->gameplay_timer);
 }
 
-static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
+static void fire_bullet(SDL_SceneData* data, f32v2 mouse, usize count)
 {
 	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
 	const f32v2 origin = get_one_position2(&data->player.position, data->player_slot);
@@ -138,7 +145,7 @@ static void fire_bullet(game_data_t* data, f32v2 mouse, usize count)
 	}
 }
 
-static void spawn_monsters(game_data_t* data, f32rect area, usize count)
+static void spawn_monsters(SDL_SceneData* data, f32rect area, usize count)
 {
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 monster_position = {
@@ -159,8 +166,10 @@ static void spawn_monsters(game_data_t* data, f32rect area, usize count)
 	}
 }
 
-void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
+static void game_handle_sdl_event(SDL_App *app, const SDL_Event *event, SDL_SceneData *data)
 {
+	(void)app;
+
 	static bool move_left = false;
 	static bool move_right = false;
 	static bool move_up = false;
@@ -218,7 +227,7 @@ void game_handle_sdl_event(game_data_t *data, const SDL_Event *event)
 
 }
 
-void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
+static void game_tick(SDL_App *app, SDL_SceneData *data, f64seconds tick_dt, f32v2 viewport)
 {
 	soa_character *player = &data->player;
 	soa_character *monster = &data->monster;
@@ -283,12 +292,23 @@ void game_tick(game_data_t *data, f64seconds tick_dt, f32v2 viewport)
 	data->camera = camera;
 
 	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
-		data->tile_size, data->renderer, data->tileset1_texture, camera);
+		data->tile_size, app->renderer, data->tileset1_texture, camera);
 	draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
-		data->renderer, data->tileset1_texture, camera);
+		app->renderer, data->tileset1_texture, camera);
 	draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
-		data->renderer, data->tileset1_texture, camera);
+		app->renderer, data->tileset1_texture, camera);
 	draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
-		data->renderer, data->tileset1_texture, camera);
+		app->renderer, data->tileset1_texture, camera);
 	// draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
+}
+
+SDL_SceneDesc get_sdl_scene_desc(void)
+{
+	return (SDL_SceneDesc) {
+		.data_size = sizeof(SDL_SceneData),
+		.init = game_init,
+		.fini = game_fini,
+		.handle_sdl_event = game_handle_sdl_event,
+		.tick = game_tick,
+	};
 }
