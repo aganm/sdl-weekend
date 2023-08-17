@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <camera2d.h>
 #include <math/math_helpers.h>
 #include <sdl2_app.h>
 #include <soa.h>
