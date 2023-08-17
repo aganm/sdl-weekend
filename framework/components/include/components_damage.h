@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <types/primitive.h>
 #include <soa.h>
 
 typedef struct soa_damage {

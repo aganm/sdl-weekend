@@ -1,11 +1,11 @@
 #include <SDL2/SDL.h>
-#include <bundle_types.h>
-#include <math_helpers.h>
-#include <primitive_types.h>
+#include <math/math_helpers.h>
 #include <sdl2_app.h>
 #include <soa.h>
 #include <stdlib.h>
 #include <time.h>
+#include <types/bundle.h>
+#include <types/primitive.h>
 
 #include "assets/tile_animations.h"
 #include "assets/tile_properties.h"

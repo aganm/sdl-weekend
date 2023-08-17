@@ -1,5 +1,5 @@
 #include <SDL2/SDL_render.h>
-#include <math_helpers.h>
+#include <math/math_helpers.h>
 #include <tilemap.h>
 #include <components_graphics.h>
 #include <components_shape.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <types/primitive.h>
 
 typedef struct soa_position2 soa_position2;
 typedef struct soa_velocity2 soa_velocity2;

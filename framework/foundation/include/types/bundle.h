@@ -6,7 +6,7 @@
  * @brief Bundle types.
  */
 
-#include "primitive_types.h"
+#include "primitive.h"
 
 /* Bundle types. */
 

@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
-#include <bundle_types.h>
-#include <primitive_types.h>
 #include <sdl2_app.h>
+#include <types/bundle.h>
+#include <types/primitive.h>
 
 SDL_SceneDesc export_sdl_scene(void);
 

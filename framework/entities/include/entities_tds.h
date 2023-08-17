@@ -2,8 +2,8 @@
 
 /* Top down shooter entities. */
 
-#include <bundle_types.h>
-#include <primitive_types.h>
+#include <types/bundle.h>
+#include <types/primitive.h>
 #include <soa.h>
 
 #include <components_animation.h>

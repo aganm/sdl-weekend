@@ -1,8 +1,8 @@
 #ifndef SDL2_APP_H
 #define SDL2_APP_H
 
-#include "bundle_types.h"
-#include "primitive_types.h"
+#include "types/bundle.h"
+#include "types/primitive.h"
 
 typedef struct SDL_Window SDL_Window;
 typedef struct SDL_Renderer SDL_Renderer;

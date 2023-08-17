@@ -6,8 +6,8 @@
  * @brief Math library.
  */
 
-#include "primitive_types.h"
-#include "bundle_types.h"
+#include <types/bundle.h>
+#include <types/primitive.h>
 
 static inline f32   angle_between_points  (f32v2 a, f32v2 b);
 static inline f32   rad_to_deg 		  (f32 rad);

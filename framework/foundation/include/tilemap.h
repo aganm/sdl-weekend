@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <types/primitive.h>
 
 typedef struct tile_t {
 	u16 x, y, w, h;

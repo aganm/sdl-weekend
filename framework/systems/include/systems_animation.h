@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <types/primitive.h>
 
 typedef struct soa_animation soa_animation;
 typedef struct soa_clip soa_clip;

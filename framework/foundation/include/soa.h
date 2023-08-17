@@ -1,6 +1,6 @@
 #pragma once
 
-#include <primitive_types.h>
+#include <types/primitive.h>
 
 enum {
 	SOA_LIMIT = 4096,
