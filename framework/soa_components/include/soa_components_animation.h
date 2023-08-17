@@ -1,7 +1,7 @@
 #pragma once
 
-#include <types/primitive.h>
 #include <soa.h>
+#include <types/primitive.h>
 
 typedef struct soa_animation {
 	u8 begin_frame[SOA_LIMIT];

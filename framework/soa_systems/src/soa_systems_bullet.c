@@ -1,12 +1,12 @@
+#include <soa.h>
+#include <soa_components_damage.h>
+#include <soa_components_health.h>
+#include <soa_components_movement.h>
+#include <soa_components_shape.h>
+#include <soa_components_transform.h>
+#include <soa_systems_despawn.h>
 #include <types/bundle.h>
 #include <types/primitive.h>
-#include <soa.h>
-#include <soa_components_transform.h>
-#include <soa_components_shape.h>
-#include <soa_components_movement.h>
-#include <soa_components_health.h>
-#include <soa_components_damage.h>
-#include <soa_systems_despawn.h>
 
 void detect_bullet_collisions_with_something(
 	const soa_position2 *s_pos,

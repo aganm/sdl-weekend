@@ -1,7 +1,7 @@
 #pragma once
 
-#include <types/primitive.h>
 #include <soa.h>
+#include <types/primitive.h>
 
 typedef struct soa_clip {
 	u16 x[SOA_LIMIT];

@@ -1,8 +1,8 @@
 #include <math.h>
 #include <soa.h>
-#include <soa_components_transform.h>
 #include <soa_components_movement.h>
 #include <soa_components_physics.h>
+#include <soa_components_transform.h>
 #include <soa_systems_movement.h>
 
 void movement_to_velocity(

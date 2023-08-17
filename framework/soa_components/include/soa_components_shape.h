@@ -1,7 +1,7 @@
 #pragma once
 
-#include <types/primitive.h>
 #include <soa.h>
+#include <types/primitive.h>
 
 typedef struct soa_size2 {
 	f32 w[SOA_LIMIT];

@@ -2,10 +2,7 @@
 
 /* Top down shooter entities. */
 
-#include <types/bundle.h>
-#include <types/primitive.h>
 #include <soa.h>
-
 #include <soa_components_animation.h>
 #include <soa_components_damage.h>
 #include <soa_components_graphics.h>
@@ -14,6 +11,8 @@
 #include <soa_components_physics.h>
 #include <soa_components_shape.h>
 #include <soa_components_transform.h>
+#include <types/bundle.h>
+#include <types/primitive.h>
 
 typedef struct soa_character {
 	soa_entity_t _ent;

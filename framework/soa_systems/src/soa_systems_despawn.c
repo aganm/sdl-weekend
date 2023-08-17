@@ -1,8 +1,8 @@
 #include <math.h>
 #include <soa.h>
-#include <soa_components_transform.h>
-#include <soa_components_movement.h>
 #include <soa_components_health.h>
+#include <soa_components_movement.h>
+#include <soa_components_transform.h>
 #include <soa_systems_despawn.h>
 
 void get_destination_reached_despawn_slots(
