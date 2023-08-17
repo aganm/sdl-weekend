@@ -46,7 +46,7 @@ find_package(SDL2 REQUIRED)
 
 add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/main.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa/src/soa.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/src/soa_entities_tds.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_animation.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_movement.c
@@ -60,7 +60,6 @@ add_executable(sdl2-shooter
 target_include_directories(sdl2-shooter
 	PRIVATE ${SDL2_INCLUDE_DIRS}
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include
@@ -73,7 +72,6 @@ add_executable(sdl2-shooter-test
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main.c)
 target_include_directories(sdl2-shooter-test
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
