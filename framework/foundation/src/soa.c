@@ -1,6 +1,6 @@
 #include "soa.h"
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
 usize soa_round_up(
 	usize number,
