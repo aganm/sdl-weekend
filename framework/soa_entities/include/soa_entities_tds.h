@@ -6,14 +6,14 @@
 #include <types/primitive.h>
 #include <soa.h>
 
-#include <components_animation.h>
-#include <components_damage.h>
-#include <components_graphics.h>
-#include <components_health.h>
-#include <components_movement.h>
-#include <components_physics.h>
-#include <components_shape.h>
-#include <components_transform.h>
+#include <soa_components_animation.h>
+#include <soa_components_damage.h>
+#include <soa_components_graphics.h>
+#include <soa_components_health.h>
+#include <soa_components_movement.h>
+#include <soa_components_physics.h>
+#include <soa_components_shape.h>
+#include <soa_components_transform.h>
 
 typedef struct soa_character {
 	soa_entity_t _ent;

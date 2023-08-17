@@ -1,5 +1,5 @@
-#include <entities_tds.h>
 #include <math/math_helpers.h>
+#include <soa_entities_tds.h>
 
 soa_slot_t soa_character_new1(
 	soa_character *character,

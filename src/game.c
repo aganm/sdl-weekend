@@ -13,15 +13,15 @@
 #include "assets/tilemaps.h"
 #include "assets/tilesets.h"
 
-#include <entities_tds.h>
-#include <systems_animation.h>
-#include <systems_bullet.h>
-#include <systems_despawn.h>
-#include <systems_movement.h>
-#include <systems_physics.h>
-#include <systems_sdl2.h>
-#include <systems_tilemap.h>
-#include <systems_transform.h>
+#include <soa_entities_tds.h>
+#include <soa_systems_animation.h>
+#include <soa_systems_bullet.h>
+#include <soa_systems_despawn.h>
+#include <soa_systems_movement.h>
+#include <soa_systems_physics.h>
+#include <soa_systems_sdl2.h>
+#include <soa_systems_tilemap.h>
+#include <soa_systems_transform.h>
 
 typedef struct SDL_SceneData {
 	SDL_Texture *tileset1_texture;

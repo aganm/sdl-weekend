@@ -1,7 +1,7 @@
 #include <tilemap.h>
-#include <components_physics.h>
-#include <components_transform.h>
-#include <systems_tilemap.h>
+#include <soa_components_physics.h>
+#include <soa_components_transform.h>
+#include <soa_systems_tilemap.h>
 
 f32v2 tile_position_to_position(i32v2 tile_position, i32v2 tile_size)
 {

@@ -1,9 +1,9 @@
 #include <SDL2/SDL_render.h>
 #include <tilemap.h>
-#include <components_animation.h>
-#include <components_graphics.h>
-#include <components_physics.h>
-#include <systems_animation.h>
+#include <soa_components_animation.h>
+#include <soa_components_graphics.h>
+#include <soa_components_physics.h>
+#include <soa_systems_animation.h>
 
 void progress_animation_if_moving(
 	soa_animation *e_animation,
