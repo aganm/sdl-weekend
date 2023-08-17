@@ -101,6 +101,39 @@ Primitive type table (in the order that they are found in this file)
  *
  */
 
+/**
+ * Explanation for 16-bit floating point, also known as 'half':
+ *
+ * Rationale: use 16-bit floating point instead of 32-bit to save half the
+ * memory bandwidth where 16-bit floating point precision is sufficient.
+ *
+ * The 16-bit floating point is special in that it does not have a single
+ * representation, but two: a 'store' and a 'live' representation called
+ * f16store and f16live, respectively. The store representation is always
+ * 16-bit big, or 2 bytes. It is a floating point half. The live representation
+ * is an alias for whatever the current hardware supports best. Usually a
+ * 32-bit floating point, or float. For performance reasons, the live
+ * representation will only be a 16-bit floating point if the current platform
+ * supports hardware fp16.
+ *
+ * To use f16 types: use f16store type when you need to store a 16-bit floating
+ * point in memory. Use f16live type when you need to do calculations with it.
+ * What this means is you also have to convert from f16store to f16live when
+ * you need to do work with it, and convert back from f16live to f16store when
+ * you want to store it back in memory. See your friendly neighborhood math
+ * library to provide these utilities.
+ *
+ * Note on determinism: because the f16 live type can be either a 32-bit
+ * floating point or a 16-bit floating point depending on hardware support,
+ * this type has no cross-platform determinism. Only use f16 type if fp16
+ * precision is sufficient and determinism is not required. Or, if determinism
+ * is required, then you could decide to always map f16live to f32 so that the
+ * computation results of f16 is always the same everywhere, paying 2x the
+ * computation cost on systems that support hardware f16 at the benefit of
+ * cross-platform determinism. I will have to add this functionality later if
+ * needed. Right now I don't build any fp16 targets so it doesn't matter.
+ */
+
 #include <stdbool.h> /* bool */
 #include <stddef.h>  /* size_t, intptr_t */
 #include <stdint.h>  /* int32_t and family */
