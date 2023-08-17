@@ -104,10 +104,13 @@ Primitive type table (in the order that they are found in this file)
 #include <stdbool.h> /* bool */
 #include <stddef.h>  /* size_t, intptr_t */
 #include <stdint.h>  /* int32_t and family */
+#include <warning.h> /* ENABLE_PADDED */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+ENABLE_PADDED
 
 /* Integer types with unspecified size. For when you need an integer and you
  * really don't care what size it is. No need to redefine it because it is a
@@ -252,6 +255,8 @@ typedef struct f16sincos  { f16live sin, cos; } f16sincos;  /*!< 16-bit floating
 typedef struct f32sincos  { f32     sin, cos; } f32sincos;  /*!< 32-bit floating point sincos */
 typedef struct f64sincos  { f64     sin, cos; } f64sincos;  /*!< 64-bit floating point sincos */
 typedef struct f128sincos { f128    sin, cos; } f128sincos; /*!< 128-bit floating point sincos */
+
+DISABLE_PADDED
 
 #ifdef __cplusplus
 }
