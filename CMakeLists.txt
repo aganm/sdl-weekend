@@ -46,7 +46,7 @@ find_package(SDL2 REQUIRED)
 
 add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/src/entities_game.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/src/entities_tds.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_animation.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_movement.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_physics.c

@@ -13,7 +13,7 @@
 #include "assets/tilemaps.h"
 #include "assets/tilesets.h"
 
-#include <entities_game.h>
+#include <entities_tds.h>
 #include <systems_animation.h>
 #include <systems_bullet.h>
 #include <systems_despawn.h>

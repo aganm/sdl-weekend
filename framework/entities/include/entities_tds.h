@@ -1,5 +1,7 @@
 #pragma once
 
+/* Top down shooter entities. */
+
 #include <bundle_types.h>
 #include <primitive_types.h>
 #include <soa.h>
