@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 			default:
 				break;
 			};
-			scene.handle_sdl_event(&app, &event, scene_data);
+			scene.handle_sdl_event(&app, scene_data, &event);
 		}
 
 		int w, h;

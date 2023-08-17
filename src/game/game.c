@@ -166,7 +166,7 @@ static void spawn_monsters(SDL_SceneData* data, f32rect area, usize count)
 	}
 }
 
-static void game_handle_sdl_event(SDL_App *app, const SDL_Event *event, SDL_SceneData *data)
+static void game_handle_sdl_event(SDL_App *app, SDL_SceneData *data, const SDL_Event *event)
 {
 	(void)app;
 

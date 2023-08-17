@@ -18,7 +18,7 @@ typedef struct SDL_SceneDesc {
 	u64 data_size;
 	void (*init)(SDL_App* app, SDL_SceneData* data);
 	void (*fini)(SDL_App* app, SDL_SceneData* data);
-	void (*handle_sdl_event)(SDL_App* app, const SDL_Event* event, SDL_SceneData* data);
+	void (*handle_sdl_event)(SDL_App* app, SDL_SceneData* data, const SDL_Event* event);
 	void (*tick)(SDL_App* app, SDL_SceneData* data, f64seconds tick_dt, f32v2 viewport);
 } SDL_SceneDesc;
 
