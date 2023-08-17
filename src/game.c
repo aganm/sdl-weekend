@@ -319,7 +319,7 @@ static void game_tick(
 	// draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
 }
 
-SDL_SceneDesc get_sdl_scene_desc(
+SDL_SceneDesc export_sdl_scene_desc(
 	void)
 {
 	return (SDL_SceneDesc) {
