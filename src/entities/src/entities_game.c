@@ -1,4 +1,4 @@
-#include <entities/entities_game.h>
+#include <entities_game.h>
 #include <math_helpers.h>
 
 soa_slot_t soa_character_new1(

@@ -1,10 +1,10 @@
 #include <SDL2/SDL_render.h>
 #include <math_helpers.h>
 #include <tilemap.h>
-#include <components/components_graphics.h>
-#include <components/components_shape.h>
-#include <components/components_transform.h>
-#include <systems/systems_sdl2.h>
+#include <components_graphics.h>
+#include <components_shape.h>
+#include <components_transform.h>
+#include <systems_sdl2.h>
 
 void draw_sprite(
 	const soa_position2 *e_position,

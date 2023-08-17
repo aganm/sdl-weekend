@@ -1,7 +1,7 @@
 #pragma once
 
 #include <bundle_types.h>
-#include <entities/entities_game.h>
+#include <entities_game.h>
 #include <primitive_types.h>
 #include <soa.h>
 

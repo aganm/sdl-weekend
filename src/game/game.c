@@ -13,14 +13,14 @@
 #include <assets/tilemaps.h>
 #include <assets/tilesets.h>
 
-#include <systems/systems_animation.h>
-#include <systems/systems_bullet.h>
-#include <systems/systems_despawn.h>
-#include <systems/systems_movement.h>
-#include <systems/systems_physics.h>
-#include <systems/systems_sdl2.h>
-#include <systems/systems_tilemap.h>
-#include <systems/systems_transform.h>
+#include <systems_animation.h>
+#include <systems_bullet.h>
+#include <systems_despawn.h>
+#include <systems_movement.h>
+#include <systems_physics.h>
+#include <systems_sdl2.h>
+#include <systems_tilemap.h>
+#include <systems_transform.h>
 
 static void load_map_objects(
 	game_data_t *data,

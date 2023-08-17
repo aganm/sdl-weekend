@@ -1,6 +1,6 @@
-#include <components/components_physics.h>
-#include <components/components_transform.h>
-#include <systems/systems_physics.h>
+#include <components_physics.h>
+#include <components_transform.h>
+#include <systems_physics.h>
 
 void reset_velocity(
 	soa_velocity2 *e_velocity,
