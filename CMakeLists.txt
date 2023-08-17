@@ -45,6 +45,7 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS
 find_package(SDL2 REQUIRED)
 
 add_executable(sdl2-shooter
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/entities/src/entities_tds.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_animation.c
@@ -55,8 +56,7 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_bullet.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_transform.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/systems/src/systems_sdl2.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/game/game.c)
+	${CMAKE_CURRENT_SOURCE_DIR}/src/game.c)
 target_include_directories(sdl2-shooter
 	PRIVATE ${SDL2_INCLUDE_DIRS}
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
