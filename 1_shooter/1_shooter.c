@@ -299,8 +299,7 @@ static void game_tick(
 		bullet_damages_something(&monster->health, &bullet->damage,
 					collided_monsters, collided_bullets, collided_count);
 		soa_bullet_free(bullet, collided_bullets, collided_count);
-
-			}
+	}
 
 	/* render */
 	const f32v2 center = get_one_position2(&player->position, player_slot);
