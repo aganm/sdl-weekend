@@ -1,3 +1,7 @@
-To compile and run tests and launch the game:
+To compile and run tests and launch a game:
 
-./launch.sh
+./launch.sh <game_folder>
+
+For example, to launch the game titled '1_shooter', type:
+
+./launch.sh 1_shooter

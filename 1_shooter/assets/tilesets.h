@@ -19,6 +19,6 @@ static const tileset_t tileset1 = {
 		[TILEMAP_TILE_MONSTER_00] = { 96, 0, 8, 8 },
 		[TILEMAP_TILE_MONSTER_01] = { 104, 0, 8, 8 },
 	},
-	.image_path = "art/art.bmp",
+	.image_path = "../1_shooter/art/art.bmp",
 	.color_key = { 255, 0, 255 },
 };

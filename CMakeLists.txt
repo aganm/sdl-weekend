@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9.0)
 
-project(sdl2-shooter)
+project(sdl2-weekend)
 
 #set(SANITIZE "-fsanitize=address")
 set(CMAKE_C_FLAGS_DEBUG "-pipe -DDEBUG -O3 -g -ggdb ${SANITIZE}")
@@ -44,7 +44,12 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS
 
 find_package(SDL2 REQUIRED)
 
-add_executable(sdl2-shooter
+set(FRAMEWORK_INCLUDE_DIRS
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
+set(FRAMEWORK_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/src/soa_entities_tds.c
@@ -55,27 +60,26 @@ add_executable(sdl2-shooter
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_despawn.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_bullet.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_transform.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_sdl2.c
-	${CMAKE_CURRENT_SOURCE_DIR}/src/game.c)
-target_include_directories(sdl2-shooter
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_sdl2.c)
+file(GLOB_RECURSE GAME_SRC
+	${CMAKE_CURRENT_SOURCE_DIR}/${GAME}/*.c)
+
+add_executable(${GAME}
+	${FRAMEWORK_SRC}
+	${GAME_SRC})
+target_include_directories(${GAME}
 	PRIVATE ${SDL2_INCLUDE_DIRS}
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
-target_link_libraries(sdl2-shooter
+	PRIVATE ${FRAMEWORK_INCLUDE_DIRS})
+target_link_libraries(${GAME}
 	${SDL2_LIBRARIES}
 	m)
 
-add_executable(sdl2-shooter-test
+add_executable(${GAME}_test
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main.c)
-target_include_directories(sdl2-shooter-test
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
-add_test(NAME sdl2-shooter-test
-	COMMAND sdl2-shooter-test)
+target_include_directories(${GAME}_test
+	PRIVATE ${FRAMEWORK_INCLUDE_DIRS})
+add_test(NAME ${GAME}_test
+	COMMAND ${GAME}_test)
 
 set(OUTPUT "bin")
 set(OUTPUT_PROPERTIES
@@ -86,5 +90,5 @@ set(OUTPUT_PROPERTIES
 	LIBRARY_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_CURRENT_SOURCE_DIR}/${OUTPUT}
 	LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/${OUTPUT})
 
-set_target_properties(sdl2-shooter PROPERTIES ${OUTPUT_PROPERTIES})
-set_target_properties(sdl2-shooter-test PROPERTIES ${OUTPUT_PROPERTIES})
+set_target_properties(${GAME} PROPERTIES ${OUTPUT_PROPERTIES})
+set_target_properties(${GAME}_test PROPERTIES ${OUTPUT_PROPERTIES})

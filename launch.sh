@@ -1,5 +1,7 @@
 #!/bin/bash
 
+game=$1
+
 if [[ "$OSTYPE" == "msys" ]]; then
 	gen="MSYS Makefiles"
 else
@@ -7,9 +9,9 @@ else
 fi
 
 mkdir -p build && cd build
-cmake .. -G"$gen" -DCMAKE_BUILD_TYPE="Release"
+cmake .. -G"$gen" -DCMAKE_BUILD_TYPE="Release" -DGAME="$game"
 cmake --build .
 
 cd .. && cd bin
-./sdl2-shooter-test
-./sdl2-shooter
+./"$game"_test
+./"$game"
