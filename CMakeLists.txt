@@ -62,8 +62,7 @@ target_include_directories(sdl2-shooter
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include
-	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
 target_link_libraries(sdl2-shooter
 	${SDL2_LIBRARIES}
 	m)
