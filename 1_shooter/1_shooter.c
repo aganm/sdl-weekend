@@ -259,25 +259,28 @@ static void game_tick(
 		const f32seconds dt = { soa_timer_delta_seconds(gameplay_timer) };
 
 		reset_velocity(&player->velocity, player->_ent.count);
-		reset_velocity(&monster->velocity, monster->_ent.count);
-		reset_velocity(&bullet->velocity, bullet->_ent.count);
-		follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count,
-				&player->position, player_slot);
-		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, bullet->_ent.count);
 		movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
-		movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
-		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
-		multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot,
-						&level1_map, data->tile_size, dt);
-
+		multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot, &level1_map, data->tile_size, dt);
 		apply_forwards_velocity(&player->position, &player->velocity, player->_ent.count, dt);
-		apply_forwards_velocity(&monster->position, &monster->velocity, monster->_ent.count, dt);
-		apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
-
 		progress_animation_if_moving(&player->animation, &player->velocity, player->_ent.count, dt);
-		progress_animation_if_moving(&monster->animation, &monster->velocity, monster->_ent.count, dt);
 		fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
+
+		reset_velocity(&monster->velocity, monster->_ent.count);
+		follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count, &player->position, player_slot);
+		movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
+		apply_forwards_velocity(&monster->position, &monster->velocity, monster->_ent.count, dt);
+		progress_animation_if_moving(&monster->animation, &monster->velocity, monster->_ent.count, dt);
 		fetch_tileset_animation(&monster->animation, &monster->clip, monster->_ent.count, &tileset1);
+
+		soa_slot_t despawn_monster_slots[monster->_ent.count];
+		usize despawn_monster_slot_count;
+		get_dead_despawn_slots(&monster->health, monster->_ent.count, despawn_monster_slots, &despawn_monster_slot_count);
+		soa_character_free(monster, despawn_monster_slots, despawn_monster_slot_count);
+
+		reset_velocity(&bullet->velocity, bullet->_ent.count);
+		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, bullet->_ent.count);
+		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
+		apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
 		fetch_tileset_animation(&bullet->animation, &bullet->clip, bullet->_ent.count, &tileset1);
 
 		soa_slot_t despawn_bullet_slots[bullet->_ent.count];
@@ -297,12 +300,7 @@ static void game_tick(
 					collided_monsters, collided_bullets, collided_count);
 		soa_bullet_free(bullet, collided_bullets, collided_count);
 
-		soa_slot_t despawn_monster_slots[monster->_ent.count];
-		usize despawn_monster_slot_count;
-		get_dead_despawn_slots(&monster->health, monster->_ent.count,
-				    despawn_monster_slots, &despawn_monster_slot_count);
-		soa_character_free(monster, despawn_monster_slots, despawn_monster_slot_count);
-	}
+			}
 
 	/* render */
 	const f32v2 center = get_one_position2(&player->position, player_slot);
