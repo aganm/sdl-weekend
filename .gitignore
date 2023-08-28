@@ -1,5 +1,6 @@
 *.swo
 *.swp
+*.orig
 build/
 compile_commands.json
 .cache
