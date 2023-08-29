@@ -1,6 +1,9 @@
 #pragma once
 
-/* Top down shooter entities. */
+/**
+ * @file
+ * @brief Top down shooter entities.
+ */
 
 #include <soa.h>
 #include <soa_components_animation.h>
@@ -13,6 +16,10 @@
 #include <soa_components_transform.h>
 #include <types/bundle.h>
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_character {
 	soa_entity_t _ent;
@@ -83,3 +90,7 @@ void soa_bullet_free(
 	soa_bullet *bullet,
 	const soa_slot_t *slots,
 	const usize slot_count);
+
+#ifdef __cplusplus
+}
+#endif

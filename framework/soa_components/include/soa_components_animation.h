@@ -1,7 +1,16 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Animation components.
+ */
+
 #include <soa.h>
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_animation {
 	u8 begin_frame[SOA_LIMIT];
@@ -10,3 +19,7 @@ typedef struct soa_animation {
 	f32seconds frame_elapsed[SOA_LIMIT];
 	f32seconds frame_time[SOA_LIMIT];
 } soa_animation;
+
+#ifdef __cplusplus
+}
+#endif

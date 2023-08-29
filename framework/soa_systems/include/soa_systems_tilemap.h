@@ -1,7 +1,16 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Tilemap systems.
+ */
+
 #include <types/bundle.h>
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position2 soa_position2;
@@ -26,3 +35,7 @@ void multiply_velocity_by_future_tile_speed(
 	const tilemap_t *tilemap,
 	const i32v2 tile_size,
 	const f32seconds dt);
+
+#ifdef __cplusplus
+}
+#endif

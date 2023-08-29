@@ -1,7 +1,16 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Despawn systems.
+ */
+
 #include <types/primitive.h>
 #include <soa.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position2 soa_position2;
@@ -21,3 +30,7 @@ void get_dead_despawn_slots(
 	const usize entity_count,
 	soa_slot_t output[entity_count],
 	usize *output_count);
+
+#ifdef __cplusplus
+}
+#endif

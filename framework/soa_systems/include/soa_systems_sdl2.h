@@ -1,6 +1,15 @@
 #pragma once
 
+/**
+ * @file
+ * @brief SDL2 systems.
+ */
+
 #include <types/bundle.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_position2 soa_position2;
 typedef struct soa_rotation1 soa_rotation1;
@@ -45,3 +54,7 @@ void draw_tilemap_collision_buffer(
 	const i32v2 tile_size,
 	SDL_Renderer *renderer,
 	const f32v2 camera);
+
+#ifdef __cplusplus
+}
+#endif

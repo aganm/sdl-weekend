@@ -1,7 +1,16 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Bullet systems.
+ */
+
 #include <soa.h>
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position2 soa_position2;
@@ -26,3 +35,7 @@ void bullet_damages_something(
 	const soa_slot_t *something_slots,
 	const soa_slot_t *bullet_slots,
 	const usize slots_count);
+
+#ifdef __cplusplus
+}
+#endif

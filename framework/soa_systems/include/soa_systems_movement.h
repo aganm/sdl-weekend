@@ -1,6 +1,15 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Movement systems.
+ */
+
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position2 soa_position2;
@@ -27,3 +36,7 @@ void forward_movement_from_rotation(
 	soa_movement2 *e_movement,
 	const soa_rotation1 *e_rotation,
 	const usize entity_count);
+
+#ifdef __cplusplus
+}
+#endif

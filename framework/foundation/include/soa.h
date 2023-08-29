@@ -1,6 +1,15 @@
 #pragma once
 
+/**
+ * @file
+ * @brief SoA: Helper functions to manipulate Structures of Arrays.
+ */
+
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 enum {
 	SOA_LIMIT = 4096,
@@ -41,3 +50,7 @@ void soa_timer_fini(soa_timer_t *timer);
 void soa_timer_tick(soa_timer_t *timer, f64seconds dt);
 bool soa_timer_do_frame(soa_timer_t *timer, f64 interval);
 f64 soa_timer_delta_seconds(const soa_timer_t *timer);
+
+#ifdef __cplusplus
+}
+#endif

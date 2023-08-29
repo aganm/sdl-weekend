@@ -1,6 +1,15 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Animation systems.
+ */
+
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_animation soa_animation;
 typedef struct soa_clip soa_clip;
@@ -18,3 +27,7 @@ void fetch_tileset_animation(
 	soa_clip *e_clip,
 	const usize entity_count,
 	const tileset_t *tileset);
+
+#ifdef __cplusplus
+}
+#endif

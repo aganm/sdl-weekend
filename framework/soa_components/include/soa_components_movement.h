@@ -1,7 +1,16 @@
 #pragma once
 
+/**
+ * @file
+ * @brief Movement components.
+ */
+
 #include <soa.h>
 #include <types/primitive.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct soa_movement2 {
 	f32 x[SOA_LIMIT];
@@ -16,3 +25,7 @@ typedef struct soa_destination2 {
 typedef struct soa_speed {
 	f32 val[SOA_LIMIT];
 } soa_speed;
+
+#ifdef __cplusplus
+}
+#endif
