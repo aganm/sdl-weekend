@@ -5,7 +5,7 @@
 #include <soa_systems_animation.h>
 #include <tilemap.h>
 
-void progress_animation_if_moving(
+void soa_progress_animation_if_moving(
 	soa_animation *e_animation,
 	const soa_velocity2 *e_velocity,
 	const usize entity_count,
@@ -25,7 +25,7 @@ void progress_animation_if_moving(
 	}
 }
 
-void fetch_tileset_animation(
+void soa_fetch_tileset_animation(
 	const soa_animation *e_animation,
 	soa_clip *e_clip,
 	const usize entity_count,

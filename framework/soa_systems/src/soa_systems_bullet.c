@@ -8,7 +8,7 @@
 #include <types/bundle.h>
 #include <types/primitive.h>
 
-void detect_bullet_collisions_with_something(
+void soa_detect_bullet_collisions_with_something(
 	const soa_position2 *s_pos,
 	const soa_size2 *s_size,
 	const usize something_count,
@@ -52,7 +52,7 @@ void detect_bullet_collisions_with_something(
 	*out_collided_count = total_collided_count;
 }
 
-void bullet_damages_something(
+void soa_bullet_damages_something(
 	soa_health *s_health,
 	soa_damage *b_damage,
 	const soa_slot_t *something_slots,

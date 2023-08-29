@@ -19,16 +19,12 @@ typedef struct tilemap_t tilemap_t;
 typedef struct tilemap_encoding_t tilemap_encoding_t;
 typedef struct tile_properties_t tile_properties_t;
 
-f32v2 tile_position_to_position(
-	i32v2 tile_position,
-	i32v2 tile_size);
-
-void calculate_tilemap_collision_buffer(
+void soa_calculate_tilemap_collision_buffer(
 	tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding,
 	const tile_properties_t *tile_properties);
 
-void multiply_velocity_by_future_tile_speed(
+void soa_multiply_velocity_by_future_tile_speed(
 	const soa_position2 *e_position,
 	soa_velocity2 *e_velocity,
 	const soa_slot_t entity_slot,

@@ -2,7 +2,7 @@
 #include <soa_components_transform.h>
 #include <soa_systems_physics.h>
 
-void reset_velocity(
+void soa_reset_velocity(
 	soa_velocity2 *e_velocity,
 	const usize entity_count)
 {
@@ -12,7 +12,7 @@ void reset_velocity(
 	}
 }
 
-void apply_forwards_velocity(
+void soa_apply_forwards_velocity(
 	soa_position2 *e_position,
 	const soa_velocity2 *e_velocity,
 	const usize entity_count,

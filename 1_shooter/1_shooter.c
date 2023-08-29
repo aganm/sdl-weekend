@@ -113,7 +113,7 @@ static void game_init(
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);
 
-	calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
+	soa_calculate_tilemap_collision_buffer(&level1_map, &tilemap_encoding1, &tile_properties1);
 }
 
 static void game_fini(
@@ -131,7 +131,7 @@ static void fire_bullet(
 	usize count)
 {
 	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
-	const f32v2 origin = get_one_position2(&data->player.position, data->player_slot);
+	const f32v2 origin = soa_get_one_position2(&data->player.position, data->player_slot);
 
 	for (usize i = 0; i < count; ++i) {
 		const f32v2 bullet_position = {
@@ -258,34 +258,34 @@ static void game_tick(
 	while (soa_timer_do_frame(gameplay_timer, 1.0 / 60.0)) {
 		const f32seconds dt = { soa_timer_delta_seconds(gameplay_timer) };
 
-		reset_velocity(&player->velocity, player->_ent.count);
-		movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
-		multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot, &level1_map, data->tile_size, dt);
-		apply_forwards_velocity(&player->position, &player->velocity, player->_ent.count, dt);
-		progress_animation_if_moving(&player->animation, &player->velocity, player->_ent.count, dt);
-		fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
+		soa_reset_velocity(&player->velocity, player->_ent.count);
+		soa_movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
+		soa_multiply_velocity_by_future_tile_speed(&player->position, &player->velocity, player_slot, &level1_map, data->tile_size, dt);
+		soa_apply_forwards_velocity(&player->position, &player->velocity, player->_ent.count, dt);
+		soa_progress_animation_if_moving(&player->animation, &player->velocity, player->_ent.count, dt);
+		soa_fetch_tileset_animation(&player->animation, &player->clip, player->_ent.count, &tileset1);
 
-		reset_velocity(&monster->velocity, monster->_ent.count);
-		follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count, &player->position, player_slot);
-		movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
-		apply_forwards_velocity(&monster->position, &monster->velocity, monster->_ent.count, dt);
-		progress_animation_if_moving(&monster->animation, &monster->velocity, monster->_ent.count, dt);
-		fetch_tileset_animation(&monster->animation, &monster->clip, monster->_ent.count, &tileset1);
+		soa_reset_velocity(&monster->velocity, monster->_ent.count);
+		soa_follow_one_target(&monster->movement, &monster->position, &monster->speed, monster->_ent.count, &player->position, player_slot);
+		soa_movement_to_velocity(&monster->movement, &monster->speed, &monster->velocity, monster->_ent.count);
+		soa_apply_forwards_velocity(&monster->position, &monster->velocity, monster->_ent.count, dt);
+		soa_progress_animation_if_moving(&monster->animation, &monster->velocity, monster->_ent.count, dt);
+		soa_fetch_tileset_animation(&monster->animation, &monster->clip, monster->_ent.count, &tileset1);
 
 		soa_slot_t despawn_monster_slots[monster->_ent.count];
 		usize despawn_monster_slot_count;
-		get_dead_despawn_slots(&monster->health, monster->_ent.count, despawn_monster_slots, &despawn_monster_slot_count);
+		soa_get_dead_despawn_slots(&monster->health, monster->_ent.count, despawn_monster_slots, &despawn_monster_slot_count);
 		soa_character_free(monster, despawn_monster_slots, despawn_monster_slot_count);
 
-		reset_velocity(&bullet->velocity, bullet->_ent.count);
-		forward_movement_from_rotation(&bullet->movement, &bullet->rotation, bullet->_ent.count);
-		movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
-		apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
-		fetch_tileset_animation(&bullet->animation, &bullet->clip, bullet->_ent.count, &tileset1);
+		soa_reset_velocity(&bullet->velocity, bullet->_ent.count);
+		soa_forward_movement_from_rotation(&bullet->movement, &bullet->rotation, bullet->_ent.count);
+		soa_movement_to_velocity(&bullet->movement, &bullet->speed, &bullet->velocity, bullet->_ent.count);
+		soa_apply_forwards_velocity(&bullet->position, &bullet->velocity, bullet->_ent.count, dt);
+		soa_fetch_tileset_animation(&bullet->animation, &bullet->clip, bullet->_ent.count, &tileset1);
 
 		soa_slot_t despawn_bullet_slots[bullet->_ent.count];
 		usize despawn_bullet_slot_count;
-		get_destination_reached_despawn_slots(&bullet->position, &bullet->destination, bullet->_ent.count,
+		soa_get_destination_reached_despawn_slots(&bullet->position, &bullet->destination, bullet->_ent.count,
 						10.f, despawn_bullet_slots, &despawn_bullet_slot_count);
 		soa_bullet_free(bullet, despawn_bullet_slots, despawn_bullet_slot_count);
 
@@ -293,28 +293,28 @@ static void game_tick(
 		soa_slot_t collided_monsters[collided_max];
 		soa_slot_t collided_bullets[collided_max];
 		usize collided_count;
-		detect_bullet_collisions_with_something(&monster->position, &monster->size, monster->_ent.count,
+		soa_detect_bullet_collisions_with_something(&monster->position, &monster->size, monster->_ent.count,
 							&bullet->position, bullet->_ent.count,
 							collided_monsters, collided_bullets, &collided_count);
-		bullet_damages_something(&monster->health, &bullet->damage,
+		soa_bullet_damages_something(&monster->health, &bullet->damage,
 					collided_monsters, collided_bullets, collided_count);
 		soa_bullet_free(bullet, collided_bullets, collided_count);
 	}
 
 	/* render */
-	const f32v2 center = get_one_position2(&player->position, player_slot);
+	const f32v2 center = soa_get_one_position2(&player->position, player_slot);
 	const f32v2 camera = camera_center_offset(viewport, center);
 	data->camera = camera;
 
-	draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
+	soa_draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
 		data->tile_size, app->renderer, data->tileset1_texture, camera);
-	draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
+	soa_draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
-	draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
+	soa_draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
-	draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
+	soa_draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
-	// draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
+	// soa_draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
 }
 
 SDL_SceneDesc export_sdl_scene(

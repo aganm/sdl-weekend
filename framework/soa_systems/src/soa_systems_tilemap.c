@@ -3,15 +3,7 @@
 #include <soa_systems_tilemap.h>
 #include <tilemap.h>
 
-f32v2 tile_position_to_position(i32v2 tile_position, i32v2 tile_size)
-{
-	return (f32v2){
-		tile_position.x * tile_size.w,
-		tile_position.y * tile_size.h,
-	};
-}
-
-void calculate_tilemap_collision_buffer(
+void soa_calculate_tilemap_collision_buffer(
 	tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding,
 	const tile_properties_t *tile_properties)
@@ -48,7 +40,7 @@ void calculate_tilemap_collision_buffer(
 	}
 }
 
-void multiply_velocity_by_future_tile_speed(
+void soa_multiply_velocity_by_future_tile_speed(
 	const soa_position2 *e_position,
 	soa_velocity2 *e_velocity,
 	const soa_slot_t entity_slot,

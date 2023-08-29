@@ -5,7 +5,7 @@
 #include <soa_components_transform.h>
 #include <soa_systems_movement.h>
 
-void movement_to_velocity(
+void soa_movement_to_velocity(
 	const soa_movement2 *e_movement,
 	const soa_speed *e_speed,
 	soa_velocity2 *e_velocity,
@@ -23,7 +23,7 @@ void movement_to_velocity(
 	}
 }
 
-void follow_one_target(
+void soa_follow_one_target(
 	soa_movement2 *f_movement,
 	const soa_position2 *f_position,
 	const soa_speed *f_speed,
@@ -44,7 +44,7 @@ void follow_one_target(
 	}
 }
 
-void forward_movement_from_rotation(
+void soa_forward_movement_from_rotation(
 	soa_movement2 *e_movement,
 	const soa_rotation1 *e_rotation,
 	const usize entity_count)

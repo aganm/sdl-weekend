@@ -19,7 +19,7 @@ typedef struct soa_health soa_health;
 typedef struct soa_damage soa_damage;
 typedef struct soa_destination2 soa_destination2;
 
-void detect_bullet_collisions_with_something(
+void soa_detect_bullet_collisions_with_something(
 	const soa_position2 *s_position,
 	const soa_size2 *s_size,
 	const usize something_count,
@@ -29,7 +29,7 @@ void detect_bullet_collisions_with_something(
 	soa_slot_t out_collided_bullets[bullet_count],
 	usize *out_collided_count);
 
-void bullet_damages_something(
+void soa_bullet_damages_something(
 	soa_health *s_health,
 	soa_damage *b_damage,
 	const soa_slot_t *something_slots,

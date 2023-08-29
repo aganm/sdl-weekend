@@ -6,7 +6,7 @@
 #include <soa_systems_sdl2.h>
 #include <tilemap.h>
 
-void draw_sprite(
+void soa_draw_sprite(
 	const soa_position2 *e_position,
 	const soa_size2 *e_size,
 	const soa_clip *e_clip,
@@ -38,7 +38,7 @@ void draw_sprite(
 	}
 }
 
-void draw_sprite_rotated(
+void soa_draw_sprite_rotated(
 	const soa_position2 *e_position,
 	const soa_rotation1 *e_rotation,
 	const soa_size2 *e_size,
@@ -72,7 +72,7 @@ void draw_sprite_rotated(
 	}
 }
 
-void draw_tilemap(
+void soa_draw_tilemap(
 	const tilemap_t *tilemap,
 	const tilemap_encoding_t *tilemap_encoding,
 	const tileset_t *tileset,
@@ -121,7 +121,7 @@ void draw_tilemap(
 	}
 }
 
-void draw_tilemap_collision_buffer(
+void soa_draw_tilemap_collision_buffer(
 	const tilemap_t *tilemap,
 	const i32v2 tile_size,
 	SDL_Renderer *renderer,
