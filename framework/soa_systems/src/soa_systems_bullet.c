@@ -9,10 +9,10 @@
 #include <types/primitive.h>
 
 void soa_detect_bullet_collisions_with_something(
-	const soa_position2 *s_pos,
+	const soa_position2 *s_position,
 	const soa_size2 *s_size,
 	const usize something_count,
-	const soa_position2 *b_pos,
+	const soa_position2 *b_position,
 	const usize bullet_count,
 	soa_slot_t out_collided_somethings[something_count],
 	soa_slot_t out_collided_bullets[bullet_count],
@@ -28,8 +28,8 @@ void soa_detect_bullet_collisions_with_something(
 #pragma omp for schedule(static, 256)
 	for (usize b = 0; b < bullet_count; ++b) {
 		for (usize s = 0; s < something_count; ++s) {
-			const f32v2 pos = { b_pos->x[b], b_pos->y[b] };
-			const f32rect rect = { s_pos->x[s], s_pos->y[s], s_size->w[s], s_size->h[s] };
+			const f32v2 pos = { b_position->x[b], b_position->y[b] };
+			const f32rect rect = { s_position->x[s], s_position->y[s], s_size->w[s], s_size->h[s] };
 			const bool overlaps = (pos.x > rect.x) && (pos.x < rect.x + rect.w) &&
 						(pos.y > rect.y) && (pos.y < rect.y + rect.h);
 			if (overlaps) {
