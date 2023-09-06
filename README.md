@@ -11,7 +11,12 @@ For example, to launch the game titled '1_shooter', type:
 
 # Game instructions
 
-`WASD` keys to move
-`Left Click` to shoot pistol
-`Right Click` to shoot shotgun
-`Space Bar` to spawn more monsters
+- `WASD` keys to move
+- `Left Click` to shoot pistol
+- `Right Click` to shoot shotgun
+- `Space Bar` to spawn more monsters
+
+
+# OpenMP performance bug
+
+It was reported to me that OpenMP caused performance issues on gcc 9. If you happen to be using this compiler and have the same performance issues, please use clang and it should just work™.
