@@ -15,7 +15,7 @@ For example, to launch the game titled '1_shooter', type:
 `./launch.sh 1_shooter`
 
 
-# Game instructions
+# 1_shooter: Game instructions
 
 - `WASD` keys to move
 - `Left Click` to shoot pistol
