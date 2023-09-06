@@ -11,7 +11,7 @@ For example, to launch the game titled '1_shooter', type:
 
 # Game instructions
 
-`WASD` keys to move  
-`Left Click` to shoot pistol  
-`Right Click` to shoot shotgun  
-`Space Bar` to spawn more monsters  
+- `WASD` keys to move
+- `Left Click` to shoot pistol
+- `Right Click` to shoot shotgun
+- `Space Bar` to spawn more monsters
