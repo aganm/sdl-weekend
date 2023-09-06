@@ -15,3 +15,8 @@ For example, to launch the game titled '1_shooter', type:
 2. `Left Click` to shoot pistol
 3. `Right Click` to shoot shotgun
 4. `Space Bar` to spawn more monsters
+
+
+# OpenMP performance bug
+
+It was reported to me that OpenMP caused performance issues on gcc 9. If you happen to be using this compiler and have the same performance issues, please use clang and it should just work™.
