@@ -1,3 +1,9 @@
+# Dependencies
+
+- libm
+- SDL2
+- OpenMP
+
 # Build instructions
 
 To compile and run tests and launch a game:
