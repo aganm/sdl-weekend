@@ -25,7 +25,7 @@ void soa_detect_bullet_collisions_with_something(
 	soa_slot_t worker_collided_somethings[something_count];
 	soa_slot_t worker_collided_bullets[something_count];
 	usize worker_collided_count = 0;
-#pragma omp for
+#pragma omp for schedule(static, 256)
 	for (usize b = 0; b < bullet_count; ++b) {
 		for (usize s = 0; s < something_count; ++s) {
 			const f32v2 pos = { b_pos->x[b], b_pos->y[b] };
