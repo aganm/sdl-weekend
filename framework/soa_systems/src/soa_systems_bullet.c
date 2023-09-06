@@ -20,7 +20,7 @@ void soa_detect_bullet_collisions_with_something(
 {
 	usize total_collided_count = 0;
 
-#pragma omp parallel
+#pragma omp parallel if (bullet_count > 256)
 {
 	soa_slot_t worker_collided_somethings[something_count];
 	soa_slot_t worker_collided_bullets[something_count];
