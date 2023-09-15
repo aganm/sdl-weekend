@@ -56,18 +56,11 @@ set(FRAMEWORK_INCLUDE_DIRS
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/include
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/include)
-set(FRAMEWORK_SRC
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/main.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/soa.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/src/soa_entities_tds.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_animation.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_movement.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_physics.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_tilemap.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_despawn.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_bullet.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_transform.c
-	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/soa_systems_sdl2.c)
+file(GLOB_RECURSE FRAMEWORK_SRC
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/src/*.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/src/*.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/src/*.c
+	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/*.c)
 file(GLOB_RECURSE GAME_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/${GAME}/*.c)
 
