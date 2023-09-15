@@ -2,6 +2,9 @@
 
 game=$1
 
+# export CC=tcc
+# export CXX=clang++
+
 if [[ "$OSTYPE" == "msys" ]]; then
 	gen="MSYS Makefiles"
 else
