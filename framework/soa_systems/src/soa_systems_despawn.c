@@ -10,7 +10,7 @@ void soa_get_destination_reached_despawn_slots(
 	const soa_destination2 *e_destination,
 	const usize entity_count,
 	const f32 reach_distance,
-	soa_slot_t output[entity_count],
+	soa_slot_t *output,
 	usize *output_count)
 {
 	usize count = 0;
@@ -28,7 +28,7 @@ void soa_get_destination_reached_despawn_slots(
 void soa_get_dead_despawn_slots(
 	const soa_health *e_health,
 	const usize entity_count,
-	soa_slot_t output[entity_count],
+	soa_slot_t *output,
 	usize *output_count)
 {
 	usize count = 0;
