@@ -29,7 +29,8 @@ endif()
 
 add_compile_options(
 	${WARNINGS}
-	${NO_WARNINGS})
+	${NO_WARNINGS}
+	-O3)
 
 if (CMAKE_C_COMPILER_ID STREQUAL "TinyCC")
 	add_compile_options(-DSDL_DISABLE_IMMINTRIN_H)
