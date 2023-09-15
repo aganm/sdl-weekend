@@ -8,6 +8,7 @@ else
 	gen="Unix Makefiles"
 fi
 
+mkdir -p bin && rm bin/*
 mkdir -p build && cd build
 cmake .. -G"$gen" -DCMAKE_BUILD_TYPE="Release" -DGAME="$game"
 cmake --build .
