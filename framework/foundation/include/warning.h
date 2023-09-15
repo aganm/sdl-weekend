@@ -50,6 +50,10 @@ extern "C" {
 # define DIAG_PUSH_IGNORE(gcc_option,clang_unused,msvc_unused) DIAG_PRAGMA(GCC,ignored DIAG_JOINSTR(-W,gcc_option))
 # define DIAG_POP(gcc_option,clang_option,msvc_unused) DIAG_PRAGMA(GCC,warning DIAG_JOINSTR(-W,gcc_option))
 #endif
+#else /* not supported by compiler */
+# define DIAG_PUSH(gcc_unused,clang_option,msvc_unused)
+# define DIAG_PUSH_IGNORE(gcc_unused,clang_option,msvc_unused)
+# define DIAG_POP(gcc_unused,clang_option,msvc_unused)
 #endif
 
 #define DISABLE_UNUSED_PARAMETER DIAG_PUSH_IGNORE(unused-parameter,unused-parameter,4100)
@@ -73,6 +77,8 @@ extern "C" {
 #define NODISCARD __attribute__((warn_unused_result))
 #elif defined(_MSC_VER)
 #define NODISCARD _Check_return_
+#else /* not supported by compiler */
+#define NODISCARD
 #endif
 
 /**
