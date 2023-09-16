@@ -11,15 +11,33 @@
 extern "C" {
 #endif
 
-typedef struct soa_position2 soa_position2;
-typedef struct soa_rotation1 soa_rotation1;
+typedef struct soa_position soa_position2;
+typedef struct soa_rotation soa_rotation1;
+typedef struct soa_color soa_color;
+typedef struct soa_texcoord soa_texcoord;
 typedef struct soa_size2 soa_size2;
 typedef struct soa_clip soa_clip;
+typedef struct soa_sdl2_vertex soa_sdl2_vertex;
+typedef struct soa_entity_t soa_entity_t;
 typedef struct tilemap_t tilemap_t;
 typedef struct tileset_t tileset_t;
 typedef struct tilemap_encoding_t tilemap_encoding_t;
 typedef struct SDL_Renderer SDL_Renderer;
 typedef struct SDL_Texture SDL_Texture;
+
+void soa_make_sdl2_vertex(
+	const soa_position2 *e_position,
+	const soa_color *e_color,
+	const soa_texcoord *e_texcoord,
+	const usize entity_count,
+	soa_sdl2_vertex *to_vertex,
+	soa_entity_t *to_entity);
+
+void soa_draw_geometry(
+	const soa_sdl2_vertex *e_vertex,
+	const usize entity_count,
+	SDL_Renderer *renderer,
+	SDL_Texture *texture);
 
 void soa_draw_sprite(
 	const soa_position2 *e_position,

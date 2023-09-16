@@ -14,7 +14,9 @@
 #include "assets/tilemaps.h"
 #include "assets/tilesets.h"
 
+#include <soa_entities_sdl2.h>
 #include <soa_entities_tds.h>
+#include <soa_entities_vertex.h>
 #include <soa_systems_animation.h>
 #include <soa_systems_bullet.h>
 #include <soa_systems_despawn.h>
@@ -33,6 +35,9 @@ typedef struct SDL_SceneData {
 	soa_bullet bullet;
 	soa_slot_t player_slot;
 	f32v2 camera;
+	soa_vertex_3d vertex_3d;
+	soa_sdl2_vertex_array sdl2_vertex_array;
+	bool render_3d;
 } SDL_SceneData;
 
 static void load_map_objects(
@@ -110,6 +115,9 @@ static void game_init(
 	data->monster = (soa_character)SOA_ENTITY_WITH_TOMBSTONE;
 	data->bullet = (soa_bullet)SOA_ENTITY_WITH_TOMBSTONE;
 	data->player_slot = (soa_slot_t) { 0 };
+	data->vertex_3d = (soa_vertex_3d)SOA_ENTITY_ZERO;
+	data->sdl2_vertex_array = (soa_sdl2_vertex_array)SOA_ENTITY_ZERO;
+	data->render_3d = false;
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);
 
@@ -191,6 +199,9 @@ static void game_handle_sdl_event(
 
 	switch (event->type) {
 	case SDL_KEYDOWN:
+		if (event->key.keysym.scancode == SDL_SCANCODE_Z)
+			data->render_3d = !data->render_3d;
+
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			spawn_monsters(data, (f32rect){ 0.f, 0.f, 1024.f, 1024.f }, 10);
 
@@ -251,6 +262,8 @@ static void game_tick(
 	soa_character *monster = &data->monster;
 	soa_bullet *bullet = &data->bullet;
 	const soa_slot_t player_slot = data->player_slot;
+	soa_vertex_3d *vertex_3d = &data->vertex_3d;
+	soa_sdl2_vertex_array *sdl2_vertex_array = &data->sdl2_vertex_array;
 
 	/* update gameplay at 60hz */
 	soa_timer_t *gameplay_timer = &data->gameplay_timer;
@@ -301,7 +314,7 @@ static void game_tick(
 		soa_bullet_free(bullet, collided_bullets, collided_count);
 	}
 
-	/* render */
+	/* old rendering */
 	const f32v2 center = soa_get_one_position2(&player->position, player_slot);
 	const f32v2 camera = camera_center_offset(viewport, center);
 	data->camera = camera;
@@ -315,6 +328,16 @@ static void game_tick(
 	soa_draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
 	// soa_draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
+
+	/* new rendering */
+
+	soa_make_sdl2_vertex(&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, vertex_3d->_ent.count,
+		&sdl2_vertex_array->vertex, &sdl2_vertex_array->_ent);
+	soa_draw_geometry(&sdl2_vertex_array->vertex, sdl2_vertex_array->_ent.count,
+		app->renderer, data->tileset1_texture);
+
+	soa_clear(&vertex_3d->_ent);
+	soa_clear(&sdl2_vertex_array->_ent);
 }
 
 SDL_SceneDesc export_sdl_scene(

@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 typedef struct soa_slot_t soa_slot_t;
-typedef struct soa_position2 soa_position2;
+typedef struct soa_position soa_position2;
 typedef struct soa_velocity2 soa_velocity2;
 typedef struct tilemap_t tilemap_t;
 typedef struct tilemap_encoding_t tilemap_encoding_t;

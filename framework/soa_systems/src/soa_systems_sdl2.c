@@ -1,10 +1,40 @@
 #include <SDL2/SDL_render.h>
 #include <math/math_helpers.h>
+#include <soa.h>
+#include <soa_components_color.h>
 #include <soa_components_graphics.h>
+#include <soa_components_sdl2.h>
 #include <soa_components_shape.h>
 #include <soa_components_transform.h>
 #include <soa_systems_sdl2.h>
 #include <tilemap.h>
+
+void soa_make_sdl2_vertex(
+	const soa_position2 *e_position,
+	const soa_color *e_color,
+	const soa_texcoord *e_texcoord,
+	const usize entity_count,
+	soa_sdl2_vertex *to_vertex,
+	soa_entity_t *to_entity)
+{
+	for (usize e = 0; e < entity_count; ++e) {
+		const usize t = soa_new_slot1(to_entity).idx;
+		to_vertex->val[t] = (SDL_Vertex) {
+			.position = { e_position->x[e], e_position->y[e] },
+			.color = { e_color->r[e], e_color->g[e], e_color->b[e], e_color->a[e] },
+			.tex_coord = { e_texcoord->s[e], e_texcoord->t[e] },
+		};
+	}
+}
+
+void soa_draw_geometry(
+	const soa_sdl2_vertex *e_vertex,
+	const usize entity_count,
+	SDL_Renderer* renderer,
+	SDL_Texture* texture)
+{
+	SDL_RenderGeometry(renderer, texture, e_vertex->val, entity_count, NULL, 0);
+}
 
 void soa_draw_sprite(
 	const soa_position2 *e_position,

@@ -12,8 +12,8 @@ extern "C" {
 #endif
 
 typedef struct soa_slot_t soa_slot_t;
-typedef struct soa_position2 soa_position2;
-typedef struct soa_rotation1 soa_rotation1;
+typedef struct soa_position soa_position2;
+typedef struct soa_rotation soa_rotation1;
 typedef struct soa_movement2 soa_movement2;
 typedef struct soa_speed soa_speed;
 typedef struct soa_velocity2 soa_velocity2;

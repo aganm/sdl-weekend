@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-typedef struct soa_position2 soa_position2;
+typedef struct soa_position soa_position2;
 typedef struct soa_velocity2 soa_velocity2;
 
 void soa_reset_velocity(
