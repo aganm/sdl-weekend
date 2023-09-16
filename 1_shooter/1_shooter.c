@@ -106,9 +106,9 @@ static void game_init(
 	data->tileset1_texture = texture;
 	data->tile_size = (i32v2) { 32, 32 };
 	data->gameplay_timer = soa_timer_init();
-	data->player = (soa_character)SOA_ENTITY_INIT;
-	data->monster = (soa_character)SOA_ENTITY_INIT;
-	data->bullet = (soa_bullet)SOA_ENTITY_INIT;
+	data->player = (soa_character)SOA_ENTITY_WITH_TOMBSTONE;
+	data->monster = (soa_character)SOA_ENTITY_WITH_TOMBSTONE;
+	data->bullet = (soa_bullet)SOA_ENTITY_WITH_TOMBSTONE;
 	data->player_slot = (soa_slot_t) { 0 };
 
 	load_map_objects(data, &level1_map, &tilemap_encoding1);

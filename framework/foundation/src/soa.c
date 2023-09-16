@@ -58,11 +58,12 @@ void soa_free_slot(
 void soa_clear(
 	soa_entity_t *entity)
 {
-	struct {
-		soa_entity_t _ent;
-	} tmp = SOA_ENTITY_INIT;
+	soa_entity_t tmp = {
+		.count = entity->clear_count,
+		.clear_count = entity->clear_count,
+	};
 
-	*entity = tmp._ent;
+	*entity = tmp;
 }
 
 soa_timer_t soa_timer_init(

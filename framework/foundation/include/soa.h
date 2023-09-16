@@ -13,7 +13,6 @@ extern "C" {
 
 enum {
 	SOA_LIMIT = 4096,
-	SOA_CLEAR_COUNT = 1,
 };
 
 typedef struct soa_slot_t { 
@@ -22,6 +21,7 @@ typedef struct soa_slot_t {
 
 typedef struct soa_entity_t {
 	usize count;
+	usize clear_count;
 	usize num_free_slots;
 	soa_slot_t free_slots[SOA_LIMIT];
 	u8bool is_occupied[SOA_LIMIT];
@@ -32,10 +32,16 @@ typedef struct soa_timer_t {
 	f64seconds dt;
 } soa_timer_t;
 
-#define SOA_ENTITY_INIT \
+#define SOA_ENTITY_ZERO \
 	{ ._ent = { \
-		.count = SOA_CLEAR_COUNT, \
-		.is_occupied = { [SOA_CLEAR_COUNT - 1] = false }, \
+		.count = 0, \
+		.clear_count = 0, \
+	} } \
+
+#define SOA_ENTITY_WITH_TOMBSTONE \
+	{ ._ent = { \
+		.count = 1, \
+		.clear_count = 1, \
 	} } \
 
 usize soa_round_up(usize number, usize multiple);
