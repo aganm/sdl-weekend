@@ -1,5 +1,4 @@
 #include <cglm/cglm.h>
-#include <math/m3d.h>
 #include <math/math_helpers.h>
 #include <soa_components_transform.h>
 #include <soa_systems_camera.h>
