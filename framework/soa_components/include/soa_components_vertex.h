@@ -6,8 +6,8 @@
  */
 
 #include <soa.h>
-#include <types/primitive.h>
 #include <types/bundle.h>
+#include <types/primitive.h>
 
 #ifdef __cplusplus
 extern "C" {
