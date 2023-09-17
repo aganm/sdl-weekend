@@ -11,6 +11,8 @@
 
 static inline f32   f32v2_length 		(f32v2 a);
 static inline f32   f32v3_length 		(f32v3 a);
+static inline f32   f32v2_dot 			(f32v2 a, f32v2 b);
+static inline f32   f32v3_dot 			(f32v3 a, f32v3 b);
 static inline f32   angle_between_points 	(f32v2 a, f32v2 b);
 static inline f32   rad_to_deg 			(f32 rad);
 static inline f32v2 tile_position_to_position 	(i32v2 tile_position, i32v2 tile_size);
@@ -31,6 +33,16 @@ static inline f32 f32v2_length(f32v2 a)
 static inline f32 f32v3_length(f32v3 a)
 {
 	return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+static inline f32 f32v2_dot(f32v2 a, f32v2 b)
+{
+	return (a.x * b.x + a.y * b.y);
+}
+
+static inline f32 f32v3_dot(f32v3 a, f32v3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 static inline f32 angle_between_points(f32v2 a, f32v2 b)
