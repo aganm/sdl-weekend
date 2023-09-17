@@ -69,7 +69,7 @@ static inline f32v2 rotate_about(f32v2 point, f32v2 origin, f32 rad)
 	return rotated;
 }
 
-f32v2 perspective_project_3d_to_2d(f32v3 point, f32v2 viewport, f32v3 camera)
+static inline f32v2 perspective_project_3d_to_2d(f32v3 point, f32v2 viewport, f32v3 camera)
 {
 	const f32 d_over_z = 1.f / (point.z - camera.z);
 	const f32 x = (point.x - camera.x) * d_over_z + viewport.width * 0.5f;
