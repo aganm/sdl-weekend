@@ -331,6 +331,8 @@ static void game_tick(
 		app->renderer, data->tileset1_texture, camera);
 	// soa_draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
 	//	app->renderer, data->tileset1_texture, camera);
+	soa_draw_rect(&monster->position, &monster->size, monster->_ent.count,
+		app->renderer, camera);
 	soa_draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
 	// soa_draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);

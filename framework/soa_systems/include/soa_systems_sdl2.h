@@ -49,6 +49,13 @@ void soa_draw_sprite(
 	SDL_Texture *texture,
 	const f32v2 camera);
 
+void soa_draw_rect(
+	const soa_position2 *e_position,
+	const soa_size2 *e_size,
+	const usize entity_count,
+	SDL_Renderer *renderer,
+	const f32v2 camera);
+
 void soa_draw_sprite_rotated(
 	const soa_position2 *e_position,
 	const soa_rotation1 *e_rotation,
