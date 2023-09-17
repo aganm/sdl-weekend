@@ -7,6 +7,7 @@
 
 #include <soa.h>
 #include <soa_components_animation.h>
+#include <soa_components_color.h>
 #include <soa_components_damage.h>
 #include <soa_components_graphics.h>
 #include <soa_components_health.h>
@@ -24,12 +25,14 @@ extern "C" {
 typedef struct soa_character {
 	soa_entity_t _ent;
 	soa_position2 position;
+	soa_rotation1 rotation;
 	soa_size2 size;
 	soa_velocity2 velocity;
 	soa_speed speed;
 	soa_movement2 movement;
 	soa_animation animation;
 	soa_clip clip;
+	soa_color color;
 	soa_health health;
 	soa_damage damage;
 } soa_character;
@@ -37,9 +40,9 @@ typedef struct soa_character {
 typedef struct soa_bullet {
 	soa_entity_t _ent;
 	soa_position2 position;
+	soa_rotation1 rotation;
 	soa_size2 size;
 	soa_velocity2 velocity;
-	soa_rotation1 rotation;
 	soa_destination2 destination;
 	soa_speed speed;
 	soa_movement2 movement;

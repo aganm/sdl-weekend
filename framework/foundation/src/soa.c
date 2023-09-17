@@ -58,7 +58,7 @@ void soa_free_slot(
 void soa_clear(
 	soa_entity_t *entity)
 {
-	soa_entity_t tmp = {
+	const soa_entity_t tmp = {
 		.count = entity->clear_count,
 		.clear_count = entity->clear_count,
 	};

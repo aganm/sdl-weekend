@@ -11,7 +11,7 @@
 
 void soa_make_sdl2_vertex(
 	const soa_position2 *e_position,
-	const soa_color *e_color,
+	const soa_color1 *e_color,
 	const soa_texcoord *e_texcoord,
 	const usize entity_count,
 	soa_sdl2_vertex *to_vertex,
@@ -21,7 +21,7 @@ void soa_make_sdl2_vertex(
 		const usize t = soa_new_slot1(to_entity).idx;
 		to_vertex->val[t] = (SDL_Vertex) {
 			.position = { e_position->x[e], e_position->y[e] },
-			.color = { e_color->r[e], e_color->g[e], e_color->b[e], e_color->a[e] },
+			.color = { e_color->val[e].r, e_color->val[e].g, e_color->val[e].b, e_color->val[e].a },
 			.tex_coord = { e_texcoord->s[e], e_texcoord->t[e] },
 		};
 	}

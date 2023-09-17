@@ -19,7 +19,7 @@ extern "C" {
 typedef struct soa_vertex_3d {
 	soa_entity_t _ent;
 	soa_position3 position;
-	soa_color color;
+	soa_color1 color;
 	soa_texcoord texcoord;
 } soa_vertex_3d;
 

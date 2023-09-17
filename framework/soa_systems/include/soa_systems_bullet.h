@@ -14,10 +14,10 @@ extern "C" {
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position soa_position2;
-typedef struct soa_size2 soa_size2;
+typedef struct soa_size soa_size2;
 typedef struct soa_health soa_health;
 typedef struct soa_damage soa_damage;
-typedef struct soa_destination2 soa_destination2;
+typedef struct soa_destination soa_destination2;
 
 void soa_detect_bullet_collisions_with_something(
 	const soa_position2 *s_position,

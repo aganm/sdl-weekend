@@ -13,7 +13,7 @@ extern "C" {
 
 typedef struct soa_animation soa_animation;
 typedef struct soa_clip soa_clip;
-typedef struct soa_velocity2 soa_velocity2;
+typedef struct soa_velocity soa_velocity2;
 typedef struct tileset_t tileset_t;
 
 void soa_progress_animation_if_moving(

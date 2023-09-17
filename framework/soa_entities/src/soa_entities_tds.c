@@ -17,6 +17,10 @@ soa_slot_t soa_character_new1(
 	character->animation.end_frame[c] = desc->animation.end_frame;
 	character->animation.current_frame[c] = desc->animation.begin_frame;
 	character->animation.frame_time[c].seconds = desc->animation.frame_time.seconds;
+	character->color.r[c] = 255;
+	character->color.g[c] = 255;
+	character->color.b[c] = 255;
+	character->color.a[c] = 255;
 	return slot;
 }
 

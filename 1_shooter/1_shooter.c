@@ -19,15 +19,18 @@
 #include <soa_entities_vertex.h>
 #include <soa_systems_animation.h>
 #include <soa_systems_bullet.h>
+#include <soa_systems_camera.h>
 #include <soa_systems_despawn.h>
 #include <soa_systems_movement.h>
 #include <soa_systems_physics.h>
 #include <soa_systems_sdl2.h>
 #include <soa_systems_tilemap.h>
 #include <soa_systems_transform.h>
+#include <soa_systems_vertex.h>
 
 typedef struct SDL_SceneData {
 	SDL_Texture *tileset1_texture;
+	f32v2 texture_size;
 	i32v2 tile_size;
 	soa_timer_t gameplay_timer;
 	soa_character player;
@@ -105,10 +108,12 @@ static void game_init(
 	const Uint32 color_key_B = SDL_MapRGB(surface->format, color_key_A.r, color_key_A.g, color_key_A.b);
 	SDL_SetColorKey(surface, SDL_TRUE, color_key_B);
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(app->renderer, surface);
+	const f32v2 texture_size = { surface->w, surface->h };
 	SDL_FreeSurface(surface);
 
 	*data = (SDL_SceneData) { 0 };
 	data->tileset1_texture = texture;
+	data->texture_size = texture_size;
 	data->tile_size = (i32v2) { 32, 32 };
 	data->gameplay_timer = soa_timer_init();
 	data->player = (soa_character)SOA_ENTITY_WITH_TOMBSTONE;
@@ -323,21 +328,25 @@ static void game_tick(
 		data->tile_size, app->renderer, data->tileset1_texture, camera);
 	soa_draw_sprite(&player->position, &player->size, &player->clip, player->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
-	soa_draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
-		app->renderer, data->tileset1_texture, camera);
+	// soa_draw_sprite(&monster->position, &monster->size, &monster->clip, monster->_ent.count,
+	//	app->renderer, data->tileset1_texture, camera);
 	soa_draw_sprite_rotated(&bullet->position, &bullet->rotation, &bullet->size, &bullet->clip, bullet->_ent.count,
 		app->renderer, data->tileset1_texture, camera);
 	// soa_draw_tilemap_collision_buffer(&level1_map, data->tile_size, data->renderer, camera);
 
 	/* new rendering */
+	soa_clear(&vertex_3d->_ent);
+	soa_clear(&sdl2_vertex_array->_ent);
 
+	soa_make_sprite_vertices(&monster->position, &monster->rotation, &monster->size, &monster->clip, &monster->color, monster->_ent.count,
+		&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, &vertex_3d->_ent,
+		data->texture_size);
+	soa_apply_camera_2d(&vertex_3d->position, vertex_3d->_ent.count,
+		camera);
 	soa_make_sdl2_vertex(&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, vertex_3d->_ent.count,
 		&sdl2_vertex_array->vertex, &sdl2_vertex_array->_ent);
 	soa_draw_geometry(&sdl2_vertex_array->vertex, sdl2_vertex_array->_ent.count,
 		app->renderer, data->tileset1_texture);
-
-	soa_clear(&vertex_3d->_ent);
-	soa_clear(&sdl2_vertex_array->_ent);
 }
 
 SDL_SceneDesc export_sdl_scene(

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-typedef struct soa_velocity2 {
+typedef struct soa_velocity {
 	f32 x[SOA_LIMIT];
 	f32 y[SOA_LIMIT];
 } soa_velocity2;

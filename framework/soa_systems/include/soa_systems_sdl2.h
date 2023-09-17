@@ -14,8 +14,9 @@ extern "C" {
 typedef struct soa_position soa_position2;
 typedef struct soa_rotation soa_rotation1;
 typedef struct soa_color soa_color;
+typedef struct soa_color1 soa_color1;
 typedef struct soa_texcoord soa_texcoord;
-typedef struct soa_size2 soa_size2;
+typedef struct soa_size soa_size2;
 typedef struct soa_clip soa_clip;
 typedef struct soa_sdl2_vertex soa_sdl2_vertex;
 typedef struct soa_entity_t soa_entity_t;
@@ -27,7 +28,7 @@ typedef struct SDL_Texture SDL_Texture;
 
 void soa_make_sdl2_vertex(
 	const soa_position2 *e_position,
-	const soa_color *e_color,
+	const soa_color1 *e_color,
 	const soa_texcoord *e_texcoord,
 	const usize entity_count,
 	soa_sdl2_vertex *to_vertex,

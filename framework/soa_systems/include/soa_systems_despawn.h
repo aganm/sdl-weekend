@@ -14,7 +14,7 @@ extern "C" {
 
 typedef struct soa_slot_t soa_slot_t;
 typedef struct soa_position soa_position2;
-typedef struct soa_destination2 soa_destination2;
+typedef struct soa_destination soa_destination2;
 typedef struct soa_health soa_health;
 
 void soa_get_destination_reached_despawn_slots(

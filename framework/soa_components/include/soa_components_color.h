@@ -6,6 +6,7 @@
  */
 
 #include <soa.h>
+#include <types/bundle.h>
 #include <types/primitive.h>
 
 #ifdef __cplusplus
@@ -18,6 +19,10 @@ typedef struct soa_color {
 	u8 b[SOA_LIMIT];
 	u8 a[SOA_LIMIT];
 } soa_color;
+
+typedef struct soa_color1 {
+	u8v4 val[SOA_LIMIT];
+} soa_color1;
 
 #ifdef __cplusplus
 }
