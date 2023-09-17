@@ -322,7 +322,7 @@ static void game_tick(
 	/* old rendering */
 	const f32v2 center = soa_get_one_position2(&player->position, player_slot);
 	const f32v2 camera = camera_center_offset(viewport, center);
-	const f32v3 camera_3d = { camera.x, camera.y, 1.f };
+	const f32v3 camera_3d = { .x = camera.x, .y = 20.f, .z = camera.y };
 	data->camera = camera;
 
 	soa_draw_tilemap(&level1_map, &tilemap_encoding1, &tileset1,
@@ -350,7 +350,7 @@ static void game_tick(
 			&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, &vertex_3d->_ent,
 			data->texture_size);
 		soa_apply_camera_3d(&vertex_3d->position, vertex_3d->_ent.count,
-			viewport, camera_3d);
+			camera_3d, viewport);
 	}
 	soa_make_sdl2_vertex(&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, vertex_3d->_ent.count,
 		&sdl2_vertex_array->vertex, &sdl2_vertex_array->_ent);

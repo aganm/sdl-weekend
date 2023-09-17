@@ -150,23 +150,23 @@ void soa_make_sprite_vertices_3d(
 		}
 
 		v_position->x[v0] = p0.x;
-		v_position->y[v0] = p0.y;
-		v_position->z[v0] = 0;
+		v_position->z[v0] = p0.y;
+		v_position->y[v0] = 0;
 		v_position->x[v1] = p1.x;
-		v_position->y[v1] = p1.y;
-		v_position->z[v1] = h;
+		v_position->z[v1] = p1.y;
+		v_position->y[v1] = 0;
 		v_position->x[v2] = p2.x;
-		v_position->y[v2] = p2.y;
-		v_position->z[v2] = 0;
+		v_position->z[v2] = p2.y;
+		v_position->y[v2] = w;
 		v_position->x[v3] = p1.x;
-		v_position->y[v3] = p1.y;
-		v_position->z[v3] = h;
+		v_position->z[v3] = p1.y;
+		v_position->y[v3] = 0;
 		v_position->x[v4] = p3.x;
-		v_position->y[v4] = p3.y;
-		v_position->z[v4] = h;
+		v_position->z[v4] = p3.y;
+		v_position->y[v4] = w;
 		v_position->x[v5] = p2.x;
-		v_position->y[v5] = p2.y;
-		v_position->z[v5] = 0;
+		v_position->z[v5] = p2.y;
+		v_position->y[v5] = w;
 
 		/* Texture coordinates. */
 		const f32rect tex = {
