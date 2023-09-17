@@ -21,6 +21,7 @@ For example, to launch the game titled '1_shooter', type:
 - `Left Click` to shoot pistol
 - `Right Click` to shoot shotgun
 - `Space Bar` to spawn more monsters
+- `Z` to switch between 2D or 3D rendering
 
 
 # OpenMP performance bug

@@ -12,11 +12,18 @@ extern "C" {
 #endif
 
 typedef struct soa_position soa_position2;
+typedef struct soa_position soa_position3;
 
 void soa_apply_camera_2d(
 	soa_position2 *e_position,
 	const usize entity_count,
 	const f32v2 camera);
+
+void soa_apply_camera_3d(
+	soa_position3 *e_position,
+	const usize entity_count,
+	const f32v2 viewport,
+	const f32v3 camera);
 
 #ifdef __cplusplus
 }
