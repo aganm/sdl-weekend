@@ -9,8 +9,8 @@ soa_slot_t soa_character_new1(
 	const usize c = slot.idx;
 	character->position.x[c] = desc->position.x;
 	character->position.y[c] = desc->position.y;
-	character->size.w[c] = desc->size.w;
-	character->size.h[c] = desc->size.h;
+	character->size.w[c] = desc->size.width;
+	character->size.h[c] = desc->size.height;
 	character->speed.val[c] = desc->speed;
 	character->health.val[c] = desc->health;
 	character->animation.begin_frame[c] = desc->animation.begin_frame;
@@ -35,8 +35,8 @@ soa_slot_t soa_bullet_new1(
 	bullet->destination.x[b] = desc->destination.x;
 	bullet->destination.y[b] = desc->destination.y;
 	bullet->rotation.x[b] = angle_between_points(desc->position, desc->destination);
-	bullet->size.w[b] = desc->size.w;
-	bullet->size.h[b] = desc->size.h;
+	bullet->size.w[b] = desc->size.width;
+	bullet->size.h[b] = desc->size.height;
 	bullet->speed.val[b] = desc->speed;
 	bullet->damage.val[b] = desc->damage;
 	bullet->animation.begin_frame[b] = desc->animation.begin_frame;

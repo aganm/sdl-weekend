@@ -51,7 +51,7 @@ static void load_map_objects(
 	const u32 mapwidth = tilemap->width;
 	const u32 mapheight = tilemap->height;
 	const i32v2 tile_size = data->tile_size;
-	const f32v2 entity_size = { tile_size.w, tile_size.h };
+	const f32v2 entity_size = { tile_size.width, tile_size.height };
 
 	for (usize l = 0; l < tilemap->num_layers; ++l) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];

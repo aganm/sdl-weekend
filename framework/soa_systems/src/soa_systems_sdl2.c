@@ -113,8 +113,8 @@ void soa_draw_tilemap(
 {
 	const u32 mapwidth = tilemap->width;
 	const u32 mapheight = tilemap->height;
-	const u32 tilewidth = tile_size.w;
-	const u32 tileheight = tile_size.h;
+	const u32 tilewidth = tile_size.width;
+	const u32 tileheight = tile_size.height;
 
 	for (usize l = 0; l < tilemap->num_layers; ++l) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
@@ -167,10 +167,10 @@ void soa_draw_tilemap_collision_buffer(
 			const usize offset = y * mapwidth + x;
 			const f32 tile_speed = tilemap->collision_buffer.offset_to_walking_speed[offset];
 			const SDL_Rect rect = {
-				x * tile_size.w - (i32)camera.x,
-				y * tile_size.h - (i32)camera.y,
-				tile_size.w,
-				tile_size.h,
+				x * tile_size.width - (i32)camera.x,
+				y * tile_size.height - (i32)camera.y,
+				tile_size.width,
+				tile_size.height,
 			};
 			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 100.f * (1.f - tile_speed));
 			SDL_RenderFillRect(renderer, &rect);

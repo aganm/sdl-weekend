@@ -52,8 +52,8 @@ void soa_multiply_velocity_by_future_tile_speed(
 	const usize e = entity_slot.idx;
 	const f32 future_x = e_position->x[e] + e_velocity->x[e] * dt.seconds;
 	const f32 future_y = e_position->y[e] + e_velocity->y[e] * dt.seconds;
-	const i32 tile_x = future_x / tile_size.w;
-	const i32 tile_y = future_y / tile_size.h;
+	const i32 tile_x = future_x / tile_size.width;
+	const i32 tile_y = future_y / tile_size.height;
 	const usize offset = tile_y * mapwidth + tile_x;
 	const f32 tile_speed = tilemap->collision_buffer.offset_to_walking_speed[offset];
 	e_velocity->x[e] *= tile_speed;

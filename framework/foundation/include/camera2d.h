@@ -17,8 +17,8 @@ static inline f32v2 camera_center_offset  (f32v2 viewport, f32v2 center);
 f32v2 camera_center_offset(f32v2 viewport, f32v2 center)
 {
 	return (f32v2){
-		center.x - viewport.w / 2.f,
-		center.y - viewport.h / 2.f,
+		center.x - viewport.width / 2.f,
+		center.y - viewport.height / 2.f,
 	};
 }
 

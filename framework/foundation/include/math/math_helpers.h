@@ -46,8 +46,8 @@ static inline f32 rad_to_deg(f32 rad)
 static inline f32v2 tile_position_to_position(i32v2 tile_position, i32v2 tile_size)
 {
 	return (f32v2){
-		tile_position.x * tile_size.w,
-		tile_position.y * tile_size.h,
+		tile_position.x * tile_size.width,
+		tile_position.y * tile_size.height,
 	};
 }
 
@@ -72,8 +72,8 @@ static inline f32v2 rotate_about(f32v2 point, f32v2 origin, f32 rad)
 f32v2 perspective_project_3d_to_2d(f32v3 point, f32v2 viewport, f32v3 camera)
 {
 	const f32 d_over_z = 1.f / (point.z - camera.z);
-	const f32 x = (point.x - camera.x) * d_over_z + viewport.w * 0.5f;
-	const f32 y = (point.y - camera.y) * d_over_z + viewport.h * 0.5f;
+	const f32 x = (point.x - camera.x) * d_over_z + viewport.width * 0.5f;
+	const f32 y = (point.y - camera.y) * d_over_z + viewport.height * 0.5f;
 	return (f32v2){ x, y };
 }
 
