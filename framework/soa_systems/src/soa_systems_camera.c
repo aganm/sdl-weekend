@@ -21,7 +21,7 @@ void soa_apply_camera_3d(
 {
 	for (usize e = 0; e < entity_count; ++e) {
 		const f32v3 pos = { e_position->x[e], e_position->y[e], e_position->z[e] };
-		const f32v2 projected = project_3d_to_2d(pos, viewport, camera);
+		const f32v2 projected = perspective_project_3d_to_2d(pos, viewport, camera);
 		e_position->x[e] = projected.x;
 		e_position->y[e] = projected.y;
 	}
