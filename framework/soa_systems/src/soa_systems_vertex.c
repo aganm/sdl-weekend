@@ -31,7 +31,7 @@ void soa_make_sprite_vertices(
 		const f32 w = e_size->w[e];
 		const f32 h = e_size->h[e];
 		const f32 x = e_position->x[e] - w * 0.5f;
-		const f32 y = e_position->y[e] - h * 0.5f;
+		const f32 y = e_position->y[e] - h;
 		const f32 rad = e_rotation->x[e];
 
 		f32v2 p0 = { x, y };
@@ -130,7 +130,7 @@ void soa_make_sprite_vertices_3d(
 		const f32 w = e_size->w[e];
 		const f32 h = e_size->h[e];
 		const f32 x = e_position->x[e] - w * 0.5f;
-		const f32 y = e_position->y[e] - h * 0.5f;
+		const f32 y = e_position->y[e] - h;
 		const f32 rad = e_rotation->x[e];
 
 		f32v2 p0 = { x, y };

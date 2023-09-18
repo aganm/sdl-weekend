@@ -53,7 +53,7 @@ void soa_draw_sprite(
 			e_clip->h[e],
 		};
 		const SDL_Rect origrect = {
-			e_position->x[e] - e_size->w[e] / 2.f,
+			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
@@ -77,7 +77,7 @@ void soa_draw_rect(
 {
 	for (usize e = 0; e < entity_count; ++e) {
 		const SDL_Rect origrect = {
-			e_position->x[e] - e_size->w[e] / 2.f,
+			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
@@ -110,7 +110,7 @@ void soa_draw_sprite_rotated(
 			e_clip->h[e],
 		};
 		const SDL_Rect origrect = {
-			e_position->x[e] - e_size->w[e] / 2.f,
+			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
