@@ -150,25 +150,25 @@ ENABLE_PADDED
  * standard keyword. If you need an unsigned integer, use one of the fixed size
  * ones such as u32. */
 
-// typedef int int; /!< signed unspecified size integer */
+// typedef int int; /*!< signed unspecified size integer */
 
 /* Boolean type. For when you just need a generic boolean type, no need to
  * redefine it because stdbool.h already defines it perfectly. When you need
  * for the size of your bool to be explicit, use u8bool and family. */
 
-// typedef bool bool; /!< generic boolean type */
+// typedef bool bool; /*!< generic boolean type */
 
 /* Char type. One character in a string. No need to redefine it. Use this type
  * to extract each individual character from a string. */
 
-// typedef char char; /!< character type */
+// typedef char char; /*!< character type */
 
 /* C string type. 'const char *' looks out of place alongside the new primitive
  * names, so give it a name as well. It also makes working with this type
  * easier, especially when you need pointers to ponters of C strings. It keeps
  * the code lean and readable when it would otherwise be very hard to read. */
 
-typedef const char *cstr;
+typedef const char *cstr; /*!< string type */
 
 /* Pointer size types. Other than being the pointer size types, these types are
  * the golden goose of loop indexing. If you would use a C 'int' as an index
