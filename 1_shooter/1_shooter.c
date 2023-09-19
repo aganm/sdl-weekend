@@ -341,6 +341,8 @@ static void game_tick(
 	soa_clear(&vertex_3d->_ent);
 	soa_clear(&sdl2_vertex_array->_ent);
 
+	soa_make_cube(&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, &vertex_3d->_ent,
+			(f32v3){ 100.f, 100.f, 0.f }, 100.f);
 	if (!data->render_3d) {
 		soa_make_sprite_vertices(&monster->position, &monster->rotation, &monster->size, &monster->clip, &monster->color, monster->_ent.count,
 			&vertex_3d->position, &vertex_3d->color, &vertex_3d->texcoord, &vertex_3d->_ent,

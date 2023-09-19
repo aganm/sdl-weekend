@@ -6,6 +6,49 @@
 #include <soa_components_transform.h>
 #include <soa_systems_vertex.h>
 
+void soa_make_cube(
+	soa_position2 *v_position,
+	soa_color1 *v_color,
+	soa_texcoord *v_texcoord,
+	soa_entity_t *vertex_entity,
+	f32v3 position,
+	f32 size)
+{
+	(void)v_texcoord;
+
+	static const f32v3 vertices[8] = {
+		{ -1.0f, -1.0f, -1.0f },
+		{ 1.0f, -1.0f, -1.0f },
+		{ 1.0f, 1.0f, -1.0f },
+		{ -1.0f, 1.0f, -1.0f },
+		{ -1.0f, -1.0f, 1.0f },
+		{ 1.0f, -1.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f },
+		{ -1.0f, 1.0f, 1.0f }
+	};
+	static const int indices[36] = {
+		0, 1, 2, 2, 3, 0,
+		1, 5, 6, 6, 2, 1,
+		5, 4, 7, 7, 6, 5,
+		4, 0, 3, 3, 7, 4,
+		3, 2, 6, 6, 7, 3,
+		4, 5, 1, 1, 0, 4
+	};
+	for (usize i = 0; i < 36; ++i) {
+		const usize v = soa_new_slot1(vertex_entity).idx;
+		const f32v3 cube_vertex = vertices[indices[i]];
+		v_position->x[v] = cube_vertex.x * size + position.x;
+		v_position->y[v] = cube_vertex.y * size + position.y;
+		v_position->z[v] = cube_vertex.z * size + position.z;
+		v_color->val[i] = (u8v4) {
+			(i + 0) * 100,
+			(i + 1) * 100,
+			(i + 2) * 100,
+			255,
+		};
+	}
+}
+
 void soa_make_sprite_vertices(
 	const soa_position2 *e_position,
 	const soa_rotation1 *e_rotation,
