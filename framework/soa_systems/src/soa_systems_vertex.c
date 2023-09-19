@@ -7,7 +7,7 @@
 #include <soa_systems_vertex.h>
 
 void soa_make_cube(
-	soa_position2 *v_position,
+	soa_position3 *v_position,
 	soa_color1 *v_color,
 	soa_texcoord *v_texcoord,
 	soa_entity_t *vertex_entity,

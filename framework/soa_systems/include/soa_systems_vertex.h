@@ -23,7 +23,7 @@ typedef struct soa_texcoord soa_texcoord;
 typedef struct soa_entity_t soa_entity_t;
 
 void soa_make_cube(
-	soa_position2 *v_position,
+	soa_position3 *v_position,
 	soa_color1 *v_color,
 	soa_texcoord *v_texcoord,
 	soa_entity_t *vertex_entity,
