@@ -41,9 +41,9 @@ void soa_make_cube(
 		v_position->y[v] = cube_vertex.y * size + position.y;
 		v_position->z[v] = cube_vertex.z * size + position.z;
 		v_color->val[i] = (u8v4) {
-			(i + 0) * 100,
-			(i + 1) * 100,
-			(i + 2) * 100,
+			(i + 0) * 100 + 50,
+			(i + 1) * 100 + 50,
+			(i + 2) * 100 + 50,
 			255,
 		};
 	}
