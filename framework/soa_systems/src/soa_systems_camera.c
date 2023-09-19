@@ -43,5 +43,6 @@ void soa_apply_camera_3d(
 		};
 		e_position->x[e] = screen.x;
 		e_position->y[e] = screen.y;
+		e_position->z[e] = projected.z;
 	}
 }
