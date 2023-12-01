@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Copyright (c) 2013, 2017 Alexey Tourbin
  *

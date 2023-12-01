@@ -1,3 +1,5 @@
+#pragma once
+
 /*
    The latest version of this library is available on GitHub;
    https://github.com/sheredom/utest.h

@@ -1,10 +1,12 @@
-#ifndef MATH_HELPERS_H
-#define MATH_HELPERS_H
+#pragma once
 
 /**
  * @file
  * @brief Math library.
  */
+
+#ifndef MATH_HELPERS_H
+#define MATH_HELPERS_H
 
 #include <types/bundle.h>
 #include <types/primitive.h>

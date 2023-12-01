@@ -1,10 +1,12 @@
-#ifndef CAMERA2D_H
-#define CAMERA2D_H
+#pragma once
 
 /**
  * @file
  * @brief Math library.
  */
+
+#ifndef CAMERA2D_H
+#define CAMERA2D_H
 
 #include <types/bundle.h>
 

@@ -1,10 +1,12 @@
-#ifndef TYPES_BUNDLE_H
-#define TYPES_BUNDLE_H
+#pragma once
 
 /**
  * @file
  * @brief Bundle types.
  */
+
+#ifndef TYPES_BUNDLE_H
+#define TYPES_BUNDLE_H
 
 #include "primitive.h"
 #include <warning.h>

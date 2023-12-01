@@ -1,5 +1,4 @@
-#ifndef TYPES_PRIMITIVE_H
-#define TYPES_PRIMITIVE_H
+#pragma once
 
 /**
  * @file
@@ -133,6 +132,9 @@ Primitive type table (in the order that they are found in this file)
  * cross-platform determinism. I will have to add this functionality later if
  * needed. Right now I don't build any fp16 targets so it doesn't matter.
  */
+
+#ifndef TYPES_PRIMITIVE_H
+#define TYPES_PRIMITIVE_H
 
 #include <stdbool.h> /* bool */
 #include <stddef.h>  /* size_t, intptr_t */

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef SDL2_APP_H
 #define SDL2_APP_H
 
