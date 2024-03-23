@@ -276,7 +276,7 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 		const usize v = vertices[m].slot;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
-			.position = { mesh[m].x + 203.f, -mesh[m].y + 503.f },
+			.position = { mesh[m].x + 202.f, -mesh[m].y + 502.f },
 			.color    = { color_b.r, color_b.g, color_b.b, color_b.a },
 		};
 	}
@@ -381,6 +381,7 @@ int main(int argc, char* argv[])
 	data_color           dark_orange    = { 150, 100, 0, 255 };
 	data_color           red            = { 255, 50, 50, 255 };
 	data_color           green          = { 0, 255, 200, 255 };
+	data_color           yellow         = { 255, 255, 0, 255 };
 
 	spawn_squares_in_area(&square, 0, w, 0, h, 1024);
 
@@ -469,9 +470,9 @@ int main(int argc, char* argv[])
 
 		/* Batched text. */
 		if (!batch) {
-			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_off, MESH_BATCHING_OFF_LENGTH, red, orange);
+			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_off, MESH_BATCHING_OFF_LENGTH, red, yellow);
 		} else {
-			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_on, MESH_BATCHING_ON_LENGTH, orange, red);
+			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_on, MESH_BATCHING_ON_LENGTH, yellow, red);
 		}
 
 		/* Batched rendering. */
