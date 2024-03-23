@@ -276,7 +276,7 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 		const usize v = vertices[m].slot;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
-			.position = { mesh[m].x + 202.f, -mesh[m].y + 502.f },
+			.position = { mesh[m].x + 102.f, -mesh[m].y + 702.f },
 			.color    = { color_b.r, color_b.g, color_b.b, color_b.a },
 		};
 	}
@@ -285,7 +285,7 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 		const usize v = vertices[m + mesh_length].slot;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
-			.position = { mesh[m].x + 200.f, -mesh[m].y + 500.f },
+			.position = { mesh[m].x + 100.f, -mesh[m].y + 700.f },
 			.color    = { color_a.r, color_a.g, color_a.b, color_a.a },
 		};
 	}
