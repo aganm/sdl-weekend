@@ -261,25 +261,35 @@ void generate_one_size_colored_triangle_sdl_vertex(
 	}
 }
 
-void generate_one_color_triangle_sdl_vertex_from_3d_mesh(
+void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 	data_entity_vertex  *vertex,
 	vertex_3d           *mesh,
 	const usize          mesh_length,
-	const data_color     one_color)
+	const data_color     color_a,
+	const data_color     color_b)
 {
 	entity *vertices;
-	create_vertex_entities(vertex, &vertices, mesh_length);
+	create_vertex_entities(vertex, &vertices, mesh_length * 2);
 
 	for (usize m = 0; m < mesh_length; m += 1)
 	{
 		const usize v = vertices[m].slot;
-
+		vertex->sdl_vertex[v].val = (SDL_Vertex){
+			/* a bit of a hack, model data is upside down :p */
+			.position = { mesh[m].x + 203.f, -mesh[m].y + 503.f },
+			.color    = { color_b.r, color_b.g, color_b.b, color_b.a },
+		};
+	}
+	for (usize m = 0; m < mesh_length; m += 1)
+	{
+		const usize v = vertices[m + mesh_length].slot;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
 			.position = { mesh[m].x + 200.f, -mesh[m].y + 500.f },
-			.color    = { one_color.r, one_color.g, one_color.b, one_color.a },
+			.color    = { color_a.r, color_a.g, color_a.b, color_a.a },
 		};
 	}
+
 }
 
 void render_sdl_rect(
@@ -367,7 +377,10 @@ int main(int argc, char* argv[])
 	data_size            particle_size  = { 10, 10 };
 	data_color           white          = { 255, 255, 255, 255 };
 	data_color           black          = { 0, 0, 0, 0 };
-	data_color           orange         = { 255, 200, 0, 255 };
+	data_color           orange         = { 255, 200, 42, 255 };
+	data_color           dark_orange    = { 150, 100, 0, 255 };
+	data_color           red            = { 255, 50, 50, 255 };
+	data_color           green          = { 0, 255, 200, 255 };
 
 	spawn_squares_in_area(&square, 0, w, 0, h, 1024);
 
@@ -456,9 +469,9 @@ int main(int argc, char* argv[])
 
 		/* Batched text. */
 		if (!batch) {
-			generate_one_color_triangle_sdl_vertex_from_3d_mesh(&vertex, mesh_batching_off, MESH_BATCHING_OFF_LENGTH, orange);
+			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_off, MESH_BATCHING_OFF_LENGTH, red, orange);
 		} else {
-			generate_one_color_triangle_sdl_vertex_from_3d_mesh(&vertex, mesh_batching_on, MESH_BATCHING_ON_LENGTH, orange);
+			generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(&vertex, mesh_batching_on, MESH_BATCHING_ON_LENGTH, orange, red);
 		}
 
 		/* Batched rendering. */
