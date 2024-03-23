@@ -1,6 +1,6 @@
 #!/bin/bash
 
-game=$1
+game=$(basename $1)
 
 # export CC=tcc
 # export CXX=clang++
