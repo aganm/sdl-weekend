@@ -50,6 +50,7 @@ endif()
 
 find_package(SDL2 REQUIRED)
 
+if (NOT STANDALONE STREQUAL "Yes")
 set(FRAMEWORK_INCLUDE_DIRS
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/include
@@ -60,6 +61,7 @@ file(GLOB_RECURSE FRAMEWORK_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_components/src/*.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_entities/src/*.c
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/soa_systems/src/*.c)
+endif()
 file(GLOB_RECURSE GAME_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/${GAME}/*.c)
 
@@ -73,12 +75,14 @@ target_link_libraries(${GAME}
 	${SDL2_LIBRARIES}
 	m)
 
+if (NOT STANDALONE STREQUAL "Yes")
 add_executable(${GAME}_test
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main.c)
 target_include_directories(${GAME}_test
 	PRIVATE ${FRAMEWORK_INCLUDE_DIRS})
 add_test(NAME ${GAME}_test
 	COMMAND ${GAME}_test)
+endif()
 
 set(OUTPUT "bin")
 set(OUTPUT_PROPERTIES
@@ -90,4 +94,6 @@ set(OUTPUT_PROPERTIES
 	LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/${OUTPUT})
 
 set_target_properties(${GAME} PROPERTIES ${OUTPUT_PROPERTIES})
+if (NOT STANDALONE STREQUAL "Yes")
 set_target_properties(${GAME}_test PROPERTIES ${OUTPUT_PROPERTIES})
+endif()
