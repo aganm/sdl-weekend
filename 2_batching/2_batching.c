@@ -114,7 +114,7 @@ void spawn_squares_in_area(
 	slot spawn_slots[spawn_count];
 	instantiate_square(square, spawn_slots, spawn_count);
 
-	for (usize ii = 0; ii < spawn_count; ii++)
+	for (usize ii = 0; ii < spawn_count; ii += 1)
 	{
 		const usize i  = spawn_slots[ii].idx;
 		square->position[i].x  = rand() % (max_x - min_x) + min_x;
@@ -154,7 +154,7 @@ void spawn_particles_on_entity(
 	slot spawn_slots[spawn_count];
 	instantiate_particle(particle, spawn_slots, spawn_count);
 
-	for (usize ii = 0; ii < spawn_count; ii++)
+	for (usize ii = 0; ii < spawn_count; ii += 1)
 	{
 		const usize i  = spawn_slots[ii].idx;
 		particle->position[i].x  = rand() % (max_x - min_x) + min_x;
