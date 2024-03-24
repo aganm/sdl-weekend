@@ -12,7 +12,7 @@ typedef uint64_t u64;
 typedef size_t   usize;
 
 typedef struct f64seconds      { f64 seconds;       } f64seconds;
-typedef struct entity          { u32 slot;          } entity;
+typedef struct slot            { u32 idx;           } slot;
 typedef struct data_position   { f32 x, y;          } data_position;
 typedef struct data_velocity   { f32 x, y;          } data_velocity;
 typedef struct data_speed      { f32 val;           } data_speed;
@@ -46,13 +46,13 @@ typedef struct data_entity_vertex {
 bool create_entities_should_resize(
 	usize      *entity_count,
 	usize      *entity_max,
-	entity     *out_entities,
+	slot       *out_slots,
 	const usize create_count)
 {
 	const usize new_count = *entity_count + create_count;
 	const bool resize = new_count > *entity_max;
 	for (usize i = 0; i < create_count; i++) {
-		out_entities[i] = (entity){ .slot = *entity_count + i };
+		out_slots[i] = (slot){ .idx = *entity_count + i };
 	}
 	*entity_count = new_count;
 	*entity_max   = new_count;
@@ -61,10 +61,10 @@ bool create_entities_should_resize(
 
 void create_square_entities(
 	data_entity_square *square,
-	entity             *out_entities,
+	slot               *out_slots,
 	const usize         create_count)
 {
-	if (create_entities_should_resize(&square->count, &square->max, out_entities, create_count))
+	if (create_entities_should_resize(&square->count, &square->max, out_slots, create_count))
 	{
 		square->position = realloc(square->position, sizeof(*square->position) * square->count);
 		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->count);
@@ -75,10 +75,10 @@ void create_square_entities(
 
 void create_particle_entities(
 	data_entity_particle *particle,
-	entity               *out_entities,
+	slot                 *out_slots,
 	const usize           create_count)
 {
-	if (create_entities_should_resize(&particle->count, &particle->max, out_entities, create_count))
+	if (create_entities_should_resize(&particle->count, &particle->max, out_slots, create_count))
 	{
 		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->count);
 		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->count);
@@ -88,19 +88,19 @@ void create_particle_entities(
 
 void create_vertex_entities(
 	data_entity_vertex *vertex,
-	entity             **out_entities,
-	const usize        create_count)
+	slot              **out_slots,
+	const usize         create_count)
 {
-	/* Heap buffer for vertex entities because could get very big. */
-	static entity *buffer     = NULL;
+	/* Heap buffer for vertex slots because could get very big. */
+	static slot   *buffer     = NULL;
 	static usize   buffer_max = 0;
 	if (buffer_max < create_count) {
 		buffer = realloc(buffer, sizeof(*buffer) * create_count);
 		buffer_max = create_count;
 	}
-	*out_entities = buffer;
+	*out_slots = buffer;
 
-	if (create_entities_should_resize(&vertex->count, &vertex->max, *out_entities, create_count))
+	if (create_entities_should_resize(&vertex->count, &vertex->max, *out_slots, create_count))
 	{
 		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->count);
 	}
@@ -114,10 +114,10 @@ void spawn_squares_in_area(
 	const int           max_y,
 	const usize         spawn_count)
 {
-	entity entities[spawn_count];
-	create_square_entities(square, entities, spawn_count);
+	slot spawn_slots[spawn_count];
+	create_square_entities(square, spawn_slots, spawn_count);
 	for (usize ii = 0; ii < spawn_count; ii++) {
-		const usize i  = entities[ii].slot;
+		const usize i  = spawn_slots[ii].idx;
 		square->position[i].x  = rand() % (max_x - min_x) + min_x;
 		square->position[i].y  = rand() % (max_y - min_y) + min_y;
 		square->size[i].width  = rand() % 50 + 10;
@@ -136,11 +136,11 @@ void spawn_particles_on_entity(
 	const data_position  *e_position,
 	const data_size      *e_size,
 	const data_color     *e_color,
-	const entity          entity_target,
+	const slot            entity_slot,
 
 	const usize           spawn_count)
 {
-	const usize       e = entity_target.slot;
+	const usize       e = entity_slot.idx;
 	const f32         x = e_position[e].x;
 	const f32         y = e_position[e].y;
 	const f32         w = e_size[e].width;
@@ -152,10 +152,10 @@ void spawn_particles_on_entity(
 	const int     min_y = y;
 	const int     max_y = y + h;
 
-	entity entities[spawn_count];
-	create_particle_entities(particle, entities, spawn_count);
+	slot spawn_slots[spawn_count];
+	create_particle_entities(particle, spawn_slots, spawn_count);
 	for (usize ii = 0; ii < spawn_count; ii++) {
-		const usize i  = entities[ii].slot;
+		const usize i  = spawn_slots[ii].idx;
 		particle->position[i].x  = rand() % (max_x - min_x) + min_x;
 		particle->position[i].y  = rand() % (max_y - min_y) + min_y;
 		particle->velocity[i].x  = rand() % 2000 - 1000;
@@ -200,7 +200,7 @@ void move_on_inputs(
 
 typedef struct find_result {
 	bool found;
-	entity found_entity;
+	slot found_slot;
 } find_result;
 
 find_result find_rect_at_position(
@@ -219,7 +219,7 @@ find_result find_rect_at_position(
 		};
 		if (inside_rect) {
 			result.found = true;
-			result.found_entity = (entity){ e };
+			result.found_slot = (slot){ e };
 			break;
 		}
 	}
@@ -234,14 +234,14 @@ void generate_one_size_colored_triangle_sdl_vertex(
 	const data_size      one_size)
 {
 	const usize vertex_count = entity_count * 3;
-	entity *vertices;
-	create_vertex_entities(vertex, &vertices, vertex_count);
+	slot *vertex_slots;
+	create_vertex_entities(vertex, &vertex_slots, vertex_count);
 
 	for (usize e = 0; e < entity_count; e += 1)
 	{
-		const usize v0 = vertices[e * 3 + 0].slot;
-		const usize v1 = vertices[e * 3 + 1].slot;
-		const usize v2 = vertices[e * 3 + 2].slot;
+		const usize v0 = vertex_slots[e * 3 + 0].idx;
+		const usize v1 = vertex_slots[e * 3 + 1].idx;
+		const usize v2 = vertex_slots[e * 3 + 2].idx;
 
 		const data_position pos = e_position[e];
 		const data_color    col = e_color[e];
@@ -268,12 +268,12 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 	const data_color     color_a,
 	const data_color     color_b)
 {
-	entity *vertices;
-	create_vertex_entities(vertex, &vertices, mesh_length * 2);
+	slot *vertex_slots;
+	create_vertex_entities(vertex, &vertex_slots, mesh_length * 2);
 
 	for (usize m = 0; m < mesh_length; m += 1)
 	{
-		const usize v = vertices[m].slot;
+		const usize v = vertex_slots[m].idx;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
 			.position = { mesh[m].x + 102.f, -mesh[m].y + 702.f },
@@ -282,7 +282,7 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 	}
 	for (usize m = 0; m < mesh_length; m += 1)
 	{
-		const usize v = vertices[m + mesh_length].slot;
+		const usize v = vertex_slots[m + mesh_length].idx;
 		vertex->sdl_vertex[v].val = (SDL_Vertex){
 			/* a bit of a hack, model data is upside down :p */
 			.position = { mesh[m].x + 100.f, -mesh[m].y + 700.f },
@@ -453,7 +453,7 @@ int main(int argc, char* argv[])
 		}
 		if (click) {
 			find_result find = find_rect_at_position(square.position, square.size, square.count, (data_position){ click_x, click_y });
-			if (find.found) spawn_particles_on_entity(&particle, square.position, square.size, square.color, find.found_entity, 10240);
+			if (find.found) spawn_particles_on_entity(&particle, square.position, square.size, square.color, find.found_slot, 10240);
 		}
 		move_on_inputs(square.position, square.speed, square.count, delta_time, up, down, left, right, fast);
 		move_by_velocity(particle.position, particle.velocity, particle.count, delta_time);
