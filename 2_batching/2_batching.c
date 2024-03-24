@@ -173,8 +173,8 @@ void move_by_velocity(
 {
 	for (usize e = 0; e < entity_count; e += 1)
 	{
-		e_position[e].x += e_velocity[e].x * dt.seconds;
-		e_position[e].y += e_velocity[e].y * dt.seconds;
+		e_position[e].x += e_velocity[e].x * (f32)dt.seconds;
+		e_position[e].y += e_velocity[e].y * (f32)dt.seconds;
 	}
 }
 
@@ -193,7 +193,7 @@ void move_on_inputs(
 
 	for (usize e = 0; e < entity_count; e += 1)
 	{
-		const f32 move = e_speed[e].val * dt.seconds * fast_multiplier;
+		const f32 move = e_speed[e].val * (f32)dt.seconds * fast_multiplier;
 		e_position[e].x -= move * left;
 		e_position[e].x += move * right;
 		e_position[e].y -= move * up;
