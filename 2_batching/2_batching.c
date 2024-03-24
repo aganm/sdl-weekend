@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <SDL.h>
 #include "mesh.h"
@@ -490,6 +491,12 @@ int main(int argc, char* argv[])
 		SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
+
+		/* Write fps in window bar. */
+		char title_fps[1024];
+		int fps = (int)(1.0 / delta_time.seconds);
+		snprintf(title_fps, sizeof(title_fps), "%s: %ifps", title, fps);
+		SDL_SetWindowTitle(window, title_fps);
 	}
 
 	SDL_Quit();

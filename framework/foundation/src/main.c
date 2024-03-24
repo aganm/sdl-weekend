@@ -54,6 +54,10 @@ int main(int argc, char *argv[])
 		SDL_RenderPresent(app.renderer);
 		SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 0);
 		SDL_RenderClear(app.renderer);
+		char title_fps[1024];
+		int fps = (int)(1.0 / delta_time.seconds);
+		snprintf(title_fps, sizeof(title_fps), "%s: %ifps", title, fps);
+		SDL_SetWindowTitle(app.window, title_fps);
 	}
 
 	scene.fini(&app, scene_data);
