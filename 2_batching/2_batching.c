@@ -297,8 +297,7 @@ void render_sdl_rect(
 	SDL_Renderer        *renderer)
 {
 	for (usize e = 0; e < entity_count; e += 1) {
-		// TODO: Batch this up
-		const SDL_FRect rect = { e_position[e].x, e_position[e].y, e_size[e].width, e_size[e].height };
+		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, e_size[e].width, e_size[e].height };
 		const SDL_Color color = { e_color[e].r, e_color[e].g, e_color[e].b, e_color[e].a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 		SDL_RenderDrawRectF(renderer, &rect);
@@ -313,8 +312,7 @@ void render_sdl_rect_one_size(
 	const data_size      one_size)
 {
 	for (usize e = 0; e < entity_count; e += 1) {
-		// TODO: Batch this up
-		const SDL_FRect rect = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
+		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
 		const SDL_Color color = { e_color[e].r, e_color[e].g, e_color[e].b, e_color[e].a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 		SDL_RenderDrawRectF(renderer, &rect);
@@ -329,8 +327,7 @@ void render_sdl_rect_one_size_one_color(
 	const data_color     one_color)
 {
 	for (usize e = 0; e < entity_count; e += 1) {
-		// TODO: Batch this up
-		const SDL_FRect rect = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
+		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
 		const SDL_Color color = { one_color.r, one_color.g, one_color.b, one_color.a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 		SDL_RenderDrawRectF(renderer, &rect);
