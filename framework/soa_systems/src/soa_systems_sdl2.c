@@ -52,19 +52,19 @@ void soa_draw_sprite(
 			e_clip->w[e],
 			e_clip->h[e],
 		};
-		const SDL_Rect origrect = {
+		const SDL_FRect origrect = {
 			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
 		};
-		const SDL_Rect dstrect = {
+		const SDL_FRect dstrect = {
 			origrect.x - camera.x,
 			origrect.y - camera.y,
 			origrect.w,
 			origrect.h,
 		};
-		SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
+		SDL_RenderCopyF(renderer, texture, &srcrect, &dstrect);
 	}
 }
 
@@ -76,19 +76,19 @@ void soa_draw_rect(
 	const f32v2 camera)
 {
 	for (usize e = 0; e < entity_count; ++e) {
-		const SDL_Rect origrect = {
+		const SDL_FRect origrect = {
 			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
 		};
-		const SDL_Rect dstrect = {
+		const SDL_FRect dstrect = {
 			origrect.x - camera.x,
 			origrect.y - camera.y,
 			origrect.w,
 			origrect.h,
 		};
-		SDL_RenderDrawRect(renderer, &dstrect);
+		SDL_RenderDrawRectF(renderer, &dstrect);
 	}
 }
 
@@ -109,20 +109,20 @@ void soa_draw_sprite_rotated(
 			e_clip->w[e],
 			e_clip->h[e],
 		};
-		const SDL_Rect origrect = {
+		const SDL_FRect origrect = {
 			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
 			e_size->w[e],
 			e_size->h[e],
 		};
-		const SDL_Rect dstrect = {
+		const SDL_FRect dstrect = {
 			origrect.x - camera.x,
 			origrect.y - camera.y,
 			origrect.w,
 			origrect.h,
 		};
 		const f32 angle = rad_to_deg(e_rotation->x[e]);
-		SDL_RenderCopyEx(renderer, texture, &srcrect, &dstrect, angle, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyExF(renderer, texture, &srcrect, &dstrect, angle, NULL, SDL_FLIP_NONE);
 	}
 }
 
@@ -196,7 +196,7 @@ void soa_draw_tilemap_collision_buffer(
 				tile_size.width,
 				tile_size.height,
 			};
-			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 100.f * (1.f - tile_speed));
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, (Uint8)(100.f * (1.f - tile_speed)));
 			SDL_RenderFillRect(renderer, &rect);
 		}
 	}
