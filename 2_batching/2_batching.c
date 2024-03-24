@@ -146,10 +146,10 @@ void spawn_particles_on_entity(
 	const f32        h = e_size[e].height;
 	const data_color c = e_color[e];
 
-	const int    min_x = x;
-	const int    max_x = x + w;
-	const int    min_y = y;
-	const int    max_y = y + h;
+	const int    min_x = (int)(x);
+	const int    max_x = (int)(x + w);
+	const int    min_y = (int)(y);
+	const int    max_y = (int)(y + h);
 
 	slot spawn_slots[spawn_count];
 	instantiate_particle(particle, spawn_slots, spawn_count);
