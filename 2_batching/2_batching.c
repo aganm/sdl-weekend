@@ -52,7 +52,7 @@ bool instantiate_should_resize(
 		out_slots[i] = (slot){ .idx = entity->count + i };
 	}
 	entity->count = new_count;
-	entity->max   = new_count;
+	entity->max = new_count;
 	return resize;
 }
 
