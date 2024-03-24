@@ -22,7 +22,7 @@ typedef struct data_size       { f32 width, height; } data_size;
 typedef struct data_sdl_vertex { SDL_Vertex val;    } data_sdl_vertex;
 
 typedef struct entity_square {
-	entity         entity;
+	entity         _ent;
 	data_position *position;
 	data_speed    *speed;
 	data_color    *color;
@@ -30,14 +30,14 @@ typedef struct entity_square {
 } entity_square;
 
 typedef struct entity_particle {
-	entity         entity;
+	entity         _ent;
 	data_position *position;
 	data_velocity *velocity;
 	data_color    *color;
 } entity_particle;
 
 typedef struct entity_vertex {
-	entity           entity;
+	entity           _ent;
 	data_sdl_vertex *sdl_vertex;
 } entity_vertex;
 
@@ -61,12 +61,12 @@ void instantiate_square(
 	slot          *out_slots,
 	const usize    count)
 {
-	if (instantiate_should_resize(&square->entity, out_slots, count))
+	if (instantiate_should_resize(&square->_ent, out_slots, count))
 	{
-		square->position = realloc(square->position, sizeof(*square->position) * square->entity.max);
-		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->entity.max);
-		square->color    = realloc(square->color,    sizeof(*square->color)    * square->entity.max);
-		square->size     = realloc(square->size,     sizeof(*square->size)     * square->entity.max);
+		square->position = realloc(square->position, sizeof(*square->position) * square->_ent.max);
+		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->_ent.max);
+		square->color    = realloc(square->color,    sizeof(*square->color)    * square->_ent.max);
+		square->size     = realloc(square->size,     sizeof(*square->size)     * square->_ent.max);
 	}
 }
 
@@ -75,11 +75,11 @@ void instantiate_particle(
 	slot            *out_slots,
 	const usize      count)
 {
-	if (instantiate_should_resize(&particle->entity, out_slots, count))
+	if (instantiate_should_resize(&particle->_ent, out_slots, count))
 	{
-		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->entity.max);
-		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->entity.max);
-		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->entity.max);
+		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->_ent.max);
+		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->_ent.max);
+		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->_ent.max);
 	}
 }
 
@@ -97,9 +97,9 @@ void instantiate_vertex(
 	}
 	*out_slots = buffer;
 
-	if (instantiate_should_resize(&vertex->entity, *out_slots, count))
+	if (instantiate_should_resize(&vertex->_ent, *out_slots, count))
 	{
-		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->entity.max);
+		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->_ent.max);
 	}
 }
 
@@ -449,20 +449,20 @@ int main(int argc, char* argv[])
 			spawn_squares_in_area(&square, 0, w, 0, h, 1024);
 		}
 		if (click) {
-			find_result find = find_rect_at_position(square.position, square.size, square.entity.count, (data_position){ click_x, click_y });
+			find_result find = find_rect_at_position(square.position, square.size, square._ent.count, (data_position){ click_x, click_y });
 			if (find.found) spawn_particles_on_entity(&particle, square.position, square.size, square.color, find.found_slot, 10240);
 		}
-		move_on_inputs(square.position, square.speed, square.entity.count, delta_time, up, down, left, right, fast);
-		move_by_velocity(particle.position, particle.velocity, particle.entity.count, delta_time);
+		move_on_inputs(square.position, square.speed, square._ent.count, delta_time, up, down, left, right, fast);
+		move_by_velocity(particle.position, particle.velocity, particle._ent.count, delta_time);
 
 		/* Square rendering (non batched). */
-		render_sdl_rect(square.position, square.size, square.color, square.entity.count, renderer);
+		render_sdl_rect(square.position, square.size, square.color, square._ent.count, renderer);
 
 		/* Particle rendering. */
 		if (!batch) {
-			render_sdl_rect_one_size(particle.position, particle.color, particle.entity.count, renderer, particle_size);
+			render_sdl_rect_one_size(particle.position, particle.color, particle._ent.count, renderer, particle_size);
 		} else {
-			generate_one_size_colored_triangle_sdl_vertex(&vertex, particle.position, particle.color, particle.entity.count, particle_size);
+			generate_one_size_colored_triangle_sdl_vertex(&vertex, particle.position, particle.color, particle._ent.count, particle_size);
 		}
 
 		/* Batched text. */
@@ -473,8 +473,8 @@ int main(int argc, char* argv[])
 		}
 
 		/* Batched rendering. */
-		render_sdl_geometry(vertex.sdl_vertex, vertex.entity.count, renderer);
-		vertex.entity.count = 0;
+		render_sdl_geometry(vertex.sdl_vertex, vertex._ent.count, renderer);
+		vertex._ent.count = 0;
 
 		/* Present. */
 		SDL_RenderPresent(renderer);
