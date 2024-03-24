@@ -43,15 +43,15 @@ typedef struct data_entity_vertex {
 	data_sdl_vertex *sdl_vertex;
 } data_entity_vertex;
 
-bool create_entities_should_resize(
+bool instantiate_should_resize(
 	usize      *entity_count,
 	usize      *entity_max,
 	slot       *out_slots,
-	const usize create_count)
+	const usize count)
 {
-	const usize new_count = *entity_count + create_count;
+	const usize new_count = *entity_count + count;
 	const bool resize = new_count > *entity_max;
-	for (usize i = 0; i < create_count; i++) {
+	for (usize i = 0; i < count; i++) {
 		out_slots[i] = (slot){ .idx = *entity_count + i };
 	}
 	*entity_count = new_count;
@@ -59,12 +59,12 @@ bool create_entities_should_resize(
 	return resize;
 }
 
-void create_square_entities(
+void instantiate_square(
 	data_entity_square *square,
 	slot               *out_slots,
-	const usize         create_count)
+	const usize         count)
 {
-	if (create_entities_should_resize(&square->count, &square->max, out_slots, create_count))
+	if (instantiate_should_resize(&square->count, &square->max, out_slots, count))
 	{
 		square->position = realloc(square->position, sizeof(*square->position) * square->count);
 		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->count);
@@ -73,12 +73,12 @@ void create_square_entities(
 	}
 }
 
-void create_particle_entities(
+void instantiate_particle(
 	data_entity_particle *particle,
 	slot                 *out_slots,
-	const usize           create_count)
+	const usize           count)
 {
-	if (create_entities_should_resize(&particle->count, &particle->max, out_slots, create_count))
+	if (instantiate_should_resize(&particle->count, &particle->max, out_slots, count))
 	{
 		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->count);
 		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->count);
@@ -86,21 +86,21 @@ void create_particle_entities(
 	}
 }
 
-void create_vertex_entities(
+void instantiate_vertex(
 	data_entity_vertex *vertex,
 	slot              **out_slots,
-	const usize         create_count)
+	const usize         count)
 {
 	/* Heap buffer for vertex slots because could get very big. */
 	static slot   *buffer     = NULL;
 	static usize   buffer_max = 0;
-	if (buffer_max < create_count) {
-		buffer = realloc(buffer, sizeof(*buffer) * create_count);
-		buffer_max = create_count;
+	if (buffer_max < count) {
+		buffer = realloc(buffer, sizeof(*buffer) * count);
+		buffer_max = count;
 	}
 	*out_slots = buffer;
 
-	if (create_entities_should_resize(&vertex->count, &vertex->max, *out_slots, create_count))
+	if (instantiate_should_resize(&vertex->count, &vertex->max, *out_slots, count))
 	{
 		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->count);
 	}
@@ -115,7 +115,7 @@ void spawn_squares_in_area(
 	const usize         spawn_count)
 {
 	slot spawn_slots[spawn_count];
-	create_square_entities(square, spawn_slots, spawn_count);
+	instantiate_square(square, spawn_slots, spawn_count);
 	for (usize ii = 0; ii < spawn_count; ii++) {
 		const usize i  = spawn_slots[ii].idx;
 		square->position[i].x  = rand() % (max_x - min_x) + min_x;
@@ -153,7 +153,7 @@ void spawn_particles_on_entity(
 	const int     max_y = y + h;
 
 	slot spawn_slots[spawn_count];
-	create_particle_entities(particle, spawn_slots, spawn_count);
+	instantiate_particle(particle, spawn_slots, spawn_count);
 	for (usize ii = 0; ii < spawn_count; ii++) {
 		const usize i  = spawn_slots[ii].idx;
 		particle->position[i].x  = rand() % (max_x - min_x) + min_x;
@@ -235,7 +235,7 @@ void generate_one_size_colored_triangle_sdl_vertex(
 {
 	const usize vertex_count = entity_count * 3;
 	slot *vertex_slots;
-	create_vertex_entities(vertex, &vertex_slots, vertex_count);
+	instantiate_vertex(vertex, &vertex_slots, vertex_count);
 
 	for (usize e = 0; e < entity_count; e += 1)
 	{
@@ -269,7 +269,7 @@ void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
 	const data_color     color_b)
 {
 	slot *vertex_slots;
-	create_vertex_entities(vertex, &vertex_slots, mesh_length * 2);
+	instantiate_vertex(vertex, &vertex_slots, mesh_length * 2);
 
 	for (usize m = 0; m < mesh_length; m += 1)
 	{
