@@ -89,8 +89,8 @@ void instantiate_vertex(
 	const usize    count)
 {
 	/* Heap buffer for vertex slots because could get very big. */
-	static slot   *buffer     = NULL;
-	static usize   buffer_max = 0;
+	static slot* buffer = NULL;
+	static usize buffer_max = 0;
 	if (buffer_max < count) {
 		buffer = realloc(buffer, sizeof(*buffer) * count);
 		buffer_max = count;
