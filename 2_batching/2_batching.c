@@ -140,17 +140,17 @@ void spawn_particles_on_entity(
 
 	const usize           spawn_count)
 {
-	const usize      e  = entity_target.slot;
-	const f32        x  = e_position[e].x;
-	const f32        y  = e_position[e].y;
-	const f32        w  = e_size[e].width;
-	const f32        h  = e_size[e].height;
-	const data_color c  = e_color[e];
+	const usize       e = entity_target.slot;
+	const f32         x = e_position[e].x;
+	const f32         y = e_position[e].y;
+	const f32         w = e_size[e].width;
+	const f32         h = e_size[e].height;
+	const data_color  c = e_color[e];
 
-	const int min_x = x;
-	const int max_x = x + w;
-	const int min_y = y;
-	const int max_y = y + h;
+	const int     min_x = x;
+	const int     max_x = x + w;
+	const int     min_y = y;
+	const int     max_y = y + h;
 
 	entity entities[spawn_count];
 	create_particle_entities(particle, entities, spawn_count);
