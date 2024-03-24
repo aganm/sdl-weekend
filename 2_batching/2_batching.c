@@ -66,10 +66,10 @@ void instantiate_square(
 {
 	if (instantiate_should_resize(&square->count, &square->max, out_slots, count))
 	{
-		square->position = realloc(square->position, sizeof(*square->position) * square->count);
-		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->count);
-		square->color    = realloc(square->color,    sizeof(*square->color)    * square->count);
-		square->size     = realloc(square->size,     sizeof(*square->size)     * square->count);
+		square->position = realloc(square->position, sizeof(*square->position) * square->max);
+		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->max);
+		square->color    = realloc(square->color,    sizeof(*square->color)    * square->max);
+		square->size     = realloc(square->size,     sizeof(*square->size)     * square->max);
 	}
 }
 
@@ -80,9 +80,9 @@ void instantiate_particle(
 {
 	if (instantiate_should_resize(&particle->count, &particle->max, out_slots, count))
 	{
-		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->count);
-		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->count);
-		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->count);
+		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->max);
+		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->max);
+		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->max);
 	}
 }
 
@@ -102,7 +102,7 @@ void instantiate_vertex(
 
 	if (instantiate_should_resize(&vertex->count, &vertex->max, *out_slots, count))
 	{
-		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->count);
+		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->max);
 	}
 }
 
