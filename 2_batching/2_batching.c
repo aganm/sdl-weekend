@@ -12,6 +12,7 @@ typedef uint64_t u64;
 typedef size_t   usize;
 
 typedef struct f64seconds      { f64 seconds;       } f64seconds;
+typedef struct entity          { usize count, max;  } entity;
 typedef struct slot            { u32 idx;           } slot;
 typedef struct data_position   { f32 x, y;          } data_position;
 typedef struct data_velocity   { f32 x, y;          } data_velocity;
@@ -21,8 +22,7 @@ typedef struct data_size       { f32 width, height; } data_size;
 typedef struct data_sdl_vertex { SDL_Vertex val;    } data_sdl_vertex;
 
 typedef struct entity_square {
-	usize          count;
-	usize          max;
+	entity         entity;
 	data_position *position;
 	data_speed    *speed;
 	data_color    *color;
@@ -30,32 +30,29 @@ typedef struct entity_square {
 } entity_square;
 
 typedef struct entity_particle {
-	usize          count;
-	usize          max;
+	entity         entity;
 	data_position *position;
 	data_velocity *velocity;
 	data_color    *color;
 } entity_particle;
 
 typedef struct entity_vertex {
-	usize            count;
-	usize            max;
+	entity           entity;
 	data_sdl_vertex *sdl_vertex;
 } entity_vertex;
 
 bool instantiate_should_resize(
-	usize      *entity_count,
-	usize      *entity_max,
+	entity     *entity,
 	slot       *out_slots,
 	const usize count)
 {
-	const usize new_count = *entity_count + count;
-	const bool resize = new_count > *entity_max;
+	const usize new_count = entity->count + count;
+	const bool resize = new_count > entity->max;
 	for (usize i = 0; i < count; i++) {
-		out_slots[i] = (slot){ .idx = *entity_count + i };
+		out_slots[i] = (slot){ .idx = entity->count + i };
 	}
-	*entity_count = new_count;
-	*entity_max   = new_count;
+	entity->count = new_count;
+	entity->max   = new_count;
 	return resize;
 }
 
@@ -64,12 +61,12 @@ void instantiate_square(
 	slot          *out_slots,
 	const usize    count)
 {
-	if (instantiate_should_resize(&square->count, &square->max, out_slots, count))
+	if (instantiate_should_resize(&square->entity, out_slots, count))
 	{
-		square->position = realloc(square->position, sizeof(*square->position) * square->max);
-		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->max);
-		square->color    = realloc(square->color,    sizeof(*square->color)    * square->max);
-		square->size     = realloc(square->size,     sizeof(*square->size)     * square->max);
+		square->position = realloc(square->position, sizeof(*square->position) * square->entity.max);
+		square->speed    = realloc(square->speed,    sizeof(*square->speed)    * square->entity.max);
+		square->color    = realloc(square->color,    sizeof(*square->color)    * square->entity.max);
+		square->size     = realloc(square->size,     sizeof(*square->size)     * square->entity.max);
 	}
 }
 
@@ -78,11 +75,11 @@ void instantiate_particle(
 	slot            *out_slots,
 	const usize      count)
 {
-	if (instantiate_should_resize(&particle->count, &particle->max, out_slots, count))
+	if (instantiate_should_resize(&particle->entity, out_slots, count))
 	{
-		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->max);
-		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->max);
-		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->max);
+		particle->position = realloc(particle->position, sizeof(*particle->position) * particle->entity.max);
+		particle->velocity = realloc(particle->velocity, sizeof(*particle->velocity) * particle->entity.max);
+		particle->color    = realloc(particle->color,    sizeof(*particle->color)    * particle->entity.max);
 	}
 }
 
@@ -100,9 +97,9 @@ void instantiate_vertex(
 	}
 	*out_slots = buffer;
 
-	if (instantiate_should_resize(&vertex->count, &vertex->max, *out_slots, count))
+	if (instantiate_should_resize(&vertex->entity, *out_slots, count))
 	{
-		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->max);
+		vertex->sdl_vertex = realloc(vertex->sdl_vertex, sizeof(*vertex->sdl_vertex) * vertex->entity.max);
 	}
 }
 
@@ -452,20 +449,20 @@ int main(int argc, char* argv[])
 			spawn_squares_in_area(&square, 0, w, 0, h, 1024);
 		}
 		if (click) {
-			find_result find = find_rect_at_position(square.position, square.size, square.count, (data_position){ click_x, click_y });
+			find_result find = find_rect_at_position(square.position, square.size, square.entity.count, (data_position){ click_x, click_y });
 			if (find.found) spawn_particles_on_entity(&particle, square.position, square.size, square.color, find.found_slot, 10240);
 		}
-		move_on_inputs(square.position, square.speed, square.count, delta_time, up, down, left, right, fast);
-		move_by_velocity(particle.position, particle.velocity, particle.count, delta_time);
+		move_on_inputs(square.position, square.speed, square.entity.count, delta_time, up, down, left, right, fast);
+		move_by_velocity(particle.position, particle.velocity, particle.entity.count, delta_time);
 
 		/* Square rendering (non batched). */
-		render_sdl_rect(square.position, square.size, square.color, square.count, renderer);
+		render_sdl_rect(square.position, square.size, square.color, square.entity.count, renderer);
 
 		/* Particle rendering. */
 		if (!batch) {
-			render_sdl_rect_one_size(particle.position, particle.color, particle.count, renderer, particle_size);
+			render_sdl_rect_one_size(particle.position, particle.color, particle.entity.count, renderer, particle_size);
 		} else {
-			generate_one_size_colored_triangle_sdl_vertex(&vertex, particle.position, particle.color, particle.count, particle_size);
+			generate_one_size_colored_triangle_sdl_vertex(&vertex, particle.position, particle.color, particle.entity.count, particle_size);
 		}
 
 		/* Batched text. */
@@ -476,8 +473,8 @@ int main(int argc, char* argv[])
 		}
 
 		/* Batched rendering. */
-		render_sdl_geometry(vertex.sdl_vertex, vertex.count, renderer);
-		vertex.count = 0;
+		render_sdl_geometry(vertex.sdl_vertex, vertex.entity.count, renderer);
+		vertex.entity.count = 0;
 
 		/* Present. */
 		SDL_RenderPresent(renderer);
