@@ -274,7 +274,7 @@ static void game_tick(
 	soa_timer_t *gameplay_timer = &data->gameplay_timer;
 	soa_timer_tick(gameplay_timer, tick_dt);
 	while (soa_timer_do_frame(gameplay_timer, 1.0 / 60.0)) {
-		const f32seconds dt = { soa_timer_delta_seconds(gameplay_timer) };
+		const f32seconds dt = { (f32)soa_timer_delta_seconds(gameplay_timer) };
 
 		soa_reset_velocity(&player->velocity, player->_ent.count);
 		soa_movement_to_velocity(&player->movement, &player->speed, &player->velocity, player->_ent.count);
