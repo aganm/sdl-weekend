@@ -228,6 +228,7 @@ find_result find_rect_at_position(
 			break;
 		}
 	}
+
 	return result;
 }
 
