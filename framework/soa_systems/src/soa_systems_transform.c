@@ -28,7 +28,7 @@ void soa_backup_position2(
 	soa_position2 *e_old_position,
 	const usize entity_count)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		e_old_position->x[e] = e_position->x[e];
 		e_old_position->y[e] = e_position->y[e];
 	}

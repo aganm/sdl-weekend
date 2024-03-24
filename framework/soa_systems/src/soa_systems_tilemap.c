@@ -11,18 +11,18 @@ void soa_calculate_tilemap_collision_buffer(
 	const u32 mapwidth = tilemap->width;
 	const u32 mapheight = tilemap->height;
 
-	for (usize y = 0; y < mapheight; ++y) {
-		for (usize x = 0; x < mapwidth; ++x) {
+	for (usize y = 0; y < mapheight; y++) {
+		for (usize x = 0; x < mapwidth; x++) {
 			const usize offset = y * mapwidth + x;
 			tilemap->collision_buffer.offset_to_walking_speed[offset] = 1.f;
 		}
 	}
 
-	for (usize l = 0; l < tilemap->num_layers; ++l) {
+	for (usize l = 0; l < tilemap->num_layers; l++) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
 
-		for (usize y = 0; y < mapheight; ++y) {
-			for (usize x = 0; x < mapwidth; ++x) {
+		for (usize y = 0; y < mapheight; y++) {
+			for (usize x = 0; x < mapwidth; x++) {
 				const usize offset = y * mapwidth + x;
 				const u8 tile_char = layer->offset_to_char[offset];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];

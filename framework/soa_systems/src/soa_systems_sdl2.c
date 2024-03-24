@@ -17,7 +17,7 @@ void soa_make_sdl2_vertex(
 	soa_sdl2_vertex *to_vertex,
 	soa_entity_t *to_entity)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const usize t = soa_new_slot1(to_entity).idx;
 		to_vertex->val[t] = (SDL_Vertex) {
 			.position = { e_position->x[e], e_position->y[e] },
@@ -45,7 +45,7 @@ void soa_draw_sprite(
 	SDL_Texture *texture,
 	const f32v2 camera)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const SDL_Rect srcrect = {
 			e_clip->x[e],
 			e_clip->y[e],
@@ -75,7 +75,7 @@ void soa_draw_rect(
 	SDL_Renderer *renderer,
 	const f32v2 camera)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const SDL_FRect origrect = {
 			e_position->x[e] - e_size->w[e] * 0.5f,
 			e_position->y[e] - e_size->h[e],
@@ -102,7 +102,7 @@ void soa_draw_sprite_rotated(
 	SDL_Texture *texture,
 	const f32v2 camera)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const SDL_Rect srcrect = {
 			e_clip->x[e],
 			e_clip->y[e],
@@ -140,11 +140,11 @@ void soa_draw_tilemap(
 	const u32 tilewidth = tile_size.width;
 	const u32 tileheight = tile_size.height;
 
-	for (usize l = 0; l < tilemap->num_layers; ++l) {
+	for (usize l = 0; l < tilemap->num_layers; l++) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
 
-		for (usize y = 0; y < mapheight; ++y) {
-			for (usize x = 0; x < mapwidth; ++x) {
+		for (usize y = 0; y < mapheight; y++) {
+			for (usize x = 0; x < mapwidth; x++) {
 				const usize offset = y * mapwidth + x;
 				const u8 tile_char = layer->offset_to_char[offset];
 				const tile_enum_t tile_enum = tilemap_encoding->char_to_enum[tile_char];
@@ -186,8 +186,8 @@ void soa_draw_tilemap_collision_buffer(
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-	for (usize y = 0; y < mapheight; ++y) {
-		for (usize x = 0; x < mapwidth; ++x) {
+	for (usize y = 0; y < mapheight; y++) {
+		for (usize x = 0; x < mapwidth; x++) {
 			const usize offset = y * mapwidth + x;
 			const f32 tile_speed = tilemap->collision_buffer.offset_to_walking_speed[offset];
 			const SDL_Rect rect = {

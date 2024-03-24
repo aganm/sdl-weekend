@@ -42,7 +42,7 @@ void soa_free_slot(
 	const soa_slot_t *slots,
 	usize slot_count)
 {
-	for (usize i = 0; i < slot_count; ++i) {
+	for (usize i = 0; i < slot_count; i++) {
 		const soa_slot_t slot = slots[i];
 		if ((entity->count - 1) == slot.idx) {
 			entity->count -= 1;

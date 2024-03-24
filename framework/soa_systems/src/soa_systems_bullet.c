@@ -26,8 +26,8 @@ void soa_detect_bullet_collisions_with_something(
 	soa_slot_t worker_collided_bullets[something_count];
 	usize worker_collided_count = 0;
 #pragma omp for schedule(static, 256)
-	for (usize b = 0; b < bullet_count; ++b) {
-		for (usize s = 0; s < something_count; ++s) {
+	for (usize b = 0; b < bullet_count; b++) {
+		for (usize s = 0; s < something_count; s++) {
 			const f32v2 pos = { b_position->x[b], b_position->y[b] };
 			const f32rect rect = { s_position->x[s], s_position->y[s], s_size->w[s], s_size->h[s] };
 			const bool overlaps = (pos.x > rect.x) && (pos.x < rect.x + rect.w) &&
@@ -42,7 +42,7 @@ void soa_detect_bullet_collisions_with_something(
 	}
 #pragma omp critical
 	{
-		for (usize i = 0; i < worker_collided_count; ++i) {
+		for (usize i = 0; i < worker_collided_count; i++) {
 			out_collided_somethings[total_collided_count + i] = worker_collided_somethings[i];
 			out_collided_bullets[total_collided_count + i] = worker_collided_bullets[i];
 		}
@@ -59,7 +59,7 @@ void soa_bullet_damages_something(
 	const soa_slot_t *bullet_slots,
 	const usize slots_count)
 {
-	for (usize i = 0; i < slots_count; ++i) {
+	for (usize i = 0; i < slots_count; i++) {
 		const usize s = something_slots[i].idx;
 		const usize b = bullet_slots[i].idx;
 		s_health->val[s] -= b_damage->val[b];

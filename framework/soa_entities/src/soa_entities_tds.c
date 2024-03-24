@@ -51,7 +51,7 @@ void soa_character_free(
 	const soa_slot_t *slots,
 	const usize slot_count)
 {
-	for (usize i = 0; i < slot_count; ++i) {
+	for (usize i = 0; i < slot_count; i++) {
 		const usize c = slots[i].idx;
 		character->damage.val[c] = 0.f;
 		character->size.w[c] = 0.f;
@@ -65,7 +65,7 @@ void soa_bullet_free(
 	const soa_slot_t *slots,
 	const usize slot_count)
 {
-	for (usize i = 0; i < slot_count; ++i) {
+	for (usize i = 0; i < slot_count; i++) {
 		const usize b = slots[i].idx;
 		bullet->damage.val[b] = 0.f;
 		bullet->size.w[b] = 0.f;

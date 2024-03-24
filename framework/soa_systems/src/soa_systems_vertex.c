@@ -34,7 +34,7 @@ void soa_make_cube(
 		3, 2, 6, 6, 7, 3,
 		4, 5, 1, 1, 0, 4
 	};
-	for (usize i = 0; i < 36; ++i) {
+	for (usize i = 0; i < 36; i++) {
 		const usize v = soa_new_slot1(vertex_entity).idx;
 		const f32v3 cube_vertex = vertices[indices[i]];
 		v_position->x[v] = cube_vertex.x * size + position.x;
@@ -62,7 +62,7 @@ void soa_make_sprite_vertices(
 	soa_entity_t *vertex_entity,
 	f32v2 texture_size)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const usize v0 = soa_new_slot1(vertex_entity).idx;
 		const usize v1 = soa_new_slot1(vertex_entity).idx;
 		const usize v2 = soa_new_slot1(vertex_entity).idx;
@@ -161,7 +161,7 @@ void soa_make_sprite_vertices_3d(
 	soa_entity_t *vertex_entity,
 	f32v2 texture_size)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const usize v0 = soa_new_slot1(vertex_entity).idx;
 		const usize v1 = soa_new_slot1(vertex_entity).idx;
 		const usize v2 = soa_new_slot1(vertex_entity).idx;

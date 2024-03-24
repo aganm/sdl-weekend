@@ -11,7 +11,7 @@ void soa_progress_animation_if_moving(
 	const usize entity_count,
 	const f32seconds dt)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		if (e_velocity->x[e] != 0.f || e_velocity->y[e] != 0.f) {
 			e_animation->frame_elapsed[e].seconds += dt.seconds;
 		}
@@ -31,7 +31,7 @@ void soa_fetch_tileset_animation(
 	const usize entity_count,
 	const tileset_t *tileset)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const tile_enum_t tile_enum = e_animation->current_frame[e];
 		const tile_t tile = tileset->enum_to_tile[tile_enum];
 		e_clip->x[e] = tile.x;

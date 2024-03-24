@@ -53,11 +53,11 @@ static void load_map_objects(
 	const i32v2 tile_size = data->tile_size;
 	const f32v2 entity_size = { tile_size.width, tile_size.height };
 
-	for (usize l = 0; l < tilemap->num_layers; ++l) {
+	for (usize l = 0; l < tilemap->num_layers; l++) {
 		const tilemap_layer_t *layer = &tilemap->layers[l];
 
-		for (usize y = 0; y < mapheight; ++y) {
-			for (usize x = 0; x < mapwidth; ++x) {
+		for (usize y = 0; y < mapheight; y++) {
+			for (usize x = 0; x < mapwidth; x++) {
 				const i32v2 tile_position = { x, y };
 				const usize offset = y * mapwidth + x;
 				const u8 tile_char = layer->offset_to_char[offset];
@@ -146,7 +146,7 @@ static void fire_bullet(
 	const f32v2 world_mouse_position = { data->camera.x + mouse.x, data->camera.y + mouse.y };
 	const f32v2 origin = soa_get_one_position2(&data->player.position, data->player_slot);
 
-	for (usize i = 0; i < count; ++i) {
+	for (usize i = 0; i < count; i++) {
 		const f32v2 bullet_position = {
 			origin.x + i * 5.f,
 			origin.y + i * 5.f,
@@ -171,7 +171,7 @@ static void spawn_monsters(
 	f32rect area,
 	usize count)
 {
-	for (usize i = 0; i < count; ++i) {
+	for (usize i = 0; i < count; i++) {
 		const f32v2 monster_position = {
 			area.x + ((f32)rand() / (f32)RAND_MAX) * area.w,
 			area.y + ((f32)rand() / (f32)RAND_MAX) * area.h,

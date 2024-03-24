@@ -8,7 +8,7 @@ void soa_apply_camera_2d(
 	const usize entity_count,
 	f32v2 camera)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		e_position->x[e] -= camera.x;
 		e_position->y[e] -= camera.y;
 	}
@@ -29,7 +29,7 @@ void soa_apply_camera_3d(
 	glm_mat4_mul(proj, view, vp);
 	glm_mat4_mul(vp, model, mvp);
 
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		f32v4 pos = { e_position->x[e], e_position->y[e], e_position->z[e], 1.f };
 		f32v4 projected;
 		glm_mat4_mulv(mvp, pos.raw, projected.raw);

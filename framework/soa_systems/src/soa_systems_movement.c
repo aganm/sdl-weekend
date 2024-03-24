@@ -11,7 +11,7 @@ void soa_movement_to_velocity(
 	soa_velocity2 *e_velocity,
 	const usize entity_count)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const f32 x = e_movement->x[e];
 		const f32 y = e_movement->y[e];
 		const f32 length = sqrtf(x * x + y * y);
@@ -35,7 +35,7 @@ void soa_follow_one_target(
 	const f32 target_x = t_position->x[t];
 	const f32 target_y = t_position->y[t];
 
-	for (usize f = 0; f < follower_count; ++f) {
+	for (usize f = 0; f < follower_count; f++) {
 		const f32 follower_x = f_position->x[f];
 		const f32 follower_y = f_position->y[f];
 		const f32 speed = f_speed->val[f];
@@ -49,7 +49,7 @@ void soa_forward_movement_from_rotation(
 	const soa_rotation1 *e_rotation,
 	const usize entity_count)
 {
-	for (usize e = 0; e < entity_count; ++e) {
+	for (usize e = 0; e < entity_count; e++) {
 		const f32 rad = e_rotation->x[e];
 		e_movement->x[e] = -cosf(rad);
 		e_movement->y[e] = -sinf(rad);
