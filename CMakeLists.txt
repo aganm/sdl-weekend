@@ -11,13 +11,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "-pipe -DNDEBUG -O3")
 if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
 	set(WARNINGS
 		-Wall
-		-Wextra)
+		-Wextra
+		-Wfloat-conversion)
 	set(NO_WARNINGS
 		-Wno-missing-braces)
 elseif (CMAKE_C_COMPILER_ID STREQUAL "GNU")
 	set(WARNINGS
 		-Wall
-		-Wextra)
+		-Wextra
+		-Wfloat-conversion)
 	set(NO_WARNINGS
 		-Wno-missing-braces)
 elseif (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
