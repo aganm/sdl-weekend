@@ -113,7 +113,9 @@ void spawn_squares_in_area(
 {
 	slot spawn_slots[spawn_count];
 	instantiate_square(square, spawn_slots, spawn_count);
-	for (usize ii = 0; ii < spawn_count; ii++) {
+
+	for (usize ii = 0; ii < spawn_count; ii++)
+	{
 		const usize i  = spawn_slots[ii].idx;
 		square->position[i].x  = rand() % (max_x - min_x) + min_x;
 		square->position[i].y  = rand() % (max_y - min_y) + min_y;
@@ -151,7 +153,9 @@ void spawn_particles_on_entity(
 
 	slot spawn_slots[spawn_count];
 	instantiate_particle(particle, spawn_slots, spawn_count);
-	for (usize ii = 0; ii < spawn_count; ii++) {
+
+	for (usize ii = 0; ii < spawn_count; ii++)
+	{
 		const usize i  = spawn_slots[ii].idx;
 		particle->position[i].x  = rand() % (max_x - min_x) + min_x;
 		particle->position[i].y  = rand() % (max_y - min_y) + min_y;
@@ -167,7 +171,8 @@ void move_by_velocity(
 	const usize          entity_count,
 	const f64seconds     dt)
 {
-	for (usize e = 0; e < entity_count; e += 1) {
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		e_position[e].x += e_velocity[e].x * dt.seconds;
 		e_position[e].y += e_velocity[e].y * dt.seconds;
 	}
@@ -186,7 +191,8 @@ void move_on_inputs(
 {
 	const f32         fast_multiplier = fast ? 5.f : 1.f;
 
-	for (usize e = 0; e < entity_count; e += 1) {
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		const f32 move = e_speed[e].val * dt.seconds * fast_multiplier;
 		e_position[e].x -= move * left;
 		e_position[e].x += move * right;
@@ -207,7 +213,9 @@ find_result find_rect_at_position(
 	const data_position  at_position)
 {
 	find_result result = { 0 };
-	for (usize e = 0; e < entity_count; e += 1) {
+
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		const bool inside_rect = {
 			at_position.x >= e_position[e].x &&
 			at_position.y >= e_position[e].y &&
@@ -296,7 +304,8 @@ void render_sdl_rect(
 	const usize          entity_count,
 	SDL_Renderer        *renderer)
 {
-	for (usize e = 0; e < entity_count; e += 1) {
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, e_size[e].width, e_size[e].height };
 		const SDL_Color color = { e_color[e].r, e_color[e].g, e_color[e].b, e_color[e].a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -311,7 +320,8 @@ void render_sdl_rect_one_size(
 	SDL_Renderer        *renderer,
 	const data_size      one_size)
 {
-	for (usize e = 0; e < entity_count; e += 1) {
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
 		const SDL_Color color = { e_color[e].r, e_color[e].g, e_color[e].b, e_color[e].a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -326,7 +336,8 @@ void render_sdl_rect_one_size_one_color(
 	const data_size      one_size,
 	const data_color     one_color)
 {
-	for (usize e = 0; e < entity_count; e += 1) {
+	for (usize e = 0; e < entity_count; e += 1)
+	{
 		const SDL_FRect rect  = { e_position[e].x, e_position[e].y, one_size.width, one_size.height };
 		const SDL_Color color = { one_color.r, one_color.g, one_color.b, one_color.a };
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
