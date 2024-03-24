@@ -382,11 +382,11 @@ int main(int argc, char* argv[])
 	/* Game loop. */
 	bool running = true;
 	while (running) {
-		/* Delta time. */
-		const u64 new_ticks = SDL_GetPerformanceCounter();
-		const u64 diff_ticks = new_ticks - old_ticks;
+		/* Delta time (note: should be fixed). */
+		const u64        new_ticks  = SDL_GetPerformanceCounter();
+		const u64        diff_ticks = new_ticks - old_ticks;
 		const f64seconds delta_time = { (f64)diff_ticks / (f64)ticks_per_second };
-		old_ticks = new_ticks;
+		                 old_ticks  = new_ticks;
 
 		/* Inputs. */
 		static bool up      = false;
@@ -399,6 +399,7 @@ int main(int argc, char* argv[])
 		bool        click   = false;
 		int         click_x = 0;
 		int         click_y = 0;
+
 		SDL_Event   event;
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
