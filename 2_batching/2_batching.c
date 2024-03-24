@@ -20,28 +20,28 @@ typedef struct data_color      { u8 r, g, b, a ;    } data_color;
 typedef struct data_size       { f32 width, height; } data_size;
 typedef struct data_sdl_vertex { SDL_Vertex val;    } data_sdl_vertex;
 
-typedef struct data_entity_square {
+typedef struct entity_square {
 	usize          count;
 	usize          max;
 	data_position *position;
 	data_speed    *speed;
 	data_color    *color;
 	data_size     *size;
-} data_entity_square;
+} entity_square;
 
-typedef struct data_entity_particle {
+typedef struct entity_particle {
 	usize          count;
 	usize          max;
 	data_position *position;
 	data_velocity *velocity;
 	data_color    *color;
-} data_entity_particle;
+} entity_particle;
 
-typedef struct data_entity_vertex {
+typedef struct entity_vertex {
 	usize            count;
 	usize            max;
 	data_sdl_vertex *sdl_vertex;
-} data_entity_vertex;
+} entity_vertex;
 
 bool instantiate_should_resize(
 	usize      *entity_count,
@@ -60,9 +60,9 @@ bool instantiate_should_resize(
 }
 
 void instantiate_square(
-	data_entity_square *square,
-	slot               *out_slots,
-	const usize         count)
+	entity_square *square,
+	slot          *out_slots,
+	const usize    count)
 {
 	if (instantiate_should_resize(&square->count, &square->max, out_slots, count))
 	{
@@ -74,9 +74,9 @@ void instantiate_square(
 }
 
 void instantiate_particle(
-	data_entity_particle *particle,
-	slot                 *out_slots,
-	const usize           count)
+	entity_particle *particle,
+	slot            *out_slots,
+	const usize      count)
 {
 	if (instantiate_should_resize(&particle->count, &particle->max, out_slots, count))
 	{
@@ -87,9 +87,9 @@ void instantiate_particle(
 }
 
 void instantiate_vertex(
-	data_entity_vertex *vertex,
-	slot              **out_slots,
-	const usize         count)
+	entity_vertex *vertex,
+	slot         **out_slots,
+	const usize    count)
 {
 	/* Heap buffer for vertex slots because could get very big. */
 	static slot   *buffer     = NULL;
@@ -107,12 +107,12 @@ void instantiate_vertex(
 }
 
 void spawn_squares_in_area(
-	data_entity_square *square,
-	const int           min_x,
-	const int           max_x,
-	const int           min_y,
-	const int           max_y,
-	const usize         spawn_count)
+	entity_square *square,
+	const int      min_x,
+	const int      max_x,
+	const int      min_y,
+	const int      max_y,
+	const usize    spawn_count)
 {
 	slot spawn_slots[spawn_count];
 	instantiate_square(square, spawn_slots, spawn_count);
@@ -131,26 +131,26 @@ void spawn_squares_in_area(
 }
 
 void spawn_particles_on_entity(
-	data_entity_particle *particle,
+	entity_particle     *particle,
 
-	const data_position  *e_position,
-	const data_size      *e_size,
-	const data_color     *e_color,
-	const slot            entity_slot,
+	const data_position *e_position,
+	const data_size     *e_size,
+	const data_color    *e_color,
+	const slot           entity_slot,
 
-	const usize           spawn_count)
+	const usize          spawn_count)
 {
-	const usize       e = entity_slot.idx;
-	const f32         x = e_position[e].x;
-	const f32         y = e_position[e].y;
-	const f32         w = e_size[e].width;
-	const f32         h = e_size[e].height;
-	const data_color  c = e_color[e];
+	const usize      e = entity_slot.idx;
+	const f32        x = e_position[e].x;
+	const f32        y = e_position[e].y;
+	const f32        w = e_size[e].width;
+	const f32        h = e_size[e].height;
+	const data_color c = e_color[e];
 
-	const int     min_x = x;
-	const int     max_x = x + w;
-	const int     min_y = y;
-	const int     max_y = y + h;
+	const int    min_x = x;
+	const int    max_x = x + w;
+	const int    min_y = y;
+	const int    max_y = y + h;
 
 	slot spawn_slots[spawn_count];
 	instantiate_particle(particle, spawn_slots, spawn_count);
@@ -227,7 +227,7 @@ find_result find_rect_at_position(
 }
 
 void generate_one_size_colored_triangle_sdl_vertex(
-	data_entity_vertex  *vertex,
+	entity_vertex       *vertex,
 	const data_position *e_position,
 	const data_color    *e_color,
 	const usize          entity_count,
@@ -262,11 +262,11 @@ void generate_one_size_colored_triangle_sdl_vertex(
 }
 
 void generate_shadowed_triangle_sdl_vertex_from_3d_text_mesh(
-	data_entity_vertex  *vertex,
-	vertex_3d           *mesh,
-	const usize          mesh_length,
-	const data_color     color_a,
-	const data_color     color_b)
+	entity_vertex   *vertex,
+	vertex_3d       *mesh,
+	const usize      mesh_length,
+	const data_color color_a,
+	const data_color color_b)
 {
 	slot *vertex_slots;
 	instantiate_vertex(vertex, &vertex_slots, mesh_length * 2);
@@ -371,17 +371,17 @@ int main(int argc, char* argv[])
 	SDL_GetWindowSize(window, &w, &h);
 
 	/* Entities. */
-	data_entity_vertex   vertex         = { 0 };
-	data_entity_square   square         = { 0 };
-	data_entity_particle particle       = { 0 };
-	data_size            particle_size  = { 10, 10 };
-	data_color           white          = { 255, 255, 255, 255 };
-	data_color           black          = { 0, 0, 0, 0 };
-	data_color           orange         = { 255, 200, 42, 255 };
-	data_color           dark_orange    = { 150, 100, 0, 255 };
-	data_color           red            = { 255, 50, 50, 255 };
-	data_color           green          = { 0, 255, 200, 255 };
-	data_color           yellow         = { 255, 255, 0, 255 };
+	entity_vertex   vertex        = { 0 };
+	entity_square   square        = { 0 };
+	entity_particle particle      = { 0 };
+	data_size       particle_size = { 10, 10 };
+	data_color      white         = { 255, 255, 255, 255 };
+	data_color      black         = { 0, 0, 0, 0 };
+	data_color      orange        = { 255, 200, 42, 255 };
+	data_color      dark_orange   = { 150, 100, 0, 255 };
+	data_color      red           = { 255, 50, 50, 255 };
+	data_color      green         = { 0, 255, 200, 255 };
+	data_color      yellow        = { 255, 255, 0, 255 };
 
 	spawn_squares_in_area(&square, 0, w, 0, h, 1024);
 
