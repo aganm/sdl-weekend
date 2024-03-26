@@ -28,7 +28,9 @@ cmake .. -G"$gen" \
 	-DGAME="$game" \
 	-DSTANDALONE="$standalone"
 
-cmake --build .
+if ! cmake --build .; then
+	exit
+fi
 
 cd .. && cd bin
 ./"$game"_test
