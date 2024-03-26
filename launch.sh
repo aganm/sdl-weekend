@@ -4,8 +4,9 @@
 
 game=$(basename $1)
 
-if [ ! -d "$game" ]; then
-	echo "$(pwd)/$(basename $0): cannot find $game: No such file or directory"
+if cd $game; then
+	cd ..
+else
 	exit
 fi
 
