@@ -397,8 +397,8 @@ int main(int argc, char* argv[])
 	SDL_SetWindowPosition(window, display.x, display.y);
 	SDL_SetWindowSize(window, display.w, display.h);
 #endif
-	int w, h;
-	SDL_GetWindowSize(window, &w, &h);
+	int width, height;
+	SDL_GetWindowSize(window, &width, &height);
 
 	/* Entities. */
 	entity_vertex   vertex        = { 0 };
@@ -413,7 +413,7 @@ int main(int argc, char* argv[])
 	data_color      green         = { 0, 255, 200, 255 };
 	data_color      yellow        = { 255, 255, 0, 255 };
 
-	spawn_squares_in_area(&square, 0, w, 0, h, 1024);
+	spawn_squares_in_area(&square, 0, width, 0, height, 1024);
 
 	/* Game loop. */
 	bool running = true;
@@ -480,7 +480,7 @@ int main(int argc, char* argv[])
 
 		/* Gameplay. */
 		if (space) {
-			spawn_squares_in_area(&square, 0, w, 0, h, 1024);
+			spawn_squares_in_area(&square, 0, width, 0, height, 1024);
 		}
 		if (click) {
 			find_result find = find_rect_at_position(square.position, square.size, square._ent.count, (data_position){ click_x, click_y });
