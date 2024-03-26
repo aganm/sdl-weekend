@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.9.0)
 
 project(sdl2-weekend)
 
+option(STANDALONE "Build without framework" OFF)
+
 #set(SANITIZE "-fsanitize=address")
 set(CMAKE_C_FLAGS_DEBUG "-pipe -DDEBUG -O3 -g -ggdb ${SANITIZE}")
 set(CMAKE_CXX_FLAGS_DEBUG "-pipe -DDEBUG -O3 -g -ggdb ${SANITIZE}")
