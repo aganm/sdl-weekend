@@ -387,6 +387,19 @@ int main(int argc, char* argv[])
 	u64           old_ticks        = SDL_GetPerformanceCounter();
 	const u64     ticks_per_second = SDL_GetPerformanceFrequency();
 
+	/* Print available drivers. */
+#ifdef SDL3
+	for (int i = 0; i < SDL_GetNumRenderDrivers(); i++) {
+		printf("%s\n", SDL_GetRenderDriver(i));
+	}
+#else
+	for (int i = 0; i < SDL_GetNumRenderDrivers(); i++) {
+		SDL_RendererInfo info;
+		SDL_GetRenderDriverInfo(i, &info);
+		printf("%s\n", info.name);
+	}
+#endif
+
 	/* Maximime window in full screen area. */
 #ifndef SDL3
 	int top, left, bottom, right;
