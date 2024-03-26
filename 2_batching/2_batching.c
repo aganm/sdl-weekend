@@ -377,7 +377,7 @@ int main(int argc, char* argv[])
 	/* Application stuff. */
 	const char   *title            = argc >= 1 ? argv[0] : "";
 #ifdef SDL3
-	SDL_Window   *window           = SDL_CreateWindow(title, 0, 0, SDL_WINDOW_RESIZABLE);
+	SDL_Window   *window           = SDL_CreateWindow(title, 0, 0, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
 	SDL_Renderer *renderer         = SDL_CreateRenderer(window, NULL, 0);
 #else
 	SDL_Window   *window           = SDL_CreateWindow(title, -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);
