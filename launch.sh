@@ -2,9 +2,8 @@
 # export CC=tcc
 # export CXX=clang++
 
-game=$(basename $1)
-
-if cd $game; then
+if cd $1*; then
+	game=$(basename $(pwd))
 	cd ..
 else
 	exit
