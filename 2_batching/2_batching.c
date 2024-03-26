@@ -515,7 +515,7 @@ int main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
 
-		/* Write fps in window bar. */
+		/* Show fps in window bar. */
 		char title_fps[1024];
 		int fps = (int)(1.0 / delta_time.seconds);
 		snprintf(title_fps, sizeof(title_fps), "%s (%s: %ifps)", title, renderer_info.name, fps);
