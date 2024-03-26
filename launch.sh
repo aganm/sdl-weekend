@@ -15,9 +15,14 @@ if [ -f $game/standalone ]; then
 	standalone="Yes"
 fi
 
-mkdir -p bin && rm bin/*
 mkdir -p build && cd build
-cmake .. -G"$gen" -DCMAKE_BUILD_TYPE="Release" -DGAME="$game" -DSTANDALONE="$standalone"
+
+cmake .. -G"$gen" \
+	-DCMAKE_BUILD_TYPE="Release" \
+	-DOUTPUT="bin" \
+	-DGAME="$game" \
+	-DSTANDALONE="$standalone"
+
 cmake --build .
 
 cd .. && cd bin
