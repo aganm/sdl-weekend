@@ -383,9 +383,9 @@ int main(int argc, char* argv[])
 	SDL_Window   *window           = SDL_CreateWindow(title, -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);
 	SDL_Renderer *renderer         = SDL_CreateRenderer(window, -1, 0);
 #endif
+	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
 	u64           old_ticks        = SDL_GetPerformanceCounter();
 	const u64     ticks_per_second = SDL_GetPerformanceFrequency();
-	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
 
 	/* Maximime window in full screen area. */
 #ifndef SDL3

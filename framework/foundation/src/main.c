@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
 	SDL_App app;
 	app.window = SDL_CreateWindow(title, -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);
 	app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_PRESENTVSYNC);
+	SDL_RendererInfo renderer_info;
+	SDL_GetRendererInfo(app.renderer, &renderer_info);
 	u64 old_ticks = SDL_GetPerformanceCounter();
 	const u64 ticks_per_second = SDL_GetPerformanceFrequency();
 
@@ -54,9 +56,10 @@ int main(int argc, char *argv[])
 		SDL_RenderPresent(app.renderer);
 		SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 0);
 		SDL_RenderClear(app.renderer);
+
 		char title_fps[1024];
 		int fps = (int)(1.0 / delta_time.seconds);
-		snprintf(title_fps, sizeof(title_fps), "%s: %ifps", title, fps);
+		snprintf(title_fps, sizeof(title_fps), "%s (%s: %ifps)", title, renderer_info.name, fps);
 		SDL_SetWindowTitle(app.window, title_fps);
 	}
 
