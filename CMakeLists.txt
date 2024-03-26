@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9.0)
 
 project(sdl2-weekend)
 
+option(SDL3 "Use SDL3 instead of SDL2" OFF)
 option(STANDALONE "Build without framework" OFF)
 
 #set(SANITIZE "-fsanitize=address")
@@ -52,7 +53,15 @@ if (NOT CMAKE_C_COMPILER_ID STREQUAL "TinyCC")
 	set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-find_package(SDL2 REQUIRED)
+if(SDL3)
+	set(SDL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/SDL3/include
+			${CMAKE_CURRENT_SOURCE_DIR}/SDL3/include/SDL3)
+	set(SDL_LIBRARIES "-lSDL3")
+else()
+	find_package(SDL2 REQUIRED)
+	set(SDL_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS})
+	set(SDL_LIBRARIES ${SDL2_LIBRARIES})
+endif()
 
 if (NOT STANDALONE STREQUAL "Yes")
 set(FRAMEWORK_INCLUDE_DIRS
@@ -73,11 +82,11 @@ add_executable(${GAME}
 	${FRAMEWORK_SRC}
 	${GAME_SRC})
 target_include_directories(${GAME}
-	PRIVATE ${SDL2_INCLUDE_DIRS}
+	PRIVATE ${SDL_INCLUDE_DIRS}
 	PRIVATE ${FRAMEWORK_INCLUDE_DIRS})
 target_link_libraries(${GAME}
-	${SDL2_LIBRARIES}
-	m)
+	PRIVATE ${SDL_LIBRARIES}
+	PRIVATE m)
 
 if (NOT STANDALONE STREQUAL "Yes")
 add_executable(${GAME}_test
