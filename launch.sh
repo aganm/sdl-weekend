@@ -1,9 +1,8 @@
 #!/bin/bash
-
-game=$(basename $1)
-
 # export CC=tcc
 # export CXX=clang++
+
+game=$(basename $1)
 
 if [[ "$OSTYPE" == "msys" ]]; then
 	gen="MSYS Makefiles"
