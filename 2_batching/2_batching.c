@@ -388,6 +388,7 @@ int main(int argc, char* argv[])
 	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
 
 	/* Maximime window in full screen area. */
+#ifndef SDL3
 	int top, left, bottom, right;
 	SDL_GetWindowBordersSize(window, &top, &left, &bottom, &right);
 	SDL_Rect bounds;
@@ -395,6 +396,7 @@ int main(int argc, char* argv[])
 	const SDL_Rect display = { bounds.x, bounds.y + top, bounds.w, bounds.h - top };
 	SDL_SetWindowPosition(window, display.x, display.y);
 	SDL_SetWindowSize(window, display.w, display.h);
+#endif
 	int w, h;
 	SDL_GetWindowSize(window, &w, &h);
 
