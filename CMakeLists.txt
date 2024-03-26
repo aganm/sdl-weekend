@@ -66,6 +66,10 @@ else()
 	set(SDL_LIBRARIES ${SDL2_LIBRARIES})
 endif()
 
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+link_libraries(${OPENGL_LIBRARIES})
+
 if (NOT STANDALONE STREQUAL "Yes")
 set(FRAMEWORK_INCLUDE_DIRS
 	${CMAKE_CURRENT_SOURCE_DIR}/framework/foundation/include
