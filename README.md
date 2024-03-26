@@ -6,11 +6,11 @@
 
 # Build instructions
 
-To compile and run tests and launch a game:
+To compile and run tests and launch a program:
 
-`./launch.sh <game>`
+`./launch.sh <name>` or `./launch.sh <number>`
 
-For example, to launch the game titled '1_shooter', type:
+For example, to launch the program titled '1_shooter', type:
 
 `./launch.sh 1_shooter` or `./launch.sh 1`
 
@@ -26,10 +26,14 @@ It was reported to me that OpenMP caused performance issues on gcc 9. If you hap
 - `Space Bar` to spawn more monsters
 - `Z` to switch between 2D and 3D rendering (experimental, not functional)
 
-# 2_batching: Game instructions (more a benchmark than a game)
+# 2_batching: Benchmark instructions
 
 - `WASD` keys to move the rectangles
 - `Left Shift` to move faster
 - `Space Bar` to spawn more rectangles
 - `Left Click` on a rectangle to spawn particles on this rectangle
 - `Tab` to toggle between batching on and off
+
+# 3_microui: GUI instructions
+
+- `Mouse Buttons` to do stuff
