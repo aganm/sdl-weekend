@@ -1,9 +1,23 @@
+//#define SDL3
+#include <SDL.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <SDL.h>
 #include "mesh.h"
+
+#ifdef SDL3
+#undef  SDL_RenderDrawRectF
+#undef  SDL_QUIT
+#undef  SDL_MOUSEBUTTONDOWN
+#undef  SDL_KEYDOWN
+#undef  SDL_KEYUP
+#define SDL_RenderDrawRectF SDL_RenderRect
+#define SDL_QUIT SDL_EVENT_QUIT
+#define SDL_MOUSEBUTTONDOWN SDL_EVENT_MOUSE_BUTTON_DOWN
+#define SDL_KEYDOWN SDL_EVENT_KEY_DOWN
+#define SDL_KEYUP SDL_EVENT_KEY_UP
+#endif
 
 typedef float    f32;
 typedef double   f64;
@@ -361,9 +375,14 @@ int main(int argc, char* argv[])
 	// SDL_SetHint(SDL_HINT_RENDER_DRIVER, "vulkan");
 
 	/* Application stuff. */
-	const char   *title            = argc >= 1 ? argv[0] : "NO_TITLE";
+	const char   *title            = argc >= 1 ? argv[0] : "";
+#ifdef SDL3
+	SDL_Window   *window           = SDL_CreateWindow(title, 0, 0, SDL_WINDOW_RESIZABLE);
+	SDL_Renderer *renderer         = SDL_CreateRenderer(window, NULL, 0);
+#else
 	SDL_Window   *window           = SDL_CreateWindow(title, -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);
-	SDL_Renderer *renderer         = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+	SDL_Renderer *renderer         = SDL_CreateRenderer(window, -1, 0);
+#endif
 	u64           old_ticks        = SDL_GetPerformanceCounter();
 	const u64     ticks_per_second = SDL_GetPerformanceFrequency();
 	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
@@ -426,8 +445,8 @@ int main(int argc, char* argv[])
 					case SDL_BUTTON_LEFT:    click  = true; break;
 					default:                                break;
 				}
-				click_x = event.button.x;
-				click_y = event.button.y;
+				click_x = (int)event.button.x;
+				click_y = (int)event.button.y;
 				break;
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.scancode) {
