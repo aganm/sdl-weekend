@@ -56,10 +56,13 @@ endif()
 if(SDL3)
 	set(SDL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/SDL3/include
 			${CMAKE_CURRENT_SOURCE_DIR}/SDL3/include/SDL3)
-	set(SDL_LIBRARIES "-lSDL3")
+	set(SDL_LINK_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/SDL3/bin
+			${CMAKE_CURRENT_SOURCE_DIR}/SDL3/lib)
+	set(SDL_LIBRARIES SDL3)
 else()
 	find_package(SDL2 REQUIRED)
 	set(SDL_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS})
+	set(SDL_LINK_DIRS)
 	set(SDL_LIBRARIES ${SDL2_LIBRARIES})
 endif()
 
@@ -84,6 +87,8 @@ add_executable(${GAME}
 target_include_directories(${GAME}
 	PRIVATE ${SDL_INCLUDE_DIRS}
 	PRIVATE ${FRAMEWORK_INCLUDE_DIRS})
+target_link_directories(${GAME}
+	PRIVATE ${SDL_LINK_DIRS})
 target_link_libraries(${GAME}
 	PRIVATE ${SDL_LIBRARIES}
 	PRIVATE m)

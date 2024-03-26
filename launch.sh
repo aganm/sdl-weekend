@@ -26,7 +26,8 @@ cmake .. -G"$gen" \
 	-DCMAKE_BUILD_TYPE="Release" \
 	-DOUTPUT="bin" \
 	-DGAME="$game" \
-	-DSTANDALONE="$standalone"
+	-DSTANDALONE="$standalone" \
+	-DSDL3=OFF
 
 if ! cmake --build .; then
 	exit
