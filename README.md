@@ -8,11 +8,11 @@
 
 To compile and run tests and launch a game:
 
-`./launch.sh <game_folder>`
+`./launch.sh <game>`
 
 For example, to launch the game titled '1_shooter', type:
 
-`./launch.sh 1_shooter`
+`./launch.sh 1_shooter` or `./launch.sh 1`
 
 # OpenMP performance bug
 
