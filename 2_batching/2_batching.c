@@ -358,6 +358,7 @@ void render_sdl_geometry(
 int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO);
+	// SDL_SetHint(SDL_HINT_RENDER_DRIVER, "vulkan");
 
 	/* Application stuff. */
 	const char   *title            = argc >= 1 ? argv[0] : "NO_TITLE";
@@ -365,6 +366,7 @@ int main(int argc, char* argv[])
 	SDL_Renderer *renderer         = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
 	u64           old_ticks        = SDL_GetPerformanceCounter();
 	const u64     ticks_per_second = SDL_GetPerformanceFrequency();
+	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
 
 	/* Maximime window in full screen area. */
 	int top, left, bottom, right;
@@ -492,10 +494,10 @@ int main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		SDL_RenderClear(renderer);
 
-		/* Write fps in window bar. */
+		/* Write renderer and fps in window bar. */
 		char title_fps[1024];
 		int fps = (int)(1.0 / delta_time.seconds);
-		snprintf(title_fps, sizeof(title_fps), "%s: %ifps", title, fps);
+		snprintf(title_fps, sizeof(title_fps), "%s (%s: %ifps)", title, renderer_info.name, fps);
 		SDL_SetWindowTitle(window, title_fps);
 	}
 
