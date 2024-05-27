@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9.0)
 
-project(sdl2-weekend)
+project(sdl-weekend)
 
 option(SDL3 "Use SDL3 instead of SDL2" OFF)
 option(STANDALONE "Build without framework" OFF)
