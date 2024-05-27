@@ -184,17 +184,15 @@ typedef const char *cstr; /*!< string type */
 typedef size_t   usize;	/*!< unsigned pointer sized integer */
 typedef intptr_t isize; /*!< signed pointer sized integer */
 
-/* Primitive types with fixed sizes that have SIMD hardware support. You may
- * notice that these are not ordered in ascending order of the type size.
- * Instead, they are ordered in ascending order of SIMD hardware support on
- * x86-64. From very good support (32-bit floating point) to very poor (8-bit
- * integers). 16-bit floating point does not generally have good hardware
- * support, but it will be mapped to a type that does: 32-bit floating point if
- * 16-bit is not available, and 16-bit if it is available so that its
- * performance is always best on the given hardware.
+/* Primitive types with fixed sizes that have SIMD hardware support. 16-bit
+ * floating point does not generally have good hardware support, but it will be
+ * mapped to a type that does: 32-bit floating point if 16-bit is not
+ * available, and 16-bit if it is available so that its performance is always
+ * best on the given hardware.
  *
- * Using long long / unsigned long long for i64/u64 because lua-cdecl generates
- * a single 'long' with int64_t/uint64_t, which would be wrong on windows.. */
+ * Define TYPES_PRIMITIVE_LUA to define i64/u64 to long long / unsigned long
+ * long for for lua-cdecl because it otherwise generates a single 'long' with
+ * int64_t/uint64_t, which is the wrong size on windows. */
 
 typedef uint16_t  f16store; /*!< 16-bit floating point (10-bit mantissa) IEEE-754-2008 binary16 stored type */
 typedef float     f16live;  /*!< 16-bit floating point (10-bit mantissa) IEEE-754-2008 binary16 live stype */
@@ -202,8 +200,13 @@ typedef float     f32;      /*!< 32-bit floating point (23-bit mantissa) IEEE-75
 typedef double    f64;      /*!< 64-bit floating point (52-bit mantissa) IEEE-754-2008 binary64 */
 typedef int32_t   i32;      /*!< signed 32-bit integer */
 typedef uint32_t  u32;      /*!< unsigned 32-bit integer */
-typedef int64_t   i64;      /*!< signed 64-bit integer */ // for lua-cdecl
-typedef uint64_t  u64;      /*!< unsigned 64-bit integer */ // for lua-cdecl
+#ifndef TYPES_PRIMITIVE_LUA
+typedef int64_t   i64;      /*!< signed 64-bit integer */
+typedef uint64_t  u64;      /*!< unsigned 64-bit integer */
+#else
+typedef long long i64;      /*!< signed 64-bit integer */
+typedef unsigned long long u64; /*!< unsigned 64-bit integer */
+#endif
 typedef int16_t   i16;      /*!< signed 16-bit integer */
 typedef uint16_t  u16;      /*!< unsigned 16-bit integer */
 typedef int8_t    i8;       /*!< signed 8-bit integer */
