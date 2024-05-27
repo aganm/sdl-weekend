@@ -184,11 +184,14 @@ typedef const char *cstr; /*!< string type */
 typedef size_t   usize;	/*!< unsigned pointer sized integer */
 typedef intptr_t isize; /*!< signed pointer sized integer */
 
-/* Primitive types with fixed sizes that have SIMD hardware support. 16-bit
- * floating point does not generally have good hardware support, but it will be
- * mapped to a type that does: 32-bit floating point if 16-bit is not
- * available, and 16-bit if it is available so that its performance is always
- * best on the given hardware.
+/* Primitive types with fixed sizes that have SIMD hardware support. You may
+ * notice that these are not ordered in ascending order of the type size.
+ * Instead, they are ordered in ascending order of SIMD hardware support on
+ * x86-64. From very good support (32-bit floating point) to very poor (8-bit
+ * integers). 16-bit floating point does not generally have good hardware
+ * support, but it will be mapped to a type that does: 32-bit floating point if
+ * 16-bit is not available, and 16-bit if it is available so that its
+ * performance is always best on the given hardware.
  *
  * Define TYPES_PRIMITIVE_LUA to define i64/u64 to long long / unsigned long
  * long for for lua-cdecl because it otherwise generates a single 'long' with
