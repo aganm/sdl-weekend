@@ -1,4 +1,3 @@
-//#define SDL3
 #include <SDL.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -6,18 +5,7 @@
 #include <stdbool.h>
 #include "mesh.h"
 
-#ifdef SDL3
-#undef  SDL_RenderDrawRectF
-#undef  SDL_QUIT
-#undef  SDL_MOUSEBUTTONDOWN
-#undef  SDL_KEYDOWN
-#undef  SDL_KEYUP
-#define SDL_RenderDrawRectF SDL_RenderRect
-#define SDL_QUIT SDL_EVENT_QUIT
-#define SDL_MOUSEBUTTONDOWN SDL_EVENT_MOUSE_BUTTON_DOWN
-#define SDL_KEYDOWN SDL_EVENT_KEY_DOWN
-#define SDL_KEYUP SDL_EVENT_KEY_UP
-#endif
+typedef const char *cstr;
 
 typedef float    f32;
 typedef double   f64;
@@ -375,15 +363,17 @@ int main(int argc, char* argv[])
 	// SDL_SetHint(SDL_HINT_RENDER_DRIVER, "vulkan");
 
 	/* Application stuff. */
-	const char   *title            = argc >= 1 ? argv[0] : "";
+	const cstr   title            = argc >= 1 ? argv[0] : "";
 #ifdef SDL3
 	SDL_Window   *window           = SDL_CreateWindow(title, 0, 0, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
-	SDL_Renderer *renderer         = SDL_CreateRenderer(window, NULL, 0);
+	SDL_Renderer *renderer         = SDL_CreateRenderer(window, NULL);
+	const cstr   renderer_name     = SDL_GetRendererName(renderer);
 #else
 	SDL_Window   *window           = SDL_CreateWindow(title, -1, -1, -1, -1, SDL_WINDOW_RESIZABLE);
 	SDL_Renderer *renderer         = SDL_CreateRenderer(window, -1, 0);
+	SDL_RendererInfo renderer_info; SDL_GetRendererInfo(renderer, &renderer_info);
+	const cstr   renderer_name     = renderer_info.name;
 #endif
-	SDL_RendererInfo renderer_info;  SDL_GetRendererInfo(renderer, &renderer_info);
 	u64           old_ticks        = SDL_GetPerformanceCounter();
 	const u64     ticks_per_second = SDL_GetPerformanceFrequency();
 
@@ -464,7 +454,11 @@ int main(int argc, char* argv[])
 				click_y = (int)event.button.y;
 				break;
 			case SDL_KEYDOWN:
+#ifdef SDL3
+				switch(event.key.scancode) {
+#else
 				switch(event.key.keysym.scancode) {
+#endif
 					case SDL_SCANCODE_SPACE:  space = true;   break;
 					case SDL_SCANCODE_W:      up    = true;   break;
 					case SDL_SCANCODE_S:      down  = true;   break;
@@ -476,7 +470,11 @@ int main(int argc, char* argv[])
 				}
 				break;
 			case SDL_KEYUP:
+#ifdef SDL3
+				switch(event.key.scancode) {
+#else
 				switch(event.key.keysym.scancode) {
+#endif
 					case SDL_SCANCODE_W:      up    = false; break;
 					case SDL_SCANCODE_S:      down  = false; break;
 					case SDL_SCANCODE_A:      left  = false; break;
@@ -531,9 +529,11 @@ int main(int argc, char* argv[])
 		/* Show fps in window bar. */
 		char title_fps[1024];
 		int fps = (int)(1.0 / delta_time.seconds);
-		snprintf(title_fps, sizeof(title_fps), "%s (%s: %ifps)", title, renderer_info.name, fps);
+		snprintf(title_fps, sizeof(title_fps), "%s (%s: %ifps)(%lu squares, %lu particles)", title, renderer_name, fps, square._ent.count, particle._ent.count);
 		SDL_SetWindowTitle(window, title_fps);
 	}
 
 	SDL_Quit();
+
+	return 0;
 }
