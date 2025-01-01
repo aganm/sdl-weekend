@@ -8,14 +8,54 @@
 #ifndef TYPES_BUNDLE_H
 #define TYPES_BUNDLE_H
 
-#include "primitive.h"
-#include <warning.h>
+#include <assert.h>  /* assert() */
+#include <stddef.h>  /* size_t, intptr_t */
+#include <stdint.h>  /* int32_t and family */
+#include <warning.h> /* ENABLE_PADDED */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 ENABLE_PADDED
+
+/* @primitives (grep tag): copy-pasted from types/primitives.h */
+#ifndef TYPES_PRIMITIVE_F16
+#define TYPES_PRIMITIVE_F16
+#ifndef F16_IS_F32
+typedef uint16_t _f16raw;
+#else
+typedef float _f16raw;
+#endif
+typedef struct f16 { _f16raw _; } f16;
+#endif
+struct            f16;      /*!< 16-bit floating-point (10-bit mantissa) IEEE-754-2008 binary16 storage type */
+typedef float     h16;      /*!< 16-bit floating-point (10-bit mantissa) IEEE-754-2008 binary16 working type */
+typedef float     f32;      /*!< 32-bit floating-point (23-bit mantissa) IEEE-754-2008 binary32 */
+typedef double    f64;      /*!< 64-bit floating-point (52-bit mantissa) IEEE-754-2008 binary64 */
+typedef int32_t   i32;      /*!< signed 32-bit integer */
+typedef uint32_t  u32;      /*!< unsigned 32-bit integer */
+#ifndef TYPES_PRIMITIVE_LUA
+typedef int64_t   i64;      /*!< signed 64-bit integer */
+typedef uint64_t  u64;      /*!< unsigned 64-bit integer */
+#else
+typedef long long i64;      /*!< signed 64-bit integer */
+typedef unsigned long long u64; /*!< unsigned 64-bit integer */
+#endif
+typedef int16_t   i16;      /*!< signed 16-bit integer */
+typedef uint16_t  u16;      /*!< unsigned 16-bit integer */
+typedef int8_t    i8;       /*!< signed 8-bit integer */
+typedef uint8_t   u8;       /*!< unsigned 8-bit integer */
+typedef long double       f128; /*!< 128-bit floating-point (112-bit mantissa) IEEE-754-2008 binary128 */
+#ifdef __SIZEOF_INT128__
+typedef __int128          i128; /*!< signed 128-bit integer, nonstandard extension */
+typedef unsigned __int128 u128; /*!< signed 128-bit integer, nonstandard extension */
+#endif
+#ifndef TYPES_PRIMITIVE_LWC
+#define TYPES_PRIMITIVE_LWC
+typedef struct lwc32 { i32 tile; f32 local; } lwc32; /*!< 32-bit large world coordinate */
+typedef struct lwc64 { i64 tile; f64 local; } lwc64; /*!< 64-bit large world coordinate */
+#endif
 
 /* Utility macros to expand bundle type members. */
 
@@ -207,21 +247,21 @@ ENABLE_PADDED
 	struct { typename##v4 xyzw; }; \
 	type raw[4];
 
-#define BUNDLE_SWIZZLE_BBOX_2(typename, type) \
+#define BUNDLE_SWIZZLE_AABB_2(typename, type) \
 	struct { \
 		typename##v2 min; \
 		typename##v2 max; \
 	}; \
 	type raw[4];
 
-#define BUNDLE_SWIZZLE_BBOX_3(typename, type) \
+#define BUNDLE_SWIZZLE_AABB_3(typename, type) \
 	struct { \
 		typename##v3 min; \
 		typename##v3 max; \
 	}; \
 	type raw[6];
 
-#define BUNDLE_SWIZZLE_BBOX_4(typename, type) \
+#define BUNDLE_SWIZZLE_AABB_4(typename, type) \
 	struct { \
 		typename##v4 min; \
 		typename##v4 max; \
@@ -251,9 +291,12 @@ ENABLE_PADDED
 
 /* Vector types. */
 
-typedef struct f16v2  { union { BUNDLE_SWIZZLE_VECTOR_2(f16, f16live); }; } f16v2;
-typedef struct f16v3  { union { BUNDLE_SWIZZLE_VECTOR_3(f16, f16live); }; } f16v3;
-typedef struct f16v4  { union { BUNDLE_SWIZZLE_VECTOR_4(f16, f16live); }; } f16v4;
+typedef struct f16v2  { union { BUNDLE_SWIZZLE_VECTOR_2(f16, f16); }; } f16v2;
+typedef struct f16v3  { union { BUNDLE_SWIZZLE_VECTOR_3(f16, f16); }; } f16v3;
+typedef struct f16v4  { union { BUNDLE_SWIZZLE_VECTOR_4(f16, f16); }; } f16v4;
+typedef struct h16v2  { union { BUNDLE_SWIZZLE_VECTOR_2(h16, h16); }; } h16v2;
+typedef struct h16v3  { union { BUNDLE_SWIZZLE_VECTOR_3(h16, h16); }; } h16v3;
+typedef struct h16v4  { union { BUNDLE_SWIZZLE_VECTOR_4(h16, h16); }; } h16v4;
 typedef struct f32v2  { union { BUNDLE_SWIZZLE_VECTOR_2(f32, f32); }; } f32v2;
 typedef struct f32v3  { union { BUNDLE_SWIZZLE_VECTOR_3(f32, f32); }; } f32v3;
 typedef struct f32v4  { union { BUNDLE_SWIZZLE_VECTOR_4(f32, f32); }; } f32v4;
@@ -295,18 +338,30 @@ typedef struct u128v2 { union { BUNDLE_SWIZZLE_VECTOR_2(u128, u128); }; } u128v2
 typedef struct u128v3 { union { BUNDLE_SWIZZLE_VECTOR_3(u128, u128); }; } u128v3;
 typedef struct u128v4 { union { BUNDLE_SWIZZLE_VECTOR_4(u128, u128); }; } u128v4;
 #endif
+typedef struct lwc32v2 { union { BUNDLE_SWIZZLE_VECTOR_2(lwc32, lwc32); }; } lwc32v2;
+typedef struct lwc32v3 { union { BUNDLE_SWIZZLE_VECTOR_3(lwc32, lwc32); }; } lwc32v3;
+typedef struct lwc32v4 { union { BUNDLE_SWIZZLE_VECTOR_4(lwc32, lwc32); }; } lwc32v4;
 
 /* Matrix types (Column Major). */
 
-typedef struct f16m2x2  { union { BUNDLE_SWIZZLE_MATRIX_2X2(f16, f16live); }; } f16m2x2;
-typedef struct f16m2x3  { union { BUNDLE_SWIZZLE_MATRIX_2X3(f16, f16live); }; } f16m2x3;
-typedef struct f16m2x4  { union { BUNDLE_SWIZZLE_MATRIX_2X4(f16, f16live); }; } f16m2x4;
-typedef struct f16m3x2  { union { BUNDLE_SWIZZLE_MATRIX_3X2(f16, f16live); }; } f16m3x2;
-typedef struct f16m3x3  { union { BUNDLE_SWIZZLE_MATRIX_3X3(f16, f16live); }; } f16m3x3;
-typedef struct f16m3x4  { union { BUNDLE_SWIZZLE_MATRIX_3X4(f16, f16live); }; } f16m3x4;
-typedef struct f16m4x2  { union { BUNDLE_SWIZZLE_MATRIX_4X2(f16, f16live); }; } f16m4x2;
-typedef struct f16m4x3  { union { BUNDLE_SWIZZLE_MATRIX_4X3(f16, f16live); }; } f16m4x3;
-typedef struct f16m4x4  { union { BUNDLE_SWIZZLE_MATRIX_4X4(f16, f16live); }; } f16m4x4;
+typedef struct f16m2x2  { union { BUNDLE_SWIZZLE_MATRIX_2X2(f16, f16); }; } f16m2x2;
+typedef struct f16m2x3  { union { BUNDLE_SWIZZLE_MATRIX_2X3(f16, f16); }; } f16m2x3;
+typedef struct f16m2x4  { union { BUNDLE_SWIZZLE_MATRIX_2X4(f16, f16); }; } f16m2x4;
+typedef struct f16m3x2  { union { BUNDLE_SWIZZLE_MATRIX_3X2(f16, f16); }; } f16m3x2;
+typedef struct f16m3x3  { union { BUNDLE_SWIZZLE_MATRIX_3X3(f16, f16); }; } f16m3x3;
+typedef struct f16m3x4  { union { BUNDLE_SWIZZLE_MATRIX_3X4(f16, f16); }; } f16m3x4;
+typedef struct f16m4x2  { union { BUNDLE_SWIZZLE_MATRIX_4X2(f16, f16); }; } f16m4x2;
+typedef struct f16m4x3  { union { BUNDLE_SWIZZLE_MATRIX_4X3(f16, f16); }; } f16m4x3;
+typedef struct f16m4x4  { union { BUNDLE_SWIZZLE_MATRIX_4X4(f16, f16); }; } f16m4x4;
+typedef struct h16m2x2  { union { BUNDLE_SWIZZLE_MATRIX_2X2(h16, h16); }; } h16m2x2;
+typedef struct h16m2x3  { union { BUNDLE_SWIZZLE_MATRIX_2X3(h16, h16); }; } h16m2x3;
+typedef struct h16m2x4  { union { BUNDLE_SWIZZLE_MATRIX_2X4(h16, h16); }; } h16m2x4;
+typedef struct h16m3x2  { union { BUNDLE_SWIZZLE_MATRIX_3X2(h16, h16); }; } h16m3x2;
+typedef struct h16m3x3  { union { BUNDLE_SWIZZLE_MATRIX_3X3(h16, h16); }; } h16m3x3;
+typedef struct h16m3x4  { union { BUNDLE_SWIZZLE_MATRIX_3X4(h16, h16); }; } h16m3x4;
+typedef struct h16m4x2  { union { BUNDLE_SWIZZLE_MATRIX_4X2(h16, h16); }; } h16m4x2;
+typedef struct h16m4x3  { union { BUNDLE_SWIZZLE_MATRIX_4X3(h16, h16); }; } h16m4x3;
+typedef struct h16m4x4  { union { BUNDLE_SWIZZLE_MATRIX_4X4(h16, h16); }; } h16m4x4;
 typedef struct f32m2x2  { union { BUNDLE_SWIZZLE_MATRIX_2X2(f32, f32); }; } f32m2x2;
 typedef struct f32m2x3  { union { BUNDLE_SWIZZLE_MATRIX_2X3(f32, f32); }; } f32m2x3;
 typedef struct f32m2x4  { union { BUNDLE_SWIZZLE_MATRIX_2X4(f32, f32); }; } f32m2x4;
@@ -337,7 +392,8 @@ typedef struct f128m4x4 { union { BUNDLE_SWIZZLE_MATRIX_4X4(f128, f128); }; } f1
 
 /* Rectangle types. */
 
-typedef struct f16rect  { union { BUNDLE_SWIZZLE_RECT_4(f16, f16live); }; } f16rect;
+typedef struct f16rect  { union { BUNDLE_SWIZZLE_RECT_4(f16, f16); }; } f16rect;
+typedef struct h16rect  { union { BUNDLE_SWIZZLE_RECT_4(h16, h16); }; } h16rect;
 typedef struct f32rect  { union { BUNDLE_SWIZZLE_RECT_4(f32, f32); }; } f32rect;
 typedef struct f64rect  { union { BUNDLE_SWIZZLE_RECT_4(f64, f64); }; } f64rect;
 typedef struct i32rect  { union { BUNDLE_SWIZZLE_RECT_4(i32, i32); }; } i32rect;
@@ -356,31 +412,38 @@ typedef struct u128rect { union { BUNDLE_SWIZZLE_RECT_4(u128, u128); }; } u128re
 
 /* Quaternion types. */
 
-typedef struct f16quat  { union { BUNDLE_SWIZZLE_QUAT(f16, f16live); }; } f16quat;
+typedef struct f16quat  { union { BUNDLE_SWIZZLE_QUAT(f16, f16); }; } f16quat;
+typedef struct h16quat  { union { BUNDLE_SWIZZLE_QUAT(h16, h16); }; } h16quat;
 typedef struct f32quat  { union { BUNDLE_SWIZZLE_QUAT(f32, f32); }; } f32quat;
 typedef struct f64quat  { union { BUNDLE_SWIZZLE_QUAT(f64, f64); }; } f64quat;
 typedef struct f128quat { union { BUNDLE_SWIZZLE_QUAT(f128, f128); }; } f128quat;
 
-/* Bounding box types. */
+/* Axis-aligned bounding box types. */
 
-typedef struct f16bbox2  { union { BUNDLE_SWIZZLE_BBOX_2(f16, f16live); }; } f16bbox2;
-typedef struct f16bbox3  { union { BUNDLE_SWIZZLE_BBOX_3(f16, f16live); }; } f16bbox3;
-typedef struct f16bbox4  { union { BUNDLE_SWIZZLE_BBOX_4(f16, f16live); }; } f16bbox4;
-typedef struct f32bbox2  { union { BUNDLE_SWIZZLE_BBOX_2(f32, f32); }; } f32bbox2;
-typedef struct f32bbox3  { union { BUNDLE_SWIZZLE_BBOX_3(f32, f32); }; } f32bbox3;
-typedef struct f32bbox4  { union { BUNDLE_SWIZZLE_BBOX_4(f32, f32); }; } f32bbox4;
-typedef struct f64bbox2  { union { BUNDLE_SWIZZLE_BBOX_2(f64, f64); }; } f64bbox2;
-typedef struct f64bbox3  { union { BUNDLE_SWIZZLE_BBOX_3(f64, f64); }; } f64bbox3;
-typedef struct f64bbox4  { union { BUNDLE_SWIZZLE_BBOX_4(f64, f64); }; } f64bbox4;
-typedef struct f128bbox2 { union { BUNDLE_SWIZZLE_BBOX_2(f128, f128); }; } f128bbox2;
-typedef struct f128bbox3 { union { BUNDLE_SWIZZLE_BBOX_3(f128, f128); }; } f128bbox3;
-typedef struct f128bbox4 { union { BUNDLE_SWIZZLE_BBOX_4(f128, f128); }; } f128bbox4;
+typedef struct f16aabb2  { union { BUNDLE_SWIZZLE_AABB_2(f16, f16); }; } f16aabb2;
+typedef struct f16aabb3  { union { BUNDLE_SWIZZLE_AABB_3(f16, f16); }; } f16aabb3;
+typedef struct f16aabb4  { union { BUNDLE_SWIZZLE_AABB_4(f16, f16); }; } f16aabb4;
+typedef struct h16aabb2  { union { BUNDLE_SWIZZLE_AABB_2(h16, h16); }; } h16aabb2;
+typedef struct h16aabb3  { union { BUNDLE_SWIZZLE_AABB_3(h16, h16); }; } h16aabb3;
+typedef struct h16aabb4  { union { BUNDLE_SWIZZLE_AABB_4(h16, h16); }; } h16aabb4;
+typedef struct f32aabb2  { union { BUNDLE_SWIZZLE_AABB_2(f32, f32); }; } f32aabb2;
+typedef struct f32aabb3  { union { BUNDLE_SWIZZLE_AABB_3(f32, f32); }; } f32aabb3;
+typedef struct f32aabb4  { union { BUNDLE_SWIZZLE_AABB_4(f32, f32); }; } f32aabb4;
+typedef struct f64aabb2  { union { BUNDLE_SWIZZLE_AABB_2(f64, f64); }; } f64aabb2;
+typedef struct f64aabb3  { union { BUNDLE_SWIZZLE_AABB_3(f64, f64); }; } f64aabb3;
+typedef struct f64aabb4  { union { BUNDLE_SWIZZLE_AABB_4(f64, f64); }; } f64aabb4;
+typedef struct f128aabb2 { union { BUNDLE_SWIZZLE_AABB_2(f128, f128); }; } f128aabb2;
+typedef struct f128aabb3 { union { BUNDLE_SWIZZLE_AABB_3(f128, f128); }; } f128aabb3;
+typedef struct f128aabb4 { union { BUNDLE_SWIZZLE_AABB_4(f128, f128); }; } f128aabb4;
 
 /* Ray types. */
 
-typedef struct f16ray2  { union { BUNDLE_SWIZZLE_RAY_2(f16, f16live); }; } f16ray2;
-typedef struct f16ray3  { union { BUNDLE_SWIZZLE_RAY_3(f16, f16live); }; } f16ray3;
-typedef struct f16ray4  { union { BUNDLE_SWIZZLE_RAY_4(f16, f16live); }; } f16ray4;
+typedef struct f16ray2  { union { BUNDLE_SWIZZLE_RAY_2(f16, f16); }; } f16ray2;
+typedef struct f16ray3  { union { BUNDLE_SWIZZLE_RAY_3(f16, f16); }; } f16ray3;
+typedef struct f16ray4  { union { BUNDLE_SWIZZLE_RAY_4(f16, f16); }; } f16ray4;
+typedef struct h16ray2  { union { BUNDLE_SWIZZLE_RAY_2(h16, h16); }; } h16ray2;
+typedef struct h16ray3  { union { BUNDLE_SWIZZLE_RAY_3(h16, h16); }; } h16ray3;
+typedef struct h16ray4  { union { BUNDLE_SWIZZLE_RAY_4(h16, h16); }; } h16ray4;
 typedef struct f32ray2  { union { BUNDLE_SWIZZLE_RAY_2(f32, f32); }; } f32ray2;
 typedef struct f32ray3  { union { BUNDLE_SWIZZLE_RAY_3(f32, f32); }; } f32ray3;
 typedef struct f32ray4  { union { BUNDLE_SWIZZLE_RAY_4(f32, f32); }; } f32ray4;
