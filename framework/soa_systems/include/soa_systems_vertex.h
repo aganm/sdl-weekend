@@ -5,8 +5,8 @@
  * @brief Vertex systems.
  */
 
-#include <types/bundle.h>
 #include <types/primitive.h>
+#include <types/bundle.h>
 
 #ifdef __cplusplus
 extern "C" {

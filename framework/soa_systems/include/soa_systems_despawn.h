@@ -6,7 +6,6 @@
  */
 
 #include <types/primitive.h>
-#include <soa.h>
 
 #ifdef __cplusplus
 extern "C" {

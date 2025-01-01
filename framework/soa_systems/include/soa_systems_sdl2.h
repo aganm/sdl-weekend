@@ -5,6 +5,7 @@
  * @brief SDL2 systems.
  */
 
+#include <types/primitive.h>
 #include <types/bundle.h>
 
 #ifdef __cplusplus

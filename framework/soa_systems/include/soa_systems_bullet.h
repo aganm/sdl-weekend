@@ -5,7 +5,6 @@
  * @brief Bullet systems.
  */
 
-#include <soa.h>
 #include <types/primitive.h>
 
 #ifdef __cplusplus
