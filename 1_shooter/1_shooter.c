@@ -304,7 +304,7 @@ static void game_tick(
 		soa_slot_t despawn_bullet_slots[bullet->_ent.count];
 		usize despawn_bullet_slot_count;
 		soa_get_destination_reached_despawn_slots(&bullet->position, &bullet->destination, bullet->_ent.count,
-						10.f, despawn_bullet_slots, &despawn_bullet_slot_count);
+			10.f, despawn_bullet_slots, &despawn_bullet_slot_count);
 		soa_bullet_free(bullet, despawn_bullet_slots, despawn_bullet_slot_count);
 
 		const usize collided_max = bullet->_ent.count;
@@ -312,10 +312,8 @@ static void game_tick(
 		soa_slot_t collided_bullets[collided_max];
 		usize collided_count;
 		soa_detect_bullet_collisions_with_something(&monster->position, &monster->size, monster->_ent.count,
-							&bullet->position, bullet->_ent.count,
-							collided_monsters, collided_bullets, &collided_count);
-		soa_bullet_damages_something(&monster->health, &bullet->damage,
-					collided_monsters, collided_bullets, collided_count);
+			&bullet->position, bullet->_ent.count, collided_monsters, collided_bullets, &collided_count);
+		soa_bullet_damages_something(&monster->health, &bullet->damage, collided_monsters, collided_bullets, collided_count);
 		soa_bullet_free(bullet, collided_bullets, collided_count);
 	}
 
